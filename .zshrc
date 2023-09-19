@@ -120,6 +120,7 @@ alias zshedit="code ~/.zshrc"
 alias tmuxedit="vim ~/.tmux.conf"
 alias zshreload="source ~/.zshrc"
 alias vim="nvim"
+alias sms="source mac-setup.sh"
 
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -128,7 +129,6 @@ zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
-export LOG_PRETTY=
 export HOMEBREW_NO_INSTALL_CLEANUP=
 
 

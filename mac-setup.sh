@@ -25,7 +25,7 @@ which code || brew install --cask visual-studio-code #fuck it why not
 which npm || brew install npm
 #which nvm || brew install nvm
 which thefuck || brew install thefuck
-which iterm2 || brew install iterm2 #Run in iTerm after this
+brew list iterm2 || brew install iterm2
 brew tap homebrew/cask-fonts
 brew list font-fira-code || brew install --cask font-fira-code
 #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"

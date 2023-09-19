@@ -49,11 +49,15 @@ return require('packer').startup(function(use)
 				local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
 				ts_update()
 			end,}
+
   use("nvim-treesitter/playground")
   use("theprimeagen/harpoon")
   use("theprimeagen/refactoring.nvim")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
+  use("tpope/vim-surround")
+  use("tpope/vim-commentary")
+  use("chaoren/vim-wordmotion")
   use("nvim-treesitter/nvim-treesitter-context");
 
   use {

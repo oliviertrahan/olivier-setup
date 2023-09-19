@@ -18,13 +18,19 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true })
 vim.keymap.set("v", "x", "<Esc>", { noremap = true })
 
 -- better window management
-vim.keymap.set("n", "<leader>wo", "<cmd>vsplit<CR><C-w>l")
+vim.keymap.set("n", "<leader>wo", "<cmd>vsplit<CR><C-w>l<cmd>Telescope find_files<CR>")
+vim.keymap.set("n", "<leader>ws", "<cmd>split<CR><C-w>j<cmd>Telescope find_files<CR>")
+vim.keymap.set("n", "<leader>wt", "<cmd>split<CR><C-w>j<cmd>terminal<CR>")
 vim.keymap.set("n", "<leader>wc", "<C-w>c")
 vim.keymap.set("n", "<leader>wl", "<C-w>l")
 vim.keymap.set("n", "<leader>wh", "<C-w>h")
 vim.keymap.set("n", "<leader>wj", "<C-w>j")
 vim.keymap.set("n", "<leader>wk", "<C-w>k")
-vim.keymap.set("n", "<leader>wk", "<C-w>k")
+vim.keymap.set("n", "<leader>ot", "<cmd>terminal<CR>")
+
+--Terminal mode improvement
+vim.keymap.set("t", "jj", "<C-\\><C-n>")
+
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
@@ -36,9 +42,7 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("i", "jj", "<Esc>")
 
-vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+-- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")

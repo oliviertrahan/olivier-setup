@@ -17,3 +17,8 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
 })
+
+vim.keymap.set("n", "<leader>to", "<cmd>NvimTreeFocus<CR>")
+vim.keymap.set("n", "<leader>tf", "<cmd>NvimTreeFindFile<CR>")
+vim.keymap.set("n", "<leader>tt", "<cmd>NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>tc", "<cmd>NvimTreeCollapse<CR>")
