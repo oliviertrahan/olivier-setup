@@ -1,6 +1,6 @@
 # olivier-setup
 
-Run the ./mac-setup.sh script to setup your mac ready for local dev
+Run `$ source mac-setup.sh to setup your mac ready for local dev
 
 the .zshrc is the base provided which is universal to my personal config
 an extra_zshrc may be placed here for secret values that we don't want pushed to the repo
