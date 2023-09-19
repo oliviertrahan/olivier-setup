@@ -119,6 +119,7 @@ alias vimedit="vim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
 alias tmuxedit="vim ~/.tmux.conf"
 alias zshreload="source ~/.zshrc"
+alias vim="nvim"
 
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
