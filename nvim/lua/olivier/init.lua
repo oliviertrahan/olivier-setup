@@ -2,6 +2,29 @@ require("olivier.set")
 require("olivier.remap")
 require("olivier.packer")
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrw_plugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+-- empty setup using defaults
+require("nvim-tree").setup()
+
+-- OR setup with some options
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
 local augroup = vim.api.nvim_create_augroup
 local OlivierGroup = augroup('Olivier', {})
 
@@ -29,6 +52,3 @@ autocmd({"BufWritePre"}, {
     command = [[%s/\s\+$//e]],
 })
 
-vim.g.netrw_browse_split = 0
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
