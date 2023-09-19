@@ -2,15 +2,29 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+-- create new line without going into insert mode
+vim.keymap.set("n", "<leader>O", "O<ESC>", { noremap = true })
+vim.keymap.set("n", "<leader>o", "o<ESC>", { noremap = true })
 
-vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "J", "mzJ`z", { noremap = true })
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+-- better visual experience
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true })
+vim.keymap.set("v", "x", "<Esc>", { noremap = true })
+
+-- better window management
+vim.keymap.set("n", "<leader>wo", "<cmd>vsplit<CR><C-w>l")
+vim.keymap.set("n", "<leader>wc", "<C-w>c")
+vim.keymap.set("n", "<leader>wl", "<C-w>l")
+vim.keymap.set("n", "<leader>wh", "<C-w>h")
+vim.keymap.set("n", "<leader>wj", "<C-w>j")
+vim.keymap.set("n", "<leader>wk", "<C-w>k")
+vim.keymap.set("n", "<leader>wk", "<C-w>k")
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
