@@ -10,14 +10,14 @@ require("nvim-tree").setup({
   sync_root_with_cwd = true,
   reload_on_bufenter = true,
   view = {
-    width = 30,
+    width = 30
   },
   renderer = {
-    group_empty = true,
+    group_empty = true
   },
   filters = {
-    dotfiles = true,
-  },
+    dotfiles = true
+  }
 })
 
 vim.keymap.set("n", "<leader>go", "<cmd>NvimTreeFocus<CR>")

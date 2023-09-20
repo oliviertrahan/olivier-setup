@@ -13,6 +13,16 @@ return require('packer').startup(function(use)
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
+  use {
+	  'nvim-telescope/telescope-project.nvim',
+	  requires = { {'nvim-telescope/telescope.nvim'} }
+  }
+
+  use {
+	  'nvim-telescope/telescope-file-browser.nvim',
+	  requires = { {'nvim-telescope/telescope.nvim'} }
+  }
+
   use({
 	  'nvim-tree/nvim-tree.lua',
 	  as = 'nvim-tree'
