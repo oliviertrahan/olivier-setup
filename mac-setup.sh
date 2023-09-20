@@ -33,8 +33,13 @@ brew list font-fira-code || brew install --cask font-fira-code
 #Neovim setup
 which nvim || brew install neovim
 if [ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
-  git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+        ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+fi
+
+if [ ! -e $ZSH_CUSTOM/plugins/zsh-vi-mode ]; then
+    git clone https://github.com/jeffreytse/zsh-vi-mode \
+        $ZSH_CUSTOM/plugins/zsh-vi-mode
 fi
 
 if [ -d ~/.oh-my-zsh ]; then

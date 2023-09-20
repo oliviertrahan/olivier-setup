@@ -28,9 +28,16 @@ vim.keymap.set("n", "<leader>wj", "<C-w>j")
 vim.keymap.set("n", "<leader>wk", "<C-w>k")
 vim.keymap.set("n", "<leader>ot", "<cmd>terminal<CR>")
 
+--better tab management
+vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>")
+vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>")
+vim.keymap.set("n", "<leader>tp", "<cmd>tabonly<CR>")
+vim.keymap.set("n", "<leader>tl", "<cmd>+tabnext<CR>")
+vim.keymap.set("n", "<leader>th", "<cmd>-tabnext<CR>")
+
 --Terminal mode improvement
 vim.keymap.set("t", "jj", "<C-\\><C-n>")
-
+vim.keymap.set("t", "pp", "<C-\\><C-O>p")
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
