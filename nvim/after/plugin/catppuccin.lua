@@ -39,7 +39,7 @@ require("catppuccin").setup({
         notify = false,
         mini = false,
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-    },
+    }
 })
 
 -- setup must be called before loading
