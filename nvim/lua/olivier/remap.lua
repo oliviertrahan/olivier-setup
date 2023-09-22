@@ -51,8 +51,8 @@ vim.keymap.set("n", "<leader>tn", "<cmd>+tabmove<CR>")
 vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
 --Terminal mode improvement
-vim.keymap.set("t", "jj", "<C-\\><C-n>")
-vim.keymap.set("t", "pp", "<C-\\><C-O>p")
+-- vim.keymap.set("t", "jj", "<C-\\><C-n>")
+-- vim.keymap.set("t", "pp", "<C-\\><C-O>p")
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 

@@ -43,6 +43,15 @@ return require('packer').startup(function(use)
 	  as = 'catppuccin'
   })
 
+  use {
+      'rmagatti/auto-session',
+      config = function()
+          require("auto-session").setup {
+              log_level = "error"
+          }
+      end
+  }
+
   use({
       "folke/trouble.nvim",
       config = function()
