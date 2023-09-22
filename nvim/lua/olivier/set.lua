@@ -1,4 +1,4 @@
-vim.opt.guicursor = ""
+--vim.opt.guicursor = ""
 vim.cmd.colorscheme "catppuccin"
 
 vim.opt.nu = true

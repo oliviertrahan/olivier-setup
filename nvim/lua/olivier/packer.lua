@@ -9,7 +9,6 @@ return require('packer').startup(function(use)
 
   use {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.0',
-	  -- or                            , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
@@ -43,25 +42,9 @@ return require('packer').startup(function(use)
 	  as = 'catppuccin'
   })
 
-  use {
-      'rmagatti/auto-session',
-      config = function()
-          require("auto-session").setup {
-              log_level = "error"
-          }
-      end
-  }
-
   use({
-      "folke/trouble.nvim",
-      config = function()
-          require("trouble").setup {
-              icons = false,
-              -- your configuration comes here
-              -- or leave it empty to use the default settings
-              -- refer to the configuration section below
-          }
-      end
+	  'sbdchd/neoformat',
+	  as = 'neoformat'
   })
 
   use {
@@ -73,13 +56,13 @@ return require('packer').startup(function(use)
 
   use("nvim-treesitter/playground")
   use("theprimeagen/harpoon")
-  use("theprimeagen/refactoring.nvim")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
   use("tpope/vim-surround")
   use("tpope/vim-commentary")
   use("chaoren/vim-wordmotion")
   use("nvim-treesitter/nvim-treesitter-context");
+  use("github/copilot.vim")
 
   use {
 	  'VonHeikemen/lsp-zero.nvim',
@@ -104,7 +87,6 @@ return require('packer').startup(function(use)
 	  }
   }
 
-  use("github/copilot.vim")
 
 end)
 
