@@ -47,6 +47,12 @@ return require('packer').startup(function(use)
 	  as = 'neoformat'
   })
 
+  use({
+	  'folke/trouble.nvim',
+	  as = 'trouble',
+      requires = { {'nvim-tree/nvim-web-devicons'} }
+  })
+
   use {
 			'nvim-treesitter/nvim-treesitter',
 			run = function()

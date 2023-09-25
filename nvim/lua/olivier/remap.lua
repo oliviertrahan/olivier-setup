@@ -1,11 +1,11 @@
 
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- create new line without going into insert mode
 vim.keymap.set("n", "<leader>O", "O<ESC>", { noremap = true })
 vim.keymap.set("n", "<leader>o", "o<ESC>", { noremap = true })
 
+--better normal experience
 vim.keymap.set("n", "J", "mzJ`z", { noremap = true })
 -- vim.keymap.set("n", "J", "11jzz", { noremap = true })
 -- vim.keymap.set("n", "K", "11kzz", { noremap = true })
@@ -17,12 +17,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "yA", "mzggVGy`z") -- yank the whole document
 
 -- better visual experience
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true })
 vim.keymap.set("v", "x", "<Esc>", { noremap = true })
 vim.keymap.set("v", "y", "ygv<Esc>", { noremap = true })
+vim.keymap.set("v", "A", "mzggoG", { noremap = true }) -- visual select everything
 
 -- better insert experience
 vim.keymap.set("i", "<C-l>", "<C-o>l", { noremap = true })
@@ -30,6 +32,8 @@ vim.keymap.set("i", "<C-k>", "<C-o>k", { noremap = true })
 vim.keymap.set("i", "<C-j>", "<C-o>j", { noremap = true })
 vim.keymap.set("i", "<C-i>", "<C-o>diw", { noremap = true })
 vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("i", "<C-r>", "<C-o>R", { noremap = true }) --change from  insert mode to replace mode
+vim.keymap.set("i", "<C-a>", "<C-o>i", { noremap = true }) --change from replace mode to insert mode
 vim.keymap.set("i", "jj", "<Esc>")
 
 -- better window management
