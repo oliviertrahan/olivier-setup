@@ -1,5 +1,5 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+#Homebrew paths on M1 Macs
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/oliviertrahan/.oh-my-zsh"
@@ -21,10 +21,10 @@ source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 plugins=(
     git
     npm
-    autoswitch_virtualenv
+    #autoswitch_virtualenv
     aws
     zsh-syntax-highlighting
-    zsh-vi-mode
+    #zsh-vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -43,7 +43,6 @@ export PATH="$HOME/.composer:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 export PATH="/usr/local/etc/php/8.0:$PATH"
-#export PATH="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/:$PATH"
 export PATH="/usr/local/bin/code:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
@@ -73,9 +72,9 @@ alias sms="source mac-setup.sh"
 
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-autoload -Uz compinit
-zstyle ':completion:*' menu select
-fpath+=~/.zfunc
+#autoload -Uz compinit
+#zstyle ':completion:*' menu select
+#fpath+=~/.zfunc
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
