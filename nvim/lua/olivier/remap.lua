@@ -18,6 +18,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "yA", "mzggVGy`z") -- yank the whole document
+vim.keymap.set("n", "Q", "@q")
 
 -- better visual experience
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true })

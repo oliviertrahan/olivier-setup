@@ -32,15 +32,6 @@ return require('packer').startup(function(use)
 	  as = 'nvim-devicons'
   })
 
-  use({
-	  'rose-pine/neovim',
-	  as = 'rose-pine'
-  })
-
-  use({
-	  'catppuccin/nvim',
-	  as = 'catppuccin'
-  })
 
   use({
 	  'sbdchd/neoformat',
@@ -67,6 +58,43 @@ return require('packer').startup(function(use)
       end,
   })
 
+  --colorschemes
+  use({
+      'rose-pine/neovim',
+      as = 'rose-pine'
+  })
+
+  use({
+      'catppuccin/nvim',
+      as = 'catppuccin'
+  })
+
+  use({
+      'rebelot/kanagawa.nvim',
+      as = 'kanagawa'
+  })
+
+  use({
+      'bluz71/vim-nightfly-colors',
+      as = 'nightfly-colors'
+  })
+
+  use({
+      'luisiacc/gruvbox-baby',
+      as = 'gruvbox-baby'
+  })
+
+  use({
+      'folke/tokyonight.nvim',
+      as = 'tokyonight'
+  })
+
+  use({
+      'nyoom-engineering/oxocarbon.nvim',
+      as = 'oxocarbon'
+  })
+
+  use('vim-scripts/vis')
   use("nvim-treesitter/playground")
   use("theprimeagen/harpoon")
   use("mbbill/undotree")
