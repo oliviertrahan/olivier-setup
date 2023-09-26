@@ -54,11 +54,18 @@ return require('packer').startup(function(use)
   })
 
   use {
-			'nvim-treesitter/nvim-treesitter',
-			run = function()
-				local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-				ts_update()
-			end,}
+      'nvim-lualine/lualine.nvim',
+      as = 'lualine',
+      requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  }
+
+  use({
+      'nvim-treesitter/nvim-treesitter',
+      run = function()
+          local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+          ts_update()
+      end,
+  })
 
   use("nvim-treesitter/playground")
   use("theprimeagen/harpoon")
@@ -66,7 +73,7 @@ return require('packer').startup(function(use)
   use("tpope/vim-fugitive")
   use("tpope/vim-surround")
   use("tpope/vim-commentary")
-  use("chaoren/vim-wordmotion")
+  -- use("chaoren/vim-wordmotion") --Need to figure out how to not make it overwrite all word motions
   use("nvim-treesitter/nvim-treesitter-context");
   use("github/copilot.vim")
 
