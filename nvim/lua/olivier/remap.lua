@@ -25,6 +25,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true })
 vim.keymap.set("v", "x", "<Esc>", { noremap = true })
 vim.keymap.set("v", "y", "ygv<Esc>", { noremap = true })
 vim.keymap.set("v", "A", "mzggoG", { noremap = true }) -- visual select everything
+vim.keymap.set("v", "H", "Hzz", { noremap = true })
+vim.keymap.set("v", "L", "Lzz", { noremap = true })
 
 -- better insert experience
 vim.keymap.set("i", "<C-l>", "<C-o>l", { noremap = true })
