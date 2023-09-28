@@ -21,6 +21,7 @@ replace_directory_and_link() {
 
 bash_version=$(bash --version)
 current_pwd=$(pwd)
+
 # if [[ $bash_version =~ "version 3." ]]; then
 #   echo "must update bash. Updating"
 #   cd /tmp/
@@ -39,7 +40,11 @@ current_pwd=$(pwd)
 defaults write com.apple.finder AppleShowAllFiles TRUE
 
 which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+#Homebrew paths on M1 Macs
+if [ -e /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 which rg || brew install ripgrep
 which jq || brew install jq
@@ -51,12 +56,13 @@ which thefuck || brew install thefuck
 brew list iterm2 || brew install iterm2
 brew tap homebrew/cask-fonts
 brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
+which fzf || brew install fzf
 #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
 
 #Neovim setup
 which nvim || brew install neovim
 if [ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim \
         ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 fi
 

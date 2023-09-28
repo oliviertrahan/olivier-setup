@@ -39,8 +39,8 @@ vim.keymap.set("i", "<C-a>", "<C-o>i", { noremap = true }) --change from replace
 vim.keymap.set("i", "jj", "<Esc>")
 
 -- better window management
-vim.keymap.set("n", "<leader>wo", "<cmd>rightb vnew<CR><C-w>l")
-vim.keymap.set("n", "<leader>ws", "<cmd>rightb new<CR><C-w>j")
+vim.keymap.set("n", "<leader>wo", "<cmd>rightb vnew<CR>")
+vim.keymap.set("n", "<leader>ws", "<cmd>rightb new<CR>")
 vim.keymap.set("n", "<leader>wt", "<cmd>split<CR><C-w>j<cmd>terminal<CR>")
 vim.keymap.set("n", "<leader>wc", "<C-w>c")
 vim.keymap.set("n", "<leader>wl", "<C-w>l")
@@ -58,8 +58,37 @@ vim.keymap.set("n", "<leader>tn", "<cmd>+tabmove<CR>")
 vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
 --Terminal mode improvement
-vim.keymap.set("t", "<C-b>", "<C-\\><C-n><C-w>c")
+vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
+vim.keymap.set("t", "<C-n>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
+
+function open_terminal()
+    local term = nil
+    for _,bufId in ipairs(vim.api.nvim_list_bufs()) do
+        local bufName = vim.api.nvim_buf_get_name(bufId)
+        if string.find(bufName, "term://") then
+            term = bufId
+        end
+    end
+
+    vim.cmd("rightb new")
+
+    local window = vim.api.nvim_get_current_win()
+
+    if term == nil then
+        vim.cmd("terminal")
+    else
+        vim.cmd("b " .. term)
+    end
+
+    -- change to terminal buffer
+    vim.api.nvim_set_current_win(window)
+    vim.cmd("norm a")
+
+end
+
+vim.keymap.set("n", "<C-t>", open_terminal)
+
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")

@@ -24,7 +24,7 @@ plugins=(
     #autoswitch_virtualenv
     aws
     zsh-syntax-highlighting
-    #zsh-vi-mode
+    zsh-vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
