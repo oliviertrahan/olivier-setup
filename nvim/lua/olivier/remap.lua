@@ -62,15 +62,22 @@ vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
 function open_terminal()
     local term = nil
+    local current_directory = vim.api.nvim_call_function("getcwd", {})
+    local current_directory_name = vim.api.nvim_call_function("fnamemodify", {current_directory, ":t"})
+
+    -- Find the terminal of the current workspace
     for _,bufId in ipairs(vim.api.nvim_list_bufs()) do
         local bufName = vim.api.nvim_buf_get_name(bufId)
-        if string.find(bufName, "term://") then
+        local foundDirectoryIndex = string.find(bufName, current_directory_name, 1, true)
+        local foundTermIndex = string.find(bufName, "term://", 1, true)
+
+        if (foundDirectoryIndex ~= nil and foundTermIndex ~= nil) then
             term = bufId
+            break
         end
     end
 
     vim.cmd("rightb new")
-
     local window = vim.api.nvim_get_current_win()
 
     if term == nil then
