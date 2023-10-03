@@ -1,5 +1,7 @@
 #Homebrew paths on M1 Macs
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ -e /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/oliviertrahan/.oh-my-zsh"
