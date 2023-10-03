@@ -1,3 +1,18 @@
+update_only_links=0
+OPTIND=1
+
+while getopts "l" opt; do
+    case $opt in
+        l)
+           echo "Only updating links this time"
+           update_only_links=1
+           ;;
+       	*)
+           echo "unknown parameter $opt"
+           ;;
+    esac
+done
+
 # Might have to run first run $ xcode-select --install
 # Then go to Systen Settings > General > Software Update > Install Command-Line Tools
 
@@ -22,64 +37,51 @@ replace_directory_and_link() {
 bash_version=$(bash --version)
 current_pwd=$(pwd)
 
-# if [[ $bash_version =~ "version 3." ]]; then
-#   echo "must update bash. Updating"
-#   cd /tmp/
-#   if [ ! -e /tmp/bash-4.4.12 ]; then
-#     curl -O http://ftp.gnu.org/gnu/bash/bash-4.4.12.tar.gz
-#     tar xzf bash-4.4.12.tar.gz
-#   fi
-#   cd bash-4.4.12
-#   ./configure --prefix=/usr/local
-#   make
-#   sudo make install
-# else
-#   echo "bash updated enough."
-# fi
+if [[ $update_only_links == 0 ]]; then
+    defaults write com.apple.finder AppleShowAllFiles TRUE
 
-defaults write com.apple.finder AppleShowAllFiles TRUE
+    which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    #Homebrew paths on M1 Macs
+    if [ -e /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
 
-#Homebrew paths on M1 Macs
-if [ -e /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+    which rg || brew install ripgrep
+    which jq || brew install jq
+    which tmux || brew install tmux
+    which code || brew install --cask visual-studio-code #fuck it why not
+    which npm || brew install npm
+    #which nvm || brew install nvm
+    which thefuck || brew install thefuck
+    brew list iterm2 || brew install iterm2
+    brew tap homebrew/cask-fonts
+    brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
+    which fzf || brew install fzf
+    #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
 
-which rg || brew install ripgrep
-which jq || brew install jq
-which tmux || brew install tmux
-which code || brew install --cask visual-studio-code #fuck it why not
-which npm || brew install npm
-#which nvm || brew install nvm
-which thefuck || brew install thefuck
-brew list iterm2 || brew install iterm2
-brew tap homebrew/cask-fonts
-brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
-which fzf || brew install fzf
-#Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
+    #Neovim setup
+    which nvim || brew install neovim
+    if [ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
+        git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+            ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+    fi
 
-#Neovim setup
-which nvim || brew install neovim
-if [ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim \
-        ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-fi
+    if [ ! -e $ZSH_CUSTOM/plugins/zsh-vi-mode ]; then
+        git clone https://github.com/jeffreytse/zsh-vi-mode \
+            $ZSH_CUSTOM/plugins/zsh-vi-mode
+    fi
 
-if [ ! -e $ZSH_CUSTOM/plugins/zsh-vi-mode ]; then
-    git clone https://github.com/jeffreytse/zsh-vi-mode \
-        $ZSH_CUSTOM/plugins/zsh-vi-mode
-fi
+    if [ ! -e $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]; then
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+        $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+    fi
 
-if [ ! -e $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]; then
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-    $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-fi
-
-if [ -d ~/.oh-my-zsh ]; then
-    echo "oh-my-zsh already installed"
-else
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    if [ -d ~/.oh-my-zsh ]; then
+        echo "oh-my-zsh already installed"
+    else
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    fi
 fi
 
 cat ./.zshrc > ./output_zshrc.zsh

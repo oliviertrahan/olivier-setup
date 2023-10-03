@@ -27,6 +27,7 @@ vim.keymap.set("v", "H", "Hzz", { noremap = true })
 vim.keymap.set("v", "L", "Lzz", { noremap = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true })
 vim.keymap.set("v", "<", "<gv", { noremap = true })
+vim.keymap.set("v", "Y", "\"+ygv<Esc>", { noremap = true })
 
 -- better insert experience
 vim.keymap.set("i", "<C-l>", "<C-o>l", { noremap = true })
@@ -37,6 +38,7 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("i", "<C-r>", "<C-o>R", { noremap = true }) --change from  insert mode to replace mode
 vim.keymap.set("i", "<C-a>", "<C-o>i", { noremap = true }) --change from replace mode to insert mode
 vim.keymap.set("i", "jj", "<Esc>")
+vim.keymap.set("i", "<Tab>", "<C-V><Tab>", { noremap = true })
 
 -- better window management
 vim.keymap.set("n", "<leader>wo", "<cmd>rightb vnew<CR>")
