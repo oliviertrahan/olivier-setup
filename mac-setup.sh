@@ -82,10 +82,15 @@ else
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
-cat ./.zshrc > ./output_zshrc
-cat ./extra_zshrc >> ./output_zshrc
+cat ./.zshrc > ./output_zshrc.zsh
+if [ -e ./extra_zshrc.zsh ]; then
+  echo "Found extra_zshrc.zsh. Appending to output_zshrc.zsh"
+  cat ./extra_zshrc.zsh >> ./output_zshrc.zsh
+else
+    echo "No extra_zshrc.zsh found"
+fi
 
-replace_file_and_link "$(pwd)/output_zshrc" ~/.zshrc
+replace_file_and_link "$(pwd)/output_zshrc.zsh" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
 
 if [ ! -e ~/.zsh ]; then
