@@ -9,6 +9,9 @@ require("nvim-tree").setup({
   sort_by = "case_sensitive",
   sync_root_with_cwd = true,
   reload_on_bufenter = true,
+  update_focused_file = {
+      enable = true
+  },
   view = {
     width = 30
   },
@@ -25,14 +28,14 @@ vim.keymap.set("n", "<leader>gf", "<cmd>NvimTreeFindFile<CR>")
 vim.keymap.set("n", "<leader>gt", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>gc", "<cmd>NvimTreeCollapse<CR>")
 
-local function auto_update_path()
-  local buf = vim.api.nvim_get_current_buf()
-  local bufname = vim.api.nvim_buf_get_name(buf)
-  if vim.fn.isdirectory(bufname) or vim.fn.isfile(bufname) then
-    require("nvim-tree.api").tree.find_file(vim.fn.expand("%:p"))
-  end
-end
+-- local function auto_update_path()
+--   local buf = vim.api.nvim_get_current_buf()
+--   local bufname = vim.api.nvim_buf_get_name(buf)
+--   if vim.fn.isdirectory(bufname) or vim.fn.isfile(bufname) then
+--     require("nvim-tree.api").tree.find_file(vim.fn.expand("%:p"))
+--   end
+-- end
 
 -- Change working directory of current buffer to nvim-tree
-vim.api.nvim_create_autocmd("VimEnter,BufEnter", { callback = auto_update_path })
+-- vim.api.nvim_create_autocmd("VimEnter,BufEnter", { callback = auto_update_path })
 -- vim.api.nvim_create_autocmd("VimEnter", { callback = vim.cmd.NvimTreeFocus })
