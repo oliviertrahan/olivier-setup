@@ -14,7 +14,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
-vim.keymap.set("n", "yA", "mzggVGy`z") -- yank the whole document
+vim.keymap.set("n", "yA", "mzgg0VG$y`z") -- yank the whole document
 vim.keymap.set("n", "Q", "@q")
 
 -- better visual experience
@@ -22,7 +22,7 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true })
 vim.keymap.set("v", "x", "<Esc>", { noremap = true })
 vim.keymap.set("v", "y", "ygv<Esc>", { noremap = true })
-vim.keymap.set("v", "A", "mzggoG", { noremap = true }) -- visual select everything
+vim.keymap.set("v", "A", "mzgg0oG$", { noremap = true }) -- visual select everything
 vim.keymap.set("v", "H", "Hzz", { noremap = true })
 vim.keymap.set("v", "L", "Lzz", { noremap = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true })
@@ -61,7 +61,6 @@ vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
 --Terminal mode improvement
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
-vim.keymap.set("t", "<C-n>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
 function open_terminal()
