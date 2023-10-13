@@ -84,6 +84,7 @@ alias gaa='git add --all'
 alias gbd='git branch -d'
 alias gbD='git branch -D'
 alias gcom="git commit"
+alias gcomm="git commit -m "
 alias gsta='git stash apply'
 alias gstc='git stash clear'
 alias gstd='git stash drop'
