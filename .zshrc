@@ -21,7 +21,7 @@ ZSH_THEME_RANDOM_CANDIDATES=( "xiong-chiamiov-plus" )
 source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
 plugins=(
-    git
+    # git
     npm
     #autoswitch_virtualenv
     aws
@@ -64,13 +64,33 @@ export NVM_DIR="$HOME/.nvm"
 # add-zsh-hook chpwd load-nvmrc
 
 # Example aliases
-alias vshedit="vim ~/.zshrc"
-alias vimedit="vim ~/.vimrc"
+alias vshedit="nvim ~/.zshrc"
+alias vimedit="nvim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
-alias tmuxedit="vim ~/.tmux.conf"
+alias tmuxedit="nvim ~/.tmux.conf"
 alias zshreload="source ~/.zshrc"
-alias vim="nvim"
 alias sms="source mac-setup.sh"
+
+# git aliases
+alias gs="git status"
+alias gp="git push"
+alias gP="git pull"
+alias gup="git pull"
+alias grh='git reset'
+alias grhh='git reset --hard'
+alias gd='git diff'
+alias gdca='git diff --cached'
+alias gcp='git cherry-pick'
+alias gco="git checkout"
+alias grevm="git checkout origin/master --"
+alias ga='git add'
+alias gaa='git add --all'
+alias gbd='git branch -d'
+alias gbD='git branch -D'
+alias gcom="git commit"
+alias gsta="git stash"
+alias gstp="git stash apply"
+alias gstd="git stash drop"
 
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
