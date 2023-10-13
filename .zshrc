@@ -67,6 +67,8 @@ alias sms="source mac-setup.sh"
 
 # git aliases
 alias gs="git status"
+alias gf="git fetch"
+alias gm="git merge"
 alias gp="git push"
 alias gpf='git push --force-with-lease'
 alias gP="git pull"
@@ -79,6 +81,7 @@ alias gcp='git cherry-pick'
 alias gco="git checkout"
 alias gcb='git checkout -b'
 alias grevm="git checkout origin/master --"
+alias glog="git log"
 alias ga='git add'
 alias gaa='git add --all'
 alias gbd='git branch -d'
