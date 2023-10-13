@@ -39,12 +39,6 @@ export ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 eval $(thefuck --alias)
 unsetopt share_history
 
-export PATH="$HOME:$PATH"
-export PATH="$HOME/.composer:$PATH"
-export PATH="$HOME/.composer:$PATH"
-export PATH="$HOME/.composer/vendor/bin:$PATH"
-export PATH="/usr/local/opt/php@8.0/bin:$PATH"
-export PATH="/usr/local/etc/php/8.0:$PATH"
 export PATH="/usr/local/bin/code:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
@@ -74,6 +68,7 @@ alias sms="source mac-setup.sh"
 # git aliases
 alias gs="git status"
 alias gp="git push"
+alias gpf='git push --force-with-lease'
 alias gP="git pull"
 alias gup="git pull"
 alias grh='git reset'
@@ -82,15 +77,18 @@ alias gd='git diff'
 alias gdca='git diff --cached'
 alias gcp='git cherry-pick'
 alias gco="git checkout"
+alias gcb='git checkout -b'
 alias grevm="git checkout origin/master --"
 alias ga='git add'
 alias gaa='git add --all'
 alias gbd='git branch -d'
 alias gbD='git branch -D'
 alias gcom="git commit"
-alias gsta="git stash"
-alias gstp="git stash apply"
-alias gstd="git stash drop"
+alias gsta='git stash apply'
+alias gstc='git stash clear'
+alias gstd='git stash drop'
+alias gstl='git stash list'
+alias gstp='git stash pop'
 
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
