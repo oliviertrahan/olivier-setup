@@ -107,4 +107,4 @@ replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
 
 [ -f ./extra-mac-setup.sh ] && chmod +x ./extra-mac-setup.sh && ./extra-mac-setup.sh
 
-source ~/.zshrc
+exec zsh

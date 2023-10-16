@@ -22,9 +22,9 @@ source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
 plugins=(
     # git
-    npm
+    # npm
     #autoswitch_virtualenv
-    aws
+    # aws
     zsh-syntax-highlighting
     zsh-vi-mode
 )
@@ -62,7 +62,7 @@ alias vshedit="nvim ~/.zshrc"
 alias vimedit="nvim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
 alias tmuxedit="nvim ~/.tmux.conf"
-alias zshreload="source ~/.zshrc"
+alias zshreload="exec zsh"
 alias sms="source mac-setup.sh"
 
 # git aliases
