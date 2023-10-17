@@ -65,7 +65,7 @@ vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
-function open_terminal()
+local function open_terminal()
     local term = nil
     local current_directory = vim.api.nvim_call_function("getcwd", {})
     local current_directory_name = vim.api.nvim_call_function("fnamemodify", {current_directory, ":t"})
