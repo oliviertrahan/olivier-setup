@@ -17,10 +17,11 @@ local validColorSchemes = {
     "nightfly",
     "gruvbox-baby",
     "tokyonight-moon",
-    "oxocarbon"
+    "oxocarbon",
+    "dracula"
 }
 
-function newColor()
+function NewColor()
     local colorscheme = vim.g.colors_name
     local currColorscheme = vim.g.colors_name
     while colorscheme == currColorscheme do
@@ -31,7 +32,7 @@ function newColor()
     print(string.format("chosen colorscheme: %s", colorscheme))
 end
 
-function listColors()
+function ListColors()
     local colorStr = ""
     for idx, val in pairs(validColorSchemes) do
         colorStr = colorStr .. val
@@ -43,5 +44,4 @@ function listColors()
 end
 
 
-newColor()
-
+NewColor()

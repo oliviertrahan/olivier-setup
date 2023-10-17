@@ -94,6 +94,11 @@ return require('packer').startup(function(use)
       as = 'oxocarbon'
   })
 
+  use({
+      'Mofiqul/dracula.nvim',
+      as = 'dracula'
+  })
+
   use('vim-scripts/vis')
   use("nvim-treesitter/playground")
   use("theprimeagen/harpoon")
