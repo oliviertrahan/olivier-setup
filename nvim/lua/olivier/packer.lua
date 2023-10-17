@@ -101,6 +101,7 @@ return require('packer').startup(function(use)
   use("tpope/vim-fugitive")
   use("tpope/vim-surround")
   use("tpope/vim-commentary")
+  use("ggandor/lightspeed.nvim")
   -- use("chaoren/vim-wordmotion") --Need to figure out how to not make it overwrite all word motions
   use("nvim-treesitter/nvim-treesitter-context");
   use("github/copilot.vim")
