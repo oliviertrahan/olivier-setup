@@ -16,7 +16,7 @@ local validColorSchemes = {
     "catppuccin-mocha",
     "nightfly",
     "gruvbox-baby",
-    "tokyonight",
+    "tokyonight-moon",
     "oxocarbon"
 }
 

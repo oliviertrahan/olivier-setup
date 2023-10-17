@@ -28,6 +28,8 @@ vim.keymap.set("v", "L", "Lzz", { noremap = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true })
 vim.keymap.set("v", "<", "<gv", { noremap = true })
 vim.keymap.set("v", "Y", "\"+ygv<Esc>", { noremap = true })
+vim.keymap.set("v", "p", "\"_dP", { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
+vim.keymap.set("v", "P", "\"_dP", { noremap = true })
 
 -- better insert experience
 vim.keymap.set("i", "<C-l>", "<C-o>l", { noremap = true })

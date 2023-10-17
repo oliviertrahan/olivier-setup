@@ -79,6 +79,7 @@ alias gd='git diff'
 alias gdca='git diff --cached'
 alias gcp='git cherry-pick'
 alias gco="git checkout"
+alias gcm="git checkout master"
 alias gcb='git checkout -b'
 alias grevm="git checkout origin/master --"
 alias glog="git log"
