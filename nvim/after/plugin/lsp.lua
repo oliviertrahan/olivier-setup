@@ -15,30 +15,6 @@ lsp.ensure_installed({
 -- Fix Undefined global 'vim'
 lsp.nvim_workspace()
 
-local lsp_config = require('lspconfig')
-
-lsp_config.csharp_ls.setup({
-    root_dir = function(startpath)
-        local cwd = vim.fn.getcwd()
-        return lsp_config.util.root_pattern("*.sln")(cwd)
-        	or lsp_config.util.root_pattern("*.sln")(startpath)
-            or lsp_config.util.root_pattern("*.csproj")(startpath)
-            or lsp_config.util.root_pattern("*.fsproj")(startpath)
-            or lsp_config.util.root_pattern(".git")(startpath)
-    end
-})
-
-
---eslint LSP attaches formatting command, use it
-lsp_config.eslint.setup({
-    on_attach = function(_, bufnr)
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            command = "EslintFixAll",
-        })
-    end,
-})
-
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'sh,zsh',
   callback = function()
@@ -113,6 +89,30 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 lsp.setup()
+
+local lsp_config = require('lspconfig')
+
+lsp_config.csharp_ls.setup({
+    root_dir = function(startpath)
+        local cwd = vim.fn.getcwd()
+        return lsp_config.util.root_pattern("*.sln")(cwd)
+        	or lsp_config.util.root_pattern("*.sln")(startpath)
+            or lsp_config.util.root_pattern("*.csproj")(startpath)
+            or lsp_config.util.root_pattern("*.fsproj")(startpath)
+            or lsp_config.util.root_pattern(".git")(startpath)
+    end
+})
+
+
+--eslint LSP attaches formatting command, use it
+lsp_config.eslint.setup({
+    on_attach = function(_, bufnr)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "EslintFixAll",
+        })
+    end,
+})
 
 vim.diagnostic.config({
     virtual_text = true
