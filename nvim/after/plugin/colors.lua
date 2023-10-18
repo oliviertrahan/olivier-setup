@@ -12,7 +12,7 @@ require('kanagawa').setup({
 
 local validColorSchemes = {
     "kanagawa",
-    "rose-pine",
+    -- "rose-pine",
     "catppuccin-mocha",
     "nightfly",
     "gruvbox-baby",

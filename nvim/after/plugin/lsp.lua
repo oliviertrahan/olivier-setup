@@ -17,9 +17,21 @@ lsp.nvim_workspace()
 
 local lsp_config = require('lspconfig')
 
+lsp_config.csharp_ls.setup({
+    root_dir = function(startpath)
+        local cwd = vim.fn.getcwd()
+        return lsp_config.util.root_pattern("*.sln")(cwd)
+        	or lsp_config.util.root_pattern("*.sln")(startpath)
+            or lsp_config.util.root_pattern("*.csproj")(startpath)
+            or lsp_config.util.root_pattern("*.fsproj")(startpath)
+            or lsp_config.util.root_pattern(".git")(startpath)
+    end
+})
+
+
 --eslint LSP attaches formatting command, use it
 lsp_config.eslint.setup({
-    on_attach = function(client, bufnr)
+    on_attach = function(_, bufnr)
         vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
             command = "EslintFixAll",
@@ -67,13 +79,30 @@ lsp.set_preferences({
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
+        local definitions = vim.lsp.buf.definition
+        local declarations = vim.lsp.buf.declaration
+        local references = vim.lsp.buf.references
+        local implementations = vim.lsp.buf.implementation
+        local workspace_symbols = vim.lsp.buf.workspace_symbol
+        local document_symbols = vim.lsp.buf.document_symbol
+
+        local telescope = require('telescope.builtin')
+        if telescope then
+            definitions = telescope.lsp_definitions
+            references = telescope.lsp_references
+            implementations = telescope.lsp_implementations
+            workspace_symbols = telescope.lsp_workspace_symbols
+            document_symbols = telescope.lsp_document_symbols
+        end
+
         local opts = { buffer = ev.buf }
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gr", '<cmd>Telescope lsp_references<cr>', opts)
+        vim.keymap.set("n", "gd", definitions, opts)
+        vim.keymap.set("n", "gD", declarations, opts)
+        vim.keymap.set("n", "gr", references, opts)
+        vim.keymap.set("n", "gi", implementations, opts)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
-        vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "<leader>vws", workspace_symbols, opts)
+        vim.keymap.set("n", "<leader>vds", document_symbols, opts)
         vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
         vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
         vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
