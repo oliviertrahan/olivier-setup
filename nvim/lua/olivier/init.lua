@@ -2,6 +2,7 @@ require("olivier.set")
 require("olivier.remap")
 require("olivier.packer")
 require("olivier.nvim-web-devicons")
+require("olivier.snippets")
 
 local augroup = vim.api.nvim_create_augroup
 local OlivierGroup = augroup('Olivier', {})
