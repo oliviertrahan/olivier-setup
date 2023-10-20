@@ -67,6 +67,14 @@ if [[ $update_only_links == 0 ]]; then
             ~/.local/share/nvim/site/pack/packer/start/packer.nvim
     fi
 
+    #zsh plugins
+
+    if [ -d ~/.oh-my-zsh ]; then
+        echo "oh-my-zsh already installed"
+    else
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    fi
+
     if [ ! -e $ZSH_CUSTOM/plugins/zsh-vi-mode ]; then
         git clone https://github.com/jeffreytse/zsh-vi-mode \
             $ZSH_CUSTOM/plugins/zsh-vi-mode
@@ -74,13 +82,12 @@ if [[ $update_only_links == 0 ]]; then
 
     if [ ! -e $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]; then
       git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-        $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+            $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
     fi
 
-    if [ -d ~/.oh-my-zsh ]; then
-        echo "oh-my-zsh already installed"
-    else
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    if [ ! -e $ZSH_CUSTOM/plugins/zsh-autosuggestions ]; then
+        git clone https://github.com/zsh-users/zsh-autosuggestions.git \
+            $ZSH_CUSTOM/plugins/zsh-autosuggestions
     fi
 fi
 
