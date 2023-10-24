@@ -57,8 +57,9 @@ if [[ $update_only_links == 0 ]]; then
     brew list iterm2 || brew install iterm2
     brew tap homebrew/cask-fonts
     brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
-    which fzf || brew install fzf
     #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
+    which fzf || brew install fzf
+    which colorls || sudo gem install colorls
 
     #Neovim setup
     which nvim || brew install neovim

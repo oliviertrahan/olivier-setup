@@ -58,13 +58,13 @@ export NVM_DIR="$HOME/.nvm"
 # }
 # add-zsh-hook chpwd load-nvmrc
 
-# Example aliases
+# Helpful aliases
 alias vshedit="nvim ~/.zshrc"
 alias vimedit="nvim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
 alias tmuxedit="nvim ~/.tmux.conf"
 alias zshreload="exec zsh"
-alias sms="source mac-setup.sh"
+alias ls="colorls"
 
 # git aliases
 alias gs="git status"
@@ -107,5 +107,7 @@ export HOMEBREW_NO_INSTALL_CLEANUP=
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+source $(dirname $(gem which colorls))/tab_complete.sh
 
 
