@@ -46,6 +46,11 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
+export EDITOR="nvim"
+export VISUAL="nvim -R"
+export PAGER="nvim -R"
+export MANPAGER="nvim +Man!"
+
 # place this after nvm initialization!
 # autoload -U add-zsh-hook
 # load-nvmrc() {
@@ -97,6 +102,8 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 
 git config --global core.editor $(which nvim)
+git config --global core.pager "nvim -R"
+git config --global core.pager no
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
