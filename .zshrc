@@ -96,11 +96,6 @@ alias gstd='git stash drop'
 alias gstl='git stash list'
 alias gstp='git stash pop'
 
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-#autoload -Uz compinit
-#zstyle ':completion:*' menu select
-#fpath+=~/.zfunc
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
