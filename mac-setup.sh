@@ -89,6 +89,11 @@ if [[ $update_only_links == 0 ]]; then
         git clone https://github.com/zsh-users/zsh-autosuggestions.git \
             $ZSH_CUSTOM/plugins/zsh-autosuggestions
     fi
+
+    if [ ! -e ${ZSH_CUSTOM}/themes/powerlevel10k ]; then
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+            ${ZSH_CUSTOM}/themes/powerlevel10k
+    fi
 fi
 
 cat ./.zshrc > ./output_zshrc.zsh
@@ -101,6 +106,7 @@ fi
 
 replace_file_and_link "$(pwd)/output_zshrc.zsh" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
+replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
 
 if [ ! -e ~/.zsh ]; then
   mkdir ~/.zsh

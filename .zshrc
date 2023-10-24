@@ -10,13 +10,13 @@ export ZSH="/Users/oliviertrahan/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="random"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
-ZSH_THEME_RANDOM_CANDIDATES=( "xiong-chiamiov-plus" )
+ZSH_THEME_RANDOM_CANDIDATES=( "xiong-chiamiov-plus", "powerlevel10k/powerlevel10k" )
 
 source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
@@ -104,5 +104,8 @@ alias gstp='git stash pop'
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 

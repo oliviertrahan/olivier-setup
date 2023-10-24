@@ -24,10 +24,3 @@ autocmd('TextYankPost', {
         })
     end,
 })
-
-autocmd({"BufWritePre"}, {
-    group = OlivierGroup,
-    pattern = "*",
-    command = [[%s/\s\+$//e]],
-})
-
