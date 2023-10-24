@@ -48,8 +48,8 @@ export NVM_DIR="$HOME/.nvm"
 
 export EDITOR="nvim"
 export VISUAL="nvim -R"
-export PAGER="nvim -R"
-export MANPAGER="nvim +Man!"
+export PAGER="nvim +Man!"
+export MANPAGER="nvim +Man!" 
 
 # place this after nvm initialization!
 # autoload -U add-zsh-hook
@@ -82,6 +82,7 @@ alias gup="git pull"
 alias grh='git reset'
 alias grhh='git reset --hard'
 alias gd='git diff'
+alias gdt='git difftool'
 alias gdca='git diff --cached'
 alias gcp='git cherry-pick'
 alias gco="git checkout"
@@ -102,8 +103,7 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 
 git config --global core.editor $(which nvim)
-git config --global core.pager "nvim -R"
-git config --global core.pager no
+git config --global core.pager "nvim +Man!"
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
