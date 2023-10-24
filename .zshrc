@@ -50,7 +50,7 @@ export NVM_DIR="$HOME/.nvm"
 # autoload -U add-zsh-hook
 # load-nvmrc() {
 #   if [[ -f .nvmrc && -r .nvmrc ]]; then
-#     nvm use
+#     nvm use 
 #   elif [[ $(nvm version) != $(nvm version default)  ]]; then
 #     echo "Reverting to nvm default version"
 #     nvm use default
@@ -96,6 +96,7 @@ alias gstd='git stash drop'
 alias gstl='git stash list'
 alias gstp='git stash pop'
 
+git config --global core.editor $(which nvim)
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
