@@ -40,6 +40,16 @@ telescope.setup {
     }
 }
 
+local function get_working_directories()
+    local tabpages = vim.api.nvim_list_tabpages()
+    local working_directories = {}
+    for _, tab in pairs(tabpages) do
+        local current_directory = vim.api.nvim_call_function("getcwd", {-1, tab})
+        table.insert(working_directories, current_directory)
+    end
+    return working_directories
+end
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", default_opts)
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
@@ -49,6 +59,12 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fp', telescope.extensions.project.project, {})
 vim.keymap.set('n', '<C-p>', builtin.git_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fwf', function()
+    builtin.find_files{ search_dirs = get_working_directories() }
+end, {})
+vim.keymap.set('n', '<leader>fwg', function()
+    builtin.live_grep{ search_dirs = get_working_directories() }
+end, {})
 vim.keymap.set('n', '<leader>fs', function()
     builtin.grep_string({ search = vim.fn.input("Grep > ") })
 end)
