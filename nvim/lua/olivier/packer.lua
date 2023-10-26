@@ -106,8 +106,8 @@ return require('packer').startup(function(use)
   use("tpope/vim-fugitive")
   use("tpope/vim-surround")
   use("tpope/vim-commentary")
-  use("easymotion/vim-easymotion")
   use("gcmt/taboo.vim")
+  use("phaazon/hop.nvim")
   use("nvim-treesitter/nvim-treesitter-context");
   use("github/copilot.vim")
 

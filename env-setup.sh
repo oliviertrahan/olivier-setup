@@ -34,12 +34,20 @@ replace_directory_and_link() {
   ln -sf "$1" "$2" && echo "Linked $1 to $2"
 }
 
-bash_version=$(bash --version)
-current_pwd=$(pwd)
+machine=
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    *)          machine=
+esac
 
-if [[ $update_only_links == 0 ]]; then
-    defaults write com.apple.finder AppleShowAllFiles TRUE
+if [ -z "$machine" ]; then
+    echo "The system with uname value is not supported: $unameOut"
+    return
+fi
 
+mac_install() {
     which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     #Homebrew paths on M1 Macs
@@ -60,6 +68,32 @@ if [[ $update_only_links == 0 ]]; then
     #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
     which fzf || brew install fzf
     which colorls || sudo gem install colorls
+
+}
+
+linux_install() {
+    which rg || sudo apt-get install ripgrep
+    which jq || sudo apt-get install jq
+    which tmux || sudo apt-get install tmux
+    which code || sudo apt-get install visual-studio-code #fuck it why not
+    which npm || sudo apt-get install npm
+    which thefuck || sudo apt-get install thefuck
+    #Might need a patched font here
+    which fzf || sudo apt-get install fzf
+    which colorls || sudo gem install colorls
+}
+
+bash_version=$(bash --version)
+current_pwd=$(pwd)
+
+if [[ $update_only_links == 0 ]]; then
+    defaults write com.apple.finder AppleShowAllFiles TRUE
+
+    if [[ "$machine" == "Mac" ]]; then
+        mac_install
+    else 
+        linux_install
+    fi
 
     #Neovim setup
     which nvim || brew install neovim

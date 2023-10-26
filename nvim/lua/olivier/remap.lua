@@ -61,45 +61,75 @@ vim.keymap.set("n", "<leader>th", "<cmd>-tabnext<CR>")
 vim.keymap.set("n", "<leader>tn", "<cmd>+tabmove<CR>")
 vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
+local projectTermMap = {}
+local extraTermMap = {}
+
+local function open_terminal_buffer(bufId)
+    local open_term_buf = function(id)
+        -- local window = vim.api.nvim_get_current_win()
+
+        if bufId == nil then
+            vim.cmd("terminal")
+        else
+            vim.cmd("b " .. id)
+        end
+
+        -- change to terminal buffer
+        -- vim.api.nvim_set_current_win(window)
+        vim.cmd("norm a")
+        return vim.api.nvim_get_current_buf()
+    end
+
+    local tabpage = vim.api.nvim_get_current_tabpage()
+    local windows_in_tab = vim.api.nvim_tabpage_list_wins(tabpage)
+
+    --If the current buffer is any other terminal in the tab, then replace the current buffer with the terminal
+    for _, window in pairs(windows_in_tab) do
+        local currWinBuf = vim.api.nvim_win_get_buf(window)
+        if vim.api.nvim_buf_get_option(currWinBuf, "buftype") == "terminal" then
+            vim.api.nvim_set_current_win(window)
+            return open_term_buf(bufId)
+        end
+    end
+
+    --Or else create a new split pane and go into terminal mode
+    vim.cmd("rightb new")
+    return open_term_buf(bufId)
+end
+
+local function open_terminal(termId)
+    if extraTermMap[termId] then
+        open_terminal_buffer(extraTermMap[termId])
+    else
+        local bufId = open_terminal_buffer(nil)
+        extraTermMap[termId] = bufId
+    end
+end
+
+local function open_project_terminal()
+    local current_directory = vim.api.nvim_call_function("getcwd", {})
+    local current_directory_name = vim.api.nvim_call_function("fnamemodify", {current_directory, ":t"})
+
+    if projectTermMap[current_directory_name] then
+        open_terminal_buffer(projectTermMap[current_directory_name])
+    else
+        local bufId = open_terminal_buffer(nil)
+        projectTermMap[current_directory_name] = bufId
+    end
+end
+
 --Terminal mode improvement
+vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
 vim.keymap.set("t", "<C-a>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
-local function open_terminal()
-    local term = nil
-    local current_directory = vim.api.nvim_call_function("getcwd", {})
-    local current_directory_name = vim.api.nvim_call_function("fnamemodify", {current_directory, ":t"})
-
-    -- Find the terminal of the current workspace
-    for _,bufId in ipairs(vim.api.nvim_list_bufs()) do
-        local bufName = vim.api.nvim_buf_get_name(bufId)
-        local foundDirectoryIndex = string.find(bufName, current_directory_name, 1, true)
-        local foundTermIndex = string.find(bufName, "term://", 1, true)
-
-        if (foundDirectoryIndex ~= nil and foundTermIndex ~= nil) then
-            term = bufId
-            break
-        end
-    end
-
-    vim.cmd("rightb new")
-    local window = vim.api.nvim_get_current_win()
-
-    if term == nil then
-        vim.cmd("terminal")
-    else
-        vim.cmd("b " .. term)
-    end
-
-    -- change to terminal buffer
-    vim.api.nvim_set_current_win(window)
-    vim.cmd("norm a")
-
-end
-
-vim.keymap.set("n", "<C-t>", open_terminal)
-
+--better terminal management
+vim.keymap.set("n", "<leader>t1", function() open_terminal(1) end)
+vim.keymap.set("n", "<leader>t2", function() open_terminal(2) end)
+vim.keymap.set("n", "<leader>t3", function() open_terminal(3) end)
+vim.keymap.set("n", "<leader>t4", function() open_terminal(4) end)
+vim.keymap.set("n", "<leader>t5", function() open_terminal(5) end)
 
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
