@@ -48,6 +48,7 @@ if [ -z "$machine" ]; then
 fi
 
 mac_install() {
+    defaults write com.apple.finder AppleShowAllFiles TRUE
     which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     #Homebrew paths on M1 Macs
@@ -87,7 +88,6 @@ bash_version=$(bash --version)
 current_pwd=$(pwd)
 
 if [[ $update_only_links == 0 ]]; then
-    defaults write com.apple.finder AppleShowAllFiles TRUE
 
     if [[ "$machine" == "Mac" ]]; then
         mac_install
