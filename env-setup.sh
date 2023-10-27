@@ -68,8 +68,8 @@ mac_install() {
     brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
     #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
     which fzf || brew install fzf
-    which colorls || sudo gem install colorls
-
+    [[ "$(which ruby)" == *"homebrew"* ]] || brew install ruby
+    gem info colorls | grep 'colorls' || sudo gem install colorls
 }
 
 linux_install() {

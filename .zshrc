@@ -41,6 +41,7 @@ eval $(thefuck --alias)
 unsetopt share_history
 
 export PATH="/usr/local/bin/code:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH" 
 
 export NVM_DIR="$HOME/.nvm"
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
@@ -69,7 +70,7 @@ alias vimedit="nvim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
 alias tmuxedit="nvim ~/.tmux.conf"
 alias zshreload="exec zsh"
-alias ls="colorls"
+alias ls="gem exec colorls"
 
 # git aliases
 alias gs="git status"
