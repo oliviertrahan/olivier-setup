@@ -100,16 +100,16 @@ return require('packer').startup(function(use)
   })
 
   use('vim-scripts/vis')
-  use("nvim-treesitter/playground")
-  use("theprimeagen/harpoon")
-  use("mbbill/undotree")
-  use("tpope/vim-fugitive")
-  use("tpope/vim-surround")
-  use("tpope/vim-commentary")
-  use("gcmt/taboo.vim")
-  use("phaazon/hop.nvim")
-  use("nvim-treesitter/nvim-treesitter-context");
-  use("github/copilot.vim")
+  use('nvim-treesitter/playground')
+  use('theprimeagen/harpoon')
+  use('mbbill/undotree')
+  use('tpope/vim-fugitive')
+  use('tpope/vim-surround')
+  use('tpope/vim-commentary')
+  use('gcmt/taboo.vim')
+  use('phaazon/hop.nvim')
+  use('nvim-treesitter/nvim-treesitter-context');
+  use('github/copilot.vim')
 
   use {
 	  'VonHeikemen/lsp-zero.nvim',
