@@ -5,8 +5,6 @@ require("olivier.nvim-web-devicons")
 require("olivier.snippets")
 
 local augroup = vim.api.nvim_create_augroup
-local OlivierGroup = augroup('Olivier', {})
-
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
 

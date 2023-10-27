@@ -1,5 +1,6 @@
+local tabooGroup = vim.api.nvim_create_augroup('Taboo', {})
 vim.api.nvim_create_autocmd('DirChanged', {
-    group = vim.api.nvim_create_augroup('Taboo', {}),
+    group = tabooGroup,
     callback = function(ev)
         if (ev.match ~= "tabpage") then
             return
@@ -8,4 +9,3 @@ vim.api.nvim_create_autocmd('DirChanged', {
         vim.cmd(string.format('silent! TabooRename %s', curr_dir_name))
     end
 })
-
