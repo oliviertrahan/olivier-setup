@@ -31,10 +31,12 @@ telescope.setup {
             order_by = "asc",
             search_by = "title",
             sync_with_nvim_tree = true,
-            -- default for on_project_selected = find project files
             on_project_selected = function(prompt_bufnr)
-                -- Do anything you want in here. For example:
                 project_actions.change_working_directory(prompt_bufnr, false)
+                local current_directory = vim.api.nvim_call_function("getcwd", {})
+                vim.cmd(string.format('silent! tcd %s', current_directory))
+                local curr_dir_name = vim.api.nvim_call_function("fnamemodify", {current_directory, ":t"})
+                vim.cmd(string.format('silent! TabooRename %s', curr_dir_name))
             end
         }
     }
@@ -51,13 +53,12 @@ local function get_working_directories()
 end
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", default_opts)
+vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }}) end, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fr', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>fd', builtin.diagnostics, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>fp', telescope.extensions.project.project, {})
-vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+vim.keymap.set('n', '<leader>fp', function() telescope.extensions.project.project{} end, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fwf', function()
     builtin.find_files{ search_dirs = get_working_directories() }

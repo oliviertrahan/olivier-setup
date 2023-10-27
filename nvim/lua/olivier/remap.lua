@@ -15,6 +15,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "yA", "mzgg0VG$y`z") -- yank the whole document
 vim.keymap.set("n", "Q", "@q")
+vim.keymap.set("n", "x", "\"_dl")
 
 -- better visual experience
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true })
@@ -67,16 +68,12 @@ local extraTermMap = {}
 
 local function open_terminal_buffer(bufId)
     local open_term_buf = function(id)
-        -- local window = vim.api.nvim_get_current_win()
-
         if bufId == nil then
             vim.cmd("terminal")
         else
             vim.cmd("b " .. id)
         end
 
-        -- change to terminal buffer
-        -- vim.api.nvim_set_current_win(window)
         vim.cmd("norm a")
         return vim.api.nvim_get_current_buf()
     end
