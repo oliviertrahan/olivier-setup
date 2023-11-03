@@ -1,24 +1,29 @@
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 
-
-require('telescope').setup {
+telescope.setup {
     defaults = {
         initial_mode = "insert",
         mappings = {
             i = {
                 ["<C-k>"] = actions.move_selection_previous,
                 ["<C-j>"] = actions.move_selection_next,
-                ['<C-d>'] = actions.delete_buffer
-            },
-            n = {
-                ['<C-d>'] = actions.delete_buffer
             }
         }
     },
     pickers = {
         find_files = {
             hidden = true
+        },
+        buffers = {
+            mappings = {
+                i = {
+                    ['<C-d>'] = actions.delete_buffer
+                },
+                n = {
+                    ['<C-d>'] = actions.delete_buffer
+                }
+            }
         }
     }
 }
@@ -34,7 +39,7 @@ local function get_working_directories()
 end
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }}) end, {})
+vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ find_command = {'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' }}) end, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fr', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>fd', builtin.diagnostics, {})

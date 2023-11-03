@@ -73,6 +73,7 @@ mac_install() {
 }
 
 linux_install() {
+    # Currently assuming a Debian-based distro
     which rg || sudo apt-get install ripgrep
     which jq || sudo apt-get install jq
     which tmux || sudo apt-get install tmux
@@ -103,12 +104,12 @@ if [[ $update_only_links == 0 ]]; then
     fi
 
     #zsh plugins
-
     if [ -d ~/.oh-my-zsh ]; then
         echo "oh-my-zsh already installed"
     else
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     fi
+
 
     if [ ! -e $ZSH_CUSTOM/plugins/zsh-vi-mode ]; then
         git clone https://github.com/jeffreytse/zsh-vi-mode \
@@ -130,6 +131,8 @@ if [[ $update_only_links == 0 ]]; then
             ${ZSH_CUSTOM}/themes/powerlevel10k
     fi
 fi
+
+#Combining files and linking
 
 cat ./.zshrc > ./output_zshrc.zsh
 if [ -e ./extra_zshrc.zsh ]; then

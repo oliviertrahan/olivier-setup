@@ -14,6 +14,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "yA", "mzgg0VG$y`z") -- yank the whole document
+vim.keymap.set("n", "=A", "mzgg0VG$=`z") -- format the whole document
 vim.keymap.set("n", "Q", "@q")
 vim.keymap.set("n", "x", "\"_dl")
 
@@ -40,7 +41,6 @@ vim.keymap.set("i", "<C-k>", "<C-o>k", { noremap = true })
 vim.keymap.set("i", "<C-l>", "<C-o>a", { noremap = true })
 vim.keymap.set("i", "<C-d>", "<C-o>diw", { noremap = true })
 vim.keymap.set("i", "<C-c>", "<Esc>")
-vim.keymap.set("i", "<C-r>", "<C-o>R", { noremap = true }) --change from  insert mode to replace mode
 vim.keymap.set("i", "<C-i>", "<C-o>i", { noremap = true }) --change from replace mode to insert mode
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("i", "<Tab>", "<C-V><Tab>", { noremap = true })
