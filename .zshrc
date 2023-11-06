@@ -40,8 +40,10 @@ export ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 eval $(thefuck --alias)
 unsetopt share_history
 
+export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/usr/local/bin/code:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH" 
+export PATH="$HOME/netcoredbg/netcoredbg:$PATH" 
 
 export NVM_DIR="$HOME/.nvm"
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
@@ -102,6 +104,7 @@ alias gstc='git stash clear'
 alias gstd='git stash drop'
 alias gstl='git stash list'
 alias gstp='git stash pop'
+alias gclean='git clean -fd'
 
 git config --global core.editor $(which nvim)
 git config --global core.pager "nvim +Man!"

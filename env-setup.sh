@@ -68,8 +68,22 @@ mac_install() {
     brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
     #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
     which fzf || brew install fzf
-    [[ "$(which ruby)" == *"homebrew"* ]] || brew install ruby
-    gem info colorls | grep 'colorls' || sudo gem install colorls
+
+    if [[ "$(which ruby)" != *"homebrew"* ]]; then  
+        brew install ruby
+		export PATH="/opt/homebrew/opt/ruby/bin:$PATH" 
+        gem info colorls | grep 'colorls' || sudo gem install colorls
+    fi
+
+    if [ ! -d "~/netcoredbg" ]; then
+        mkdir ~/netcoredbg
+        wget -P ~/netcoredbg/ "https://github.com/Samsung/netcoredbg/releases/download/3.0.0-1012/netcoredbg-osx-amd64.tar.gz"
+        cd ~/netcoredbg/
+        tar -xf netcoredbg-osx-amd64.tar.gz
+        cd netcoredbg
+        chmod +x netcoredbg
+        find * | xargs xattr -r -d com.apple.quarantine
+    fi
 }
 
 linux_install() {

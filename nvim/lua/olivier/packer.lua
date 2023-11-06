@@ -27,7 +27,6 @@ return require('packer').startup(function(use)
 	  as = 'nvim-devicons'
   })
 
-
   use({
 	  'sbdchd/neoformat',
 	  as = 'neoformat'
@@ -51,6 +50,20 @@ return require('packer').startup(function(use)
           local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
           ts_update()
       end,
+  })
+
+  -- debugging
+
+  use({
+      'mfussenegger/nvim-dap',
+      as = 'nvim-dap'
+  })
+
+
+  use ({
+      'rcarriga/nvim-dap-ui',
+      as = 'nvim-dap-ui',
+      requires = {'mfussenegger/nvim-dap'}
   })
 
   --colorschemes
