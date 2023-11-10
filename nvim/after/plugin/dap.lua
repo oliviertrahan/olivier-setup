@@ -27,14 +27,28 @@ dap.adapters.coreclr = {
     args = {'--interpreter=vscode'}
 }
 
-vim.g.dotnet_build_project = function()
-    local default_path = vim.fn.getcwd() .. '/'
-    if vim.g['dotnet_last_proj_path'] ~= nil then
-        default_path = vim.g['dotnet_last_proj_path']
+vim.g.select_dotnet_project = function()
+    if csharp_project_configs == nil then
+        vim.print("No project configs found")
+        return
     end
-    local path = vim.fn.input('Path to your *proj file', default_path, 'file')
-    vim.g['dotnet_last_proj_path'] = path
-    local cmd = 'dotnet build -c Debug ' .. path .. ' > /dev/null'
+    vim.cmd(string.format('set cmdheight=%s', #csharp_project_configs + 2))
+    local project_choices = ""
+    for idx,config in pairs(csharp_project_configs) do
+        project_choices = project_choices .. string.format("%s: %s - %s\n", idx, config.name, config.path)
+    end
+    local selection = vim.fn.confirm('Select the project:\n', project_choices, #csharp_project_configs)
+    vim.cmd('set cmdheight=1')
+    if (selection > #csharp_project_configs) then
+        vim.print("Invalid selection\n")
+        return
+    end
+    return selection
+end
+
+vim.g.dotnet_build_project = function(selection)
+    local project_config = csharp_project_configs[selection]
+    local cmd = 'dotnet build -c Debug ' .. project_config.build_path
     print('')
     print('Cmd to execute: ' .. cmd)
     local f = os.execute(cmd)
@@ -45,33 +59,21 @@ vim.g.dotnet_build_project = function()
     end
 end
 
-vim.g.dotnet_get_dll_path = function()
-    local request = function()
-        return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
-    end
-
-    if vim.g['dotnet_last_dll_path'] == nil then
-        vim.g['dotnet_last_dll_path'] = request()
-    else
-        if vim.fn.confirm('Do you want to change the path to dll?\n' .. vim.g['dotnet_last_dll_path'], '&yes\n&no', 2) == 1 then
-            vim.g['dotnet_last_dll_path'] = request()
-        end
-    end
-
-    return vim.g['dotnet_last_dll_path']
-end
-
-
 dap.configurations.cs = {
     {
         type = "coreclr",
         name = "launch - netcoredbg",
         request = "launch",
         program = function()
-            if vim.fn.confirm('Should I recompile first?', '&yes\n&no', 2) == 1 then
-                vim.g.dotnet_build_project()
+            local selection = vim.g.select_dotnet_project()
+            if selection == nil then
+                return
             end
-            return vim.g.dotnet_get_dll_path()
+            local project_config = csharp_project_configs[selection]
+            if vim.fn.confirm('Should I recompile first?', '&yes\n&no', 2) == 1 then
+                vim.g.dotnet_build_project(selection)
+            end
+            return project_config.path
         end
     }
 }

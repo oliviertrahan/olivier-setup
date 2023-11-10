@@ -53,6 +53,7 @@ export EDITOR="nvim"
 export VISUAL="nvim -R"
 export PAGER="nvim +Man!"
 export MANPAGER="nvim +Man!" 
+export VSCODE_DEBUG='1'
 
 # place this after nvm initialization!
 # autoload -U add-zsh-hook

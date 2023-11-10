@@ -15,6 +15,7 @@ local function my_on_attach(bufnr)
     api.config.mappings.default_on_attach(bufnr)
 
     -- custom mappings
+	vim.keymap.set("n", "H", "Hzz", opts('Up'))
     vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts('Up'))
 end
 
