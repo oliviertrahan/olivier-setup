@@ -39,7 +39,7 @@ local function get_working_directories()
 end
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ find_command = {'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' }}) end, {})
+vim.keymap.set('n', '<leader>ff', function() builtin.find_files({ find_command = {'rg', '--files', '--hidden', '-u', '--smart-case', '-g', '!.git' }}) end, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fr', function() builtin.oldfiles{ only_cwd = true } end, {})
 vim.keymap.set('n', '<leader>fd', builtin.diagnostics, {})
