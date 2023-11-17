@@ -54,6 +54,7 @@ export VISUAL="nvim -R"
 export PAGER="nvim +Man!"
 export MANPAGER="nvim +Man!" 
 export VSCODE_DEBUG='1'
+export LOCAL_IP=$(ipconfig getifaddr en0)
 
 # place this after nvm initialization!
 # autoload -U add-zsh-hook

@@ -52,6 +52,13 @@ return require('packer').startup(function(use)
       end,
   })
 
+  use({
+      'VonHeikemen/fine-cmdline.nvim',
+      requires = {
+          {'MunifTanjim/nui.nvim'}
+      }
+  })
+
   -- debugging
 
   use({

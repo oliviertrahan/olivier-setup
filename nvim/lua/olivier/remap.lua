@@ -62,6 +62,8 @@ vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>")
 vim.keymap.set("n", "<leader>tp", "<cmd>tabonly<CR>")
 vim.keymap.set("n", "<leader>tl", "<cmd>+tabnext<CR>")
 vim.keymap.set("n", "<leader>th", "<cmd>-tabnext<CR>")
+vim.keymap.set("n", "<Tab>", "<cmd>+tabnext<CR>")
+vim.keymap.set("n", "<S-Tab>", "<cmd>-tabnext<CR>")
 vim.keymap.set("n", "<leader>tn", "<cmd>+tabmove<CR>")
 vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 

@@ -57,6 +57,7 @@ mac_install() {
     fi
 
     which rg || brew install ripgrep
+    which fd || brew install fd
     which jq || brew install jq
     which tmux || brew install tmux
     which code || brew install --cask visual-studio-code #fuck it why not
@@ -68,6 +69,7 @@ mac_install() {
     brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
     #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
     which fzf || brew install fzf
+    which nvim || brew install neovim
 
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
@@ -75,7 +77,7 @@ mac_install() {
         gem info colorls | grep 'colorls' || sudo gem install colorls
     fi
 
-    if [ ! -d "~/netcoredbg" ]; then
+    if [ ! -d ~/netcoredbg ]; then
         mkdir ~/netcoredbg
         wget -P ~/netcoredbg/ "https://github.com/Samsung/netcoredbg/releases/download/3.0.0-1012/netcoredbg-osx-amd64.tar.gz"
         cd ~/netcoredbg/
@@ -89,6 +91,7 @@ mac_install() {
 linux_install() {
     # Currently assuming a Debian-based distro
     which rg || sudo apt-get install ripgrep
+    which fd || sudo apt-get install fd
     which jq || sudo apt-get install jq
     which tmux || sudo apt-get install tmux
     which code || sudo apt-get install visual-studio-code #fuck it why not
@@ -96,7 +99,9 @@ linux_install() {
     which thefuck || sudo apt-get install thefuck
     #Might need a patched font here
     which fzf || sudo apt-get install fzf
+    which ruby || sudo apt-get install ruby
     which colorls || sudo gem install colorls
+    which nvim || sudo apt-get install neovim
 }
 
 bash_version=$(bash --version)
@@ -111,7 +116,6 @@ if [[ $update_only_links == 0 ]]; then
     fi
 
     #Neovim setup
-    which nvim || brew install neovim
     if [ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
         git clone --depth 1 https://github.com/wbthomason/packer.nvim \
             ~/.local/share/nvim/site/pack/packer/start/packer.nvim
