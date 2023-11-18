@@ -15,9 +15,40 @@ Note: Run `$ source mac-setup.zsh -l` to only run symlink updates
 
 ## nvim setup
 
-Put values for C# project configs in `csharp_project_configs` in the `nvim/after/not_pushed` folder. 
+### Workspace
+
+put a startup script which starts all your working directories in `lua/not_pushed/startup.lua`
+the script will look something like 
+
+```
+local directories = {
+    "~/olivier-setup/",
+    "~/workspace/project-1/",
+	"~/workspace/project-2/",
+    "~/workspace/project-3/",
+}
+
+for idx, directory in pairs(directories) do
+    if (idx > 1) then
+        vim.cmd("tabnew")
+    end
+    vim.cmd("tcd " .. directory)
+end
+vim.cmd("tabn 1")
+```
+
+then set a shell alias as below
+
+```
+alias nvimS="nvim -S ~/.config/nvim/lua/not_pushed/startup.lua"
+```
+
+### C# setup
+
+Put values for C# project configs in `csharp_project_configs` in the `nvim/plugin/not_pushed` folder. 
 
 For Example:
+
 ```
 csharp_project_configs = {}
 table.insert(csharp_project_configs,
@@ -29,3 +60,10 @@ table.insert(csharp_project_configs,
 )
 ```
 
+Put values for working directories that we want to exclude .gitgnore files in `directories_to_ignore_gitignore` in the `nvim/plugin/not_pushed` folder. 
+This list will get picked up in the telescope.lua file.
+```
+directories_to_ignore_gitignore = {
+    "~/workspace/rvezy-web-client-v3/"
+}
+```
