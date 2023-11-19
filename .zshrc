@@ -4,7 +4,7 @@ if [ -e /opt/homebrew/bin/brew ]; then
 fi
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/oliviertrahan/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -40,7 +40,8 @@ export ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 eval $(thefuck --alias)
 unsetopt share_history
 
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$DOTNET_ROOT:$PATH" 
 export PATH="/usr/local/bin/code:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH" 
 export PATH="$HOME/netcoredbg/netcoredbg:$PATH" 
@@ -54,7 +55,7 @@ export VISUAL="nvim -R"
 export PAGER="nvim +Man!"
 export MANPAGER="nvim +Man!" 
 export VSCODE_DEBUG='1'
-export LOCAL_IP=$(ipconfig getifaddr en0)
+#export LOCAL_IP=$(ipconfig getifaddr en0)
 
 # place this after nvm initialization!
 # autoload -U add-zsh-hook
@@ -74,7 +75,14 @@ alias vimedit="nvim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
 alias tmuxedit="nvim ~/.tmux.conf"
 alias zshreload="exec zsh"
-alias ls="gem exec colorls"
+
+#ruby 2 doesn't have gem exec command
+if [[ $(ruby --version) == 'ruby 2'* ]]; then
+    alias ls="colorls"
+else
+    alias ls="gem exec colorls"
+fi
+
 
 # git aliases
 alias gs="git status"

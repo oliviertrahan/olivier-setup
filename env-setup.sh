@@ -90,18 +90,18 @@ mac_install() {
 
 linux_install() {
     # Currently assuming a Debian-based distro
-    which rg || sudo apt-get install ripgrep
-    which fd || sudo apt-get install fd
-    which jq || sudo apt-get install jq
-    which tmux || sudo apt-get install tmux
-    which code || sudo apt-get install visual-studio-code #fuck it why not
-    which npm || sudo apt-get install npm
-    which thefuck || sudo apt-get install thefuck
+    which rg || sudo apt install ripgrep
+    which fd-find || sudo apt install fd-find
+    which jq || sudo apt install jq
+    which tmux || sudo apt install tmux
+    which code || sudo apt install visual-studio-code #fuck it why not
+    which npm || sudo apt install npm
+    which thefuck || sudo apt install thefuck
     #Might need a patched font here
-    which fzf || sudo apt-get install fzf
-    which ruby || sudo apt-get install ruby
+    which fzf || sudo apt install fzf
+    which ruby || sudo apt install ruby-full
     which colorls || sudo gem install colorls
-    which nvim || sudo apt-get install neovim
+    which nvim || sudo apt install neovim
 }
 
 bash_version=$(bash --version)
