@@ -17,6 +17,8 @@ local function my_on_attach(bufnr)
     -- custom mappings
 	vim.keymap.set("n", "H", "Hzz", opts('Up'))
     vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts('Up'))
+    vim.keymap.set('n', '<C-p>', api.tree.change_root_to_node, opts('Up'))
+
 end
 
 -- OR setup with some options
@@ -43,15 +45,3 @@ vim.keymap.set("n", "<leader>go", "<cmd>NvimTreeFocus<CR>")
 vim.keymap.set("n", "<leader>gf", "<cmd>NvimTreeFindFile<CR>")
 vim.keymap.set("n", "<leader>gt", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>gc", "<cmd>NvimTreeCollapse<CR>")
-
--- local function auto_update_path()
---   local buf = vim.api.nvim_get_current_buf()
---   local bufname = vim.api.nvim_buf_get_name(buf)
---   if vim.fn.isdirectory(bufname) or vim.fn.isfile(bufname) then
---     require("nvim-tree.api").tree.find_file(vim.fn.expand("%:p"))
---   end
--- end
-
--- Change working directory of current buffer to nvim-tree
--- vim.api.nvim_create_autocmd("VimEnter,BufEnter", { callback = auto_update_path })
--- vim.api.nvim_create_autocmd("VimEnter", { callback = vim.cmd.NvimTreeFocus })
