@@ -120,15 +120,9 @@ local function open_project_terminal()
     end
 end
 
-local function close_project_terminal()
-    vim.cmd("norm <C-\\><C-n><C-w>c")
-    vim.cmd("checktime")
-end
-
-
 --Terminal mode improvement
 vim.keymap.set("n", "<C-t>", open_project_terminal)
-vim.keymap.set("t", "<C-t>", close_project_terminal)
+vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
 vim.keymap.set("t", "<C-a>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
