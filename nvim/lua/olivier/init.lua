@@ -22,3 +22,10 @@ autocmd('TextYankPost', {
         })
     end,
 })
+
+autocmd('FocusGained', {
+    pattern = '*',
+    callback = function()
+        vim.cmd('checktime')
+    end,
+})
