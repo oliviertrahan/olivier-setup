@@ -33,8 +33,11 @@ telescope.setup {
 local autocmd = vim.api.nvim_create_autocmd
 local builtin = require('telescope.builtin')
 
-local find_standard = function() builtin.find_files({ find_command = {'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' }}) end
-local find_include_gitignore = function() builtin.find_files({ find_command = {'rg', '--files', '--hidden', '-u', '--smart-case', '-g', '!.git' }}) end
+local find_standard_params = {'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' }
+local find_include_gitignore_params = {'rg', '--files', '--hidden', '-u', '--smart-case', '-g', '!.git' }
+
+local find_standard = function() builtin.find_files({ find_command = find_standard_params }) end
+local find_include_gitignore = function() builtin.find_files({ find_command = find_include_gitignore_params }) end
 
 vim.keymap.set('n', '<leader>ff', find_standard, {})
 
@@ -45,7 +48,6 @@ local function telescope_change_search_dirs(directories, win, buf, tab)
     local found = false
     for _, directory in pairs(directories) do
         if (standardize_url(current_win_directory) == standardize_url(directory)) then
-            -- Set search path to ignore, same as default, but adding -u parameter 
             vim.keymap.set('n', '<leader>ff', find_include_gitignore, {buffer = buf})
             found = true
             break
