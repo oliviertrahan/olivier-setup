@@ -84,6 +84,12 @@ else
 fi
 
 
+#dotnet aliases
+alias dtf="dotnet test --filter"
+alias dema="dotnet ef migrations add"
+alias dedu="dotnet ef database update"
+alias db="dotnet build"
+
 # git aliases
 alias gs="git status"
 alias gf="git fetch"
