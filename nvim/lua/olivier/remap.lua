@@ -18,7 +18,11 @@ vim.keymap.set("n", "=A", "mzgg0VG$=`z") -- format the whole document
 vim.keymap.set("n", "Q", "@q") --Execute "q" macro with Q
 vim.keymap.set("n", "x", "\"_dl") --delete single character doesn't mess with yank register
 vim.keymap.set("n", "gb", "<C-6>") -- go back to last file
-vim.keymap.set("n", "<leader>pp", "<cmd>echo expand('%p')<CR>") -- print current file path
+vim.keymap.set("n", "<leader>pp", function()
+	local path = vim.fn.expand('%')
+    vim.fn.setreg("+", path)
+    vim.notify('Copied "' .. path .. '" to the clipboard!')
+end)
 
 -- better visual experience
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true }) -- Move visually selected text one line up
