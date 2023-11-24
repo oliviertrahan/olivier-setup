@@ -30,7 +30,6 @@ telescope.setup {
     }
 }
 
-local autocmd = vim.api.nvim_create_autocmd
 local builtin = require('telescope.builtin')
 
 local find_standard_params = {'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' }
@@ -40,42 +39,7 @@ local find_standard = function() builtin.find_files({ find_command = find_standa
 local find_include_gitignore = function() builtin.find_files({ find_command = find_include_gitignore_params }) end
 
 vim.keymap.set('n', '<leader>ff', find_standard, {})
-
-pcall(function() require('not_pushed.telescope') end)
-
-local function telescope_change_search_dirs(directories, win, buf, tab)
-    local current_win_directory = vim.api.nvim_call_function("getcwd", {win, tab})
-    local found = false
-    for _, directory in pairs(directories) do
-        if (standardize_url(current_win_directory) == standardize_url(directory)) then
-            vim.keymap.set('n', '<leader>ff', find_include_gitignore, {buffer = buf})
-            found = true
-            break
-        end
-    end
-    if (not found) then
-    	vim.keymap.set('n', '<leader>ff', find_standard, {buffer = buf})
-    end
-end
-
-if (directories_to_include_gitignore) then
-    for _,win in pairs(vim.api.nvim_list_wins()) do
-        local buf = vim.api.nvim_win_get_buf(win)
-        local tabpage = vim.api.nvim_win_get_tabpage(win)
-        telescope_change_search_dirs(directories_to_include_gitignore, win, buf, tabpage)
-    end
-    autocmd({"BufEnter", "DirChanged"}, {
-        pattern = "*",
-        callback = function(ev)
-            telescope_change_search_dirs(directories_to_include_gitignore,
-            	vim.api.nvim_get_current_win(),
-                ev.buf,
-                vim.api.nvim_get_current_tabpage()
-            )
-        end
-    })
-end
-
+vim.keymap.set('n', '<leader>fhf', find_include_gitignore, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fr', function() builtin.oldfiles{ only_cwd = true } end, {})
 vim.keymap.set('n', '<leader>fd', builtin.diagnostics, {})
@@ -94,10 +58,18 @@ local function get_working_directories()
 end
 
 vim.keymap.set('n', '<leader>fwf', function()
-    builtin.find_files{ search_dirs = get_working_directories() }
+    builtin.find_files{ find_command = find_standard_params, search_dirs = get_working_directories() }
 end, {})
+vim.keymap.set('n', '<leader>fwhf', function()
+    builtin.find_files{ find_command = find_include_gitignore_params, search_dirs = get_working_directories() }
+end, {})
+vim.keymap.set('n', '<leader>fhwf', function()
+    builtin.find_files{ find_command = find_include_gitignore_params, search_dirs = get_working_directories() }
+end, {})
+
 vim.keymap.set('n', '<leader>fwg', function()
     builtin.live_grep{ search_dirs = get_working_directories() }
 end, {})
+
 vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 
