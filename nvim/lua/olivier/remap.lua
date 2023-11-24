@@ -2,8 +2,8 @@
 vim.g.mapleader = " "
 
 -- create new line without going into insert mode
-vim.keymap.set("n", "<leader>O", "O<ESC>", { noremap = true })
-vim.keymap.set("n", "<leader>o", "o<ESC>", { noremap = true })
+vim.keymap.set("n", "<leader>O", "Oi<ESC>x", { noremap = true })
+vim.keymap.set("n", "<leader>o", "oi<ESC>x", { noremap = true })
 
 --better editing experience
 vim.keymap.set("n", "J", "miJ`i", { noremap = true })
