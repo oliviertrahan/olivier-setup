@@ -59,11 +59,3 @@ table.insert(csharp_project_configs,
     }
 )
 ```
-
-Put values for working directories that we want to exclude .gitgnore files in `directories_to_ignore_gitignore` in the `nvim/plugin/not_pushed` folder. 
-This list will get picked up in the telescope.lua file.
-```
-directories_to_ignore_gitignore = {
-    "~/workspace/rvezy-web-client-v3/"
-}
-```

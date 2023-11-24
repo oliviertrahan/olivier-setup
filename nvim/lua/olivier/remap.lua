@@ -1,10 +1,6 @@
 
 vim.g.mapleader = " "
 
--- create new line without going into insert mode
-vim.keymap.set("n", "<leader>O", "Oi<ESC>x", { noremap = true })
-vim.keymap.set("n", "<leader>o", "oi<ESC>x", { noremap = true })
-
 --better editing experience
 vim.keymap.set("n", "J", "miJ`i", { noremap = true })
 vim.keymap.set("n", "H", "Hzz", { noremap = true })
@@ -23,6 +19,10 @@ vim.keymap.set("n", "<leader>pp", function()
     vim.fn.setreg("+", path)
     vim.notify('Copied "' .. path .. '" to the clipboard!')
 end)
+
+-- create new line without going into insert mode
+vim.keymap.set("n", "<leader>O", "Oi<ESC>\"_dl", { noremap = false })
+vim.keymap.set("n", "<leader>o", "oi<ESC>\"_dl", { noremap = false })
 
 -- better visual experience
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true }) -- Move visually selected text one line up

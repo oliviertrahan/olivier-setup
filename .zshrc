@@ -40,8 +40,6 @@ export ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 eval $(thefuck --alias)
 unsetopt share_history
 
-export DOTNET_ROOT="/usr/local/share/dotnet/dotnet"
-export PATH="$DOTNET_ROOT:$PATH" 
 export PATH="/usr/local/bin/code:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH" 
 export PATH="$HOME/netcoredbg/netcoredbg:$PATH" 
