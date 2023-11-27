@@ -36,7 +36,7 @@ vim.keymap.set("v", ">", ">gv", { noremap = true }) --continue visually selectin
 vim.keymap.set("v", "<", "<gv", { noremap = true }) --continue visually selecting after indenting
 vim.keymap.set("v", "Y", "\"+ygv<Esc>", { noremap = true }) --Y to copy to system clipboard
 vim.keymap.set("v", "p", "\"_dP", { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
-vim.keymap.set("v", "P", "\"_dP", { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
+vim.keymap.set("v", "P", "\"_d\"+P", { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
 vim.keymap.set("v", "il", "<Esc>^v$h", { noremap = true }) --visually select whole line but not EOL char
 vim.keymap.set("v", "iL", "<Esc>^v$h", { noremap = true }) --visually select whole line but not EOL char
 

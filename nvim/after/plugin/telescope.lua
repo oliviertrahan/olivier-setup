@@ -50,8 +50,9 @@ vim.keymap.set('n', '<leader>fwr', builtin.oldfiles, {})
 local function get_working_directories()
     local tabpages = vim.api.nvim_list_tabpages()
     local working_directories = {}
-    for _, tab in pairs(tabpages) do
-        local current_directory = vim.api.nvim_call_function("getcwd", {-1, tab})
+    for _, tabpage in pairs(tabpages) do
+        local tabnum = vim.api.nvim_tabpage_get_number(tabpage)
+        local current_directory = vim.api.nvim_call_function("getcwd", {-1, tabnum})
         table.insert(working_directories, current_directory)
     end
     return working_directories
