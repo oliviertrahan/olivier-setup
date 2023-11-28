@@ -103,8 +103,9 @@ alias gsfs='fuzzy_find_staged_files'
 alias gmfs='fuzzy_find_modified_files'
 alias ga='fuzzy_find_modified_files | xargs git add'
 alias grh='fuzzy_find_staged_files | xargs git reset'
-alias grhh='fuzzy_find_staged_files | xargs git reset --hard'
-alias gcof="fuzzy_find_modified_files | xargs git checkout"
+alias grhh='fuzzy_find_modified_files | xargs git reset --hard'
+alias gcof='fuzzy_find_modified_files | xargs git checkout'
+alias grevf='fuzzy_find_modified_files | xargs git checkout origin/master --'
 
 alias gs="git status"
 alias gf="git fetch"
