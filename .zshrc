@@ -89,6 +89,23 @@ alias dedu="dotnet ef database update"
 alias db="dotnet build"
 
 # git aliases
+fuzzy_find_staged_files() {
+    git --no-pager diff --name-only --cached | fzf
+}
+
+fuzzy_find_modified_files() {
+    git ls-files -m | fzf
+}
+autoload -Uz fuzzy_find_staged_files
+autoload -Uz fuzzy_find_modified_files
+
+alias gsfs='fuzzy_find_staged_files'
+alias gmfs='fuzzy_find_modified_files'
+alias ga='fuzzy_find_modified_files | xargs git add'
+alias grh='fuzzy_find_staged_files | xargs git reset'
+alias grhh='fuzzy_find_staged_files | xargs git reset --hard'
+alias gcof="fuzzy_find_modified_files | xargs git checkout"
+
 alias gs="git status"
 alias gf="git fetch"
 alias gm="git merge"
@@ -107,7 +124,6 @@ alias gcm="git checkout master"
 alias gcb='git checkout -b'
 alias grevm="git checkout origin/master --"
 alias glog="git log"
-alias ga='git add'
 alias gaa='git add --all'
 alias gbd='git branch -d'
 alias gbD='git branch -D' 

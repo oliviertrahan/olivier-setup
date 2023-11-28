@@ -24,7 +24,7 @@ autocmd('TextYankPost', {
 })
 
 -- When we leave terminal mode or when we refocus neovim, then check files for changes
-autocmd('FocusGained,TermLeave', {
+autocmd({'FocusGained', 'TermLeave'}, {
     pattern = '*',
     callback = function()
         vim.cmd('checktime')
