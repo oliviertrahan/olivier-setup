@@ -96,6 +96,10 @@ fuzzy_find_staged_files() {
 fuzzy_find_modified_files() {
     git ls-files -m | fzf
 }
+
+fuzzy_find_modified_files() {
+    git ls-files -m | fzf
+}
 autoload -Uz fuzzy_find_staged_files
 autoload -Uz fuzzy_find_modified_files
 
@@ -107,6 +111,7 @@ alias grhh='fuzzy_find_modified_files | xargs git reset --hard'
 alias gcof='fuzzy_find_modified_files | xargs git checkout'
 alias grevf='fuzzy_find_modified_files | xargs git checkout origin/master --'
 alias gdf='fuzzy_find_modified_files | xargs git diff'
+alias gcob='git --no-pager branch -l | fzf | xargs git checkout'
 
 alias gs="git status"
 alias gf="git fetch"
