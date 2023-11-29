@@ -106,6 +106,7 @@ alias grh='fuzzy_find_staged_files | xargs git reset'
 alias grhh='fuzzy_find_modified_files | xargs git reset --hard'
 alias gcof='fuzzy_find_modified_files | xargs git checkout'
 alias grevf='fuzzy_find_modified_files | xargs git checkout origin/master --'
+alias gdf='fuzzy_find_modified_files | xargs git diff'
 
 alias gs="git status"
 alias gf="git fetch"
@@ -114,8 +115,6 @@ alias gp="git push"
 alias gpf='git push --force-with-lease'
 alias gP="git pull"
 alias gup="git pull"
-alias grh='git reset'
-alias grhh='git reset --hard'
 alias gd='git diff'
 alias gdt='git difftool'
 alias gdca='git diff --cached'
