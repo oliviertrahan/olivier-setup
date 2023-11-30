@@ -84,6 +84,7 @@ fi
 
 #dotnet aliases
 alias dtf="dotnet test --filter"
+alias dtfs="dotnet test -t --no-build | fzf | xargs dotnet test --filter"
 alias dema="dotnet ef migrations add"
 alias dedu="dotnet ef database update"
 alias db="dotnet build"
@@ -112,6 +113,7 @@ alias gcof='fuzzy_find_modified_files | xargs git checkout'
 alias grevf='fuzzy_find_modified_files | xargs git checkout origin/master --'
 alias gdf='fuzzy_find_modified_files | xargs git diff'
 alias gcob='git --no-pager branch -l | fzf | xargs git checkout'
+alias gcleanf='git ls-files --others --exclude-standard | fzf | xargs git clean -fd'
 
 alias gs="git status"
 alias gf="git fetch"
@@ -139,7 +141,7 @@ alias gstc='git stash clear'
 alias gstd='git stash drop'
 alias gstl='git stash list'
 alias gstp='git stash pop'
-alias gclean='git clean -fd'
+alias gcleanall='git clean -fd'
 
 git config --global core.editor $(which nvim)
 git config --global core.pager "nvim +Man!"

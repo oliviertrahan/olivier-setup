@@ -52,7 +52,7 @@ vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("i", "<Tab>", "<C-V><Tab>", { noremap = true })
 
 -- better window management
-vim.keymap.set("n", "<leader>wo", "<cmd>rightb vnew<CR>")
+vim.keymap.set("n", "<leader>wo", "<cmd>vsplit<CR><C-w>l")
 vim.keymap.set("n", "<leader>ws", "<cmd>rightb new<CR>")
 vim.keymap.set("n", "<leader>wc", "<C-w>c")
 vim.keymap.set("n", "<leader>wl", "<C-w>l")
