@@ -154,4 +154,7 @@ export HOMEBREW_NO_INSTALL_CLEANUP=
 
 source $(dirname $(gem which colorls))/tab_complete.sh
 
+if [ -e ~/extra_zshrc.zsh ]; then
+    source ~/extra_zshrc.zsh
+fi
 

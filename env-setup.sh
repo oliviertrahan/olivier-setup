@@ -150,17 +150,15 @@ if [[ $update_only_links == 0 ]]; then
     fi
 fi
 
-#Combining files and linking
-
-cat ./.zshrc > ./output_zshrc.zsh
 if [ -e ./extra_zshrc.zsh ]; then
-  echo "Found extra_zshrc.zsh. Appending to output_zshrc.zsh"
-  cat ./extra_zshrc.zsh >> ./output_zshrc.zsh
+	echo "Found extra_zshrc.zsh."
+    replace_file_and_link "$(pwd)/extra_zshrc.zsh" ~/extra_zshrc.zsh
 else
     echo "No extra_zshrc.zsh found"
 fi
 
-replace_file_and_link "$(pwd)/output_zshrc.zsh" ~/.zshrc
+#link zsh setup
+replace_file_and_link "$(pwd)/.zshrc" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
 replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
 
