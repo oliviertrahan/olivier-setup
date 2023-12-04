@@ -21,10 +21,6 @@ ZSH_THEME_RANDOM_CANDIDATES=( "xiong-chiamiov-plus", "powerlevel10k/powerlevel10
 source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
 plugins=(
-    # git
-    # npm
-    #autoswitch_virtualenv
-    # aws
     zsh-syntax-highlighting
     zsh-autosuggestions
     zsh-vi-mode
@@ -55,17 +51,7 @@ export MANPAGER="nvim +Man!"
 export VSCODE_DEBUG='1'
 #export LOCAL_IP=$(ipconfig getifaddr en0)
 
-# place this after nvm initialization!
-# autoload -U add-zsh-hook
-# load-nvmrc() {
-#   if [[ -f .nvmrc && -r .nvmrc ]]; then
-#     nvm use 
-#   elif [[ $(nvm version) != $(nvm version default)  ]]; then
-#     echo "Reverting to nvm default version"
-#     nvm use default
-#   fi
-# }
-# add-zsh-hook chpwd load-nvmrc
+
 
 # Helpful aliases
 alias vshedit="nvim ~/.zshrc"
@@ -81,7 +67,6 @@ else
     alias ls="gem exec colorls"
 fi
 
-
 #dotnet aliases
 alias dtf="dotnet test --filter"
 alias dtfs="dotnet test -t --no-build | fzf | xargs dotnet test --filter"
@@ -89,7 +74,21 @@ alias dema="dotnet ef migrations add"
 alias dedu="dotnet ef database update"
 alias db="dotnet build"
 
-# git aliases
+# git configs
+ 
+setupgitpersonal() {
+    if [ $# -eq 1 ]; then
+        echo "Setting up global git config"
+        git config --global user.name oliviertrahan
+        git config --global user.email trahan.olivier@gmail.com
+    else 
+        echo "Setting up local git config"
+        git config user.name oliviertrahan
+        git config user.email trahan.olivier@gmail.com
+    fi
+}
+
+autoload -Uz setupgitpersonal 
 fuzzy_find_staged_files() {
     git --no-pager diff --name-only --cached | fzf
 }
@@ -99,7 +98,7 @@ fuzzy_find_modified_files() {
 }
 
 fuzzy_find_modified_files() {
-    git ls-files -m | fzf
+    git ls-files -m --others --exclude-standard | fzf
 }
 autoload -Uz fuzzy_find_staged_files
 autoload -Uz fuzzy_find_modified_files
@@ -154,6 +153,7 @@ export HOMEBREW_NO_INSTALL_CLEANUP=
 
 source $(dirname $(gem which colorls))/tab_complete.sh
 
+#always keep this at end of file
 if [ -e ~/extra_zshrc.zsh ]; then
     source ~/extra_zshrc.zsh
 fi

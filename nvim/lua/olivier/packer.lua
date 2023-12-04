@@ -121,6 +121,13 @@ return require('packer').startup(function(use)
   use('tpope/vim-fugitive')
   use('tpope/vim-surround')
   use('tpope/vim-commentary')
+  use('JoosepAlviste/nvim-ts-context-commentstring', {
+      config = function()
+          require('ts_context_commentstring').setup {
+              enable_autocmd = false
+          }
+      end
+  })
   use('gcmt/taboo.vim')
   use('phaazon/hop.nvim')
   use('nvim-treesitter/nvim-treesitter-context');
