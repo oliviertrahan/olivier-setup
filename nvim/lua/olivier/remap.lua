@@ -71,6 +71,11 @@ vim.keymap.set("n", "<S-Tab>", "<cmd>-tabnext<CR>")
 vim.keymap.set("n", "<leader>tn", "<cmd>+tabmove<CR>")
 vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
+vim.keymap.set("n", "<leader>sp", "diw<C-c>iconsole.log(`<C-r>\": ${<C-r>\"}`)")
+vim.keymap.set("n", "<leader>sjp", "diw<C-c>iconsole.log(`<C-r>\": ${JSON.stringify(<C-r>\")}`)")
+vim.keymap.set("v", "<leader>sjp", "d<C-c>iconsole.log(`<C-r>\": ${JSON.stringify(<C-r>\")}`)")
+vim.keymap.set("v", "<leader>sp", "d<C-c>iconsole.log(`<C-r>\": ${<C-r>\"}`)")
+
 local projectTermMap = {}
 local extraTermMap = {}
 
