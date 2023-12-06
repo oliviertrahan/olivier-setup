@@ -47,7 +47,7 @@ vim.keymap.set("i", "<C-k>", "<C-o>k", { noremap = true })
 vim.keymap.set("i", "<C-l>", "<C-o>a", { noremap = true })
 vim.keymap.set("i", "<C-d>", "<C-o>diw", { noremap = true })
 vim.keymap.set("i", "<C-c>", "<Esc>")
-vim.keymap.set("i", "<C-i>", "<C-o>i", { noremap = true }) --change from replace mode to insert mode
+-- vim.keymap.set("i", "<C-i>", "<C-o>i", { noremap = true }) --change from replace mode to insert mode
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("i", "<Tab>", "<C-V><Tab>", { noremap = true })
 

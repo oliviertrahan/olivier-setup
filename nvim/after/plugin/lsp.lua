@@ -88,6 +88,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.cmd("norm zz")
         end, opts)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "=", vim.lsp.buf.format, opts)
         vim.keymap.set("n", "<leader>vws", workspace_symbols, opts)
         vim.keymap.set("n", "<leader>vds", document_symbols, opts)
         vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
