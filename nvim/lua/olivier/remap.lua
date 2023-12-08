@@ -1,3 +1,7 @@
+local remap_funcs = require('olivier.remap_functions')
+local set_print_snippet = remap_funcs.set_print_snippet
+local open_project_terminal = remap_funcs.open_project_terminal
+local open_terminal = remap_funcs.open_terminal
 
 vim.g.mapleader = " "
 
@@ -12,6 +16,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "yA", "mzgg0VG$y`z") -- yank the whole document
 vim.keymap.set("n", "=A", "mzgg0VG$=`z") -- format the whole document
 vim.keymap.set("n", "Q", "@q") --Execute "q" macro with Q
+vim.keymap.set("x", "Q", ":norm @q<CR>", { noremap = true }) --Execute "q" macro with Q
 vim.keymap.set("n", "x", "\"_dl") --delete single character doesn't mess with yank register
 vim.keymap.set("n", "gb", "<C-6>") -- go back to last file
 vim.keymap.set("n", "<leader>pp", function()
@@ -73,25 +78,16 @@ vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
 -- print snippets in multiple languages
 
-function set_print_snippet(is_visual, is_json, prefix, midfix, postfix, buffer)
-    local delete_op = is_visual and 'c' or 'ciw'
-    local keymap_mode = is_visual and 'v' or 'n'
-    local keymap = is_json and '<leader>sjp' or '<leader>sp'
-    local remap_str = delete_op .. prefix .. "<C-r>\"" .. midfix .. "<C-r>\"" .. postfix .. "<C-c>"
-    local opts = {}
-    if buffer then
-        opts.buffer = buffer
-    end
-    vim.keymap.set(keymap_mode, keymap, remap_str, opts)
-end
-
 set_print_snippet(true, false, "vim.print(\"", ": \" .. ", ")")
 set_print_snippet(false, false, "vim.print(\"", ": \" .. ", ")")
 set_print_snippet(true, true, "vim.print(\"", ": \" .. ", ")")
 set_print_snippet(false, true, "vim.print(\"", ": \" .. ", ")")
 
+local snippet_group = vim.api.nvim_create_augroup('augroup', {})
 local autocmd = vim.api.nvim_create_autocmd
+
 autocmd('BufEnter', {
+    group = snippet_group,
     pattern = '*.cs',
     callback = function(ev)
         set_print_snippet(true, false, "Console.WriteLine($\"", ": {", "}\");", ev.buf)
@@ -102,6 +98,7 @@ autocmd('BufEnter', {
 })
 
 autocmd('BufEnter', {
+    group = snippet_group,
     pattern = { '*.js', '*.mjs', '*.cjs', '*.vue' },
     callback = function(ev)
         set_print_snippet(true, false, "console.log(`", ": ${", "}`)", ev.buf)
@@ -111,63 +108,13 @@ autocmd('BufEnter', {
     end,
 })
 
-local projectTermMap = {}
-local extraTermMap = {}
-
-local function open_terminal_buffer(bufId)
-    local open_term_buf = function(id)
-        if bufId == nil then
-            vim.cmd("terminal")
-        else
-            vim.cmd("b " .. id)
-        end
-
-        vim.cmd("norm a")
-        return vim.api.nvim_get_current_buf()
-    end
-
-    local tabpage = vim.api.nvim_get_current_tabpage()
-    local windows_in_tab = vim.api.nvim_tabpage_list_wins(tabpage)
-
-    --If the current buffer is any other terminal in the tab, then replace the current buffer with the terminal
-    for _, window in pairs(windows_in_tab) do
-        local currWinBuf = vim.api.nvim_win_get_buf(window)
-        if vim.api.nvim_buf_get_option(currWinBuf, "buftype") == "terminal" then
-            vim.api.nvim_set_current_win(window)
-            return open_term_buf(bufId)
-        end
-    end
-
-    --Or else create a new split pane and go into terminal mode
-    vim.cmd("rightb new")
-    return open_term_buf(bufId)
-end
-
-local function open_terminal(termId)
-    if extraTermMap[termId] then
-        open_terminal_buffer(extraTermMap[termId])
-    else
-        local bufId = open_terminal_buffer(nil)
-        extraTermMap[termId] = bufId
-    end
-end
-
-local function open_project_terminal()
-    local current_directory = vim.api.nvim_call_function("getcwd", {})
-    local current_directory_name = vim.api.nvim_call_function("fnamemodify", {current_directory, ":t"})
-
-    if projectTermMap[current_directory_name] then
-        open_terminal_buffer(projectTermMap[current_directory_name])
-    else
-        local bufId = open_terminal_buffer(nil)
-        projectTermMap[current_directory_name] = bufId
-    end
-end
-
 --Terminal mode improvement
 vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
 vim.keymap.set("t", "<C-a>", "<C-\\><C-n>")
+vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
+vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
+vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
 --better terminal management
