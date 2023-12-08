@@ -52,8 +52,8 @@ export VSCODE_DEBUG='1'
 #export LOCAL_IP=$(ipconfig getifaddr en0)
 
 
-
 # Helpful aliases
+alias nvimT="nvim -c \"term\""
 alias vshedit="nvim ~/.zshrc"
 alias vimedit="nvim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
