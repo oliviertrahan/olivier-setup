@@ -71,10 +71,45 @@ vim.keymap.set("n", "<S-Tab>", "<cmd>-tabnext<CR>")
 vim.keymap.set("n", "<leader>tn", "<cmd>+tabmove<CR>")
 vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
-vim.keymap.set("n", "<leader>sp", "diw<C-c>iconsole.log(`<C-r>\": ${<C-r>\"}`)")
-vim.keymap.set("n", "<leader>sjp", "diw<C-c>iconsole.log(`<C-r>\": ${JSON.stringify(<C-r>\")}`)")
-vim.keymap.set("v", "<leader>sjp", "d<C-c>iconsole.log(`<C-r>\": ${JSON.stringify(<C-r>\")}`)")
-vim.keymap.set("v", "<leader>sp", "d<C-c>iconsole.log(`<C-r>\": ${<C-r>\"}`)")
+-- print snippets in multiple languages
+
+function set_print_snippet(is_visual, is_json, prefix, midfix, postfix, buffer)
+    local delete_op = is_visual and 'c' or 'ciw'
+    local keymap_mode = is_visual and 'v' or 'n'
+    local keymap = is_json and '<leader>sjp' or '<leader>sp'
+    local remap_str = delete_op .. prefix .. "<C-r>\"" .. midfix .. "<C-r>\"" .. postfix .. "<C-c>"
+    local opts = {}
+    if buffer then
+        opts.buffer = buffer
+    end
+    vim.keymap.set(keymap_mode, keymap, remap_str, opts)
+end
+
+set_print_snippet(true, false, "vim.print(\"", ": \" .. ", ")")
+set_print_snippet(false, false, "vim.print(\"", ": \" .. ", ")")
+set_print_snippet(true, true, "vim.print(\"", ": \" .. ", ")")
+set_print_snippet(false, true, "vim.print(\"", ": \" .. ", ")")
+
+local autocmd = vim.api.nvim_create_autocmd
+autocmd('BufEnter', {
+    pattern = '*.cs',
+    callback = function(ev)
+        set_print_snippet(true, false, "Console.WriteLine($\"", ": {", "}\");", ev.buf)
+        set_print_snippet(false, false, "Console.WriteLine($\"", ": {", "}\");", ev.buf)
+        set_print_snippet(true, true, "Console.WriteLine($\"", ": {JsonConvert.SerializeObject(", ")}\");", ev.buf)
+        set_print_snippet(false, true, "Console.WriteLine($\"", ": {JsonConvert.SerializeObject(", ")}\");", ev.buf)
+    end,
+})
+
+autocmd('BufEnter', {
+    pattern = { '*.js', '*.mjs', '*.cjs', '*.vue' },
+    callback = function(ev)
+        set_print_snippet(true, false, "console.log(`", ": ${", "}`)", ev.buf)
+        set_print_snippet(false, false, "console.log(`", ": ${", "}`)", ev.buf)
+        set_print_snippet(true, true, "console.log(`", ": ${JSON.stringify(", ")}`)", ev.buf)
+        set_print_snippet(false, true, "console.log(`", ": ${JSON.stringify(", ")}`)", ev.buf)
+    end,
+})
 
 local projectTermMap = {}
 local extraTermMap = {}
