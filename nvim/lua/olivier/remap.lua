@@ -24,6 +24,9 @@ vim.keymap.set("n", "<leader>pp", function()
     vim.fn.setreg("+", path)
     vim.notify('Copied "' .. path .. '" to the clipboard!')
 end)
+vim.keymap.set("n", "<leader>ss", "yiw:%s/<C-r>\"//g<Left><Left>") -- go back to last file
+vim.keymap.set("v", "<leader>ss", "y:%s/<C-r>\"//g<Left><Left>") -- go back to last file
+
 
 -- create new line without going into insert mode
 vim.keymap.set("n", "<leader>O", "Oi<ESC>\"_dl", { noremap = false })
