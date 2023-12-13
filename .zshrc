@@ -113,6 +113,7 @@ alias grevf='fuzzy_find_modified_files | xargs git checkout origin/master --'
 alias gdf='fuzzy_find_modified_files | xargs git diff'
 alias gcob='git --no-pager branch -l | fzf | xargs git checkout'
 alias gcleanf='git ls-files --others --exclude-standard | fzf | xargs git clean -fd'
+alias gbDs='git --no-pager branch -l | fzf | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt'
 
 alias gs="git status"
 alias gf="git fetch"
@@ -126,7 +127,7 @@ alias gdt='git difftool'
 alias gdca='git diff --cached'
 alias gcp='git cherry-pick'
 alias gco="git checkout"
-alias gcm="git checkout master"
+alias gcm="git checkout master || git checkout main"
 alias gcb='git checkout -b'
 alias grevm="git checkout origin/master --"
 alias glog="git log"

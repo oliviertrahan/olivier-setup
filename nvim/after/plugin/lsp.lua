@@ -3,7 +3,7 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-    'tsserver',
+    -- 'tsserver',
     'rust_analyzer',
     'csharp_ls',
     'volar',
@@ -119,7 +119,6 @@ lsp_config.csharp_ls.setup({
 
 --eslint LSP attaches formatting command, use it
 lsp_config.eslint.setup({
-    filetypes = {},
     on_attach = function(_, bufnr)
         vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
