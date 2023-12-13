@@ -146,6 +146,8 @@ alias gcleanall='git clean -fd'
 git config --global core.editor $(which nvim)
 git config --global core.pager "nvim +Man!"
 
+# End settings
+
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
 
