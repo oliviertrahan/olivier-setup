@@ -4,14 +4,56 @@ All my personal configs
 
 ## zsh and symlink env setup
 
-Run `$ source mac-setup.sh` to setup your mac/linux box ready for local dev
+### Running the script and setup
+
+Run `$ source env-setup.sh` to setup your mac/linux box ready for local dev
 
 - the `.zshrc` is the base provided which is universal to my personal config
 - the `nvim` folder gets symlinked to the nvim config folder
-- an `extra_zshrc.zsh` file may be placed at the project root for secret values that we don't want pushed to the repo
-- an `extra-mac-setup.zsh` script may be placed at the project root for a secret script that we don't want pushed to the repo. This is ran at the end of the `mac-setup.zsh` script
+- an `extra_zshrc.zsh` file may be placed at the project root for secret values that we don't want pushed to the repo (it is added to .gitignore)
+- an `extra-setup.zsh` script may be placed at the project root for a secret script that we don't want pushed to the repo. This is ran at the end of the `env-setup.zsh` script
 
-Note: Run `$ source mac-setup.zsh -l` to only run symlink updates
+Note: Run `$ source env-setup.zsh -l` to only run symlink updates
+
+### Adding to the script
+
+your extra_zshrc.zsh may contain have to contain directory hooks to change git config based on working project example config used below.
+
+```
+sshConfigUsed=
+
+setupgitwork() {
+    if [ $# -eq 1 ]; then
+        echo "Setting up global git config"
+        git config --global user.name <work-username>
+        git config --global user.email <work-email>
+    else 
+        echo "Setting up local git config"
+        git config user.name <work-username>
+        git config user.email <work-email>
+    fi
+}
+
+switchsshpersonal() {
+    if [[ "$sshConfigUsed" == "personal" ]]; then
+        return
+    fi
+	export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_personal_gh -F /dev/null"
+    echo "switching to personal-ssh"
+    if [ $# -gt 0 ]; then
+    	setupgitpersonal $1
+    fi
+    sshConfigUsed=personal
+}
+
+switchSshBasedOnDir() {
+    if [[ "$PWD" == *"/olivier-setup" || "$PWD" == "$HOME/personal/"* ]]; then
+        switchsshpersonal
+    else
+        switchsshwork
+    fi
+}
+```
 
 ## nvim setup
 
