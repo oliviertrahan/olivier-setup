@@ -106,12 +106,12 @@ autoload -Uz fuzzy_find_modified_files
 alias gsfs='fuzzy_find_staged_files'
 alias gmfs='fuzzy_find_modified_files'
 alias ga='fuzzy_find_modified_files | xargs git add'
-alias grh='fuzzy_find_staged_files | xargs git reset'
-alias grhh='fuzzy_find_modified_files | xargs git reset --hard'
+alias grhf='fuzzy_find_staged_files | xargs git reset'
+alias grhhf='fuzzy_find_modified_files | xargs git reset --hard'
 alias gcof='fuzzy_find_modified_files | xargs git checkout'
 alias grevmf='fuzzy_find_modified_files | xargs git checkout origin/master --'
 alias gdf='fuzzy_find_modified_files | xargs git diff'
-alias gcob='git --no-pager branch -l | fzf | xargs git checkout'
+alias gcbf='git --no-pager branch -l | fzf | xargs git checkout'
 alias gcleanf='git ls-files --others --exclude-standard | fzf | xargs git clean -fd'
 alias gbDs='git --no-pager branch -l | fzf | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt'
 
@@ -129,6 +129,8 @@ alias gcp='git cherry-pick'
 alias gco="git checkout"
 alias gcm="git checkout master || git checkout main"
 alias gcb='git checkout -b'
+alias grh='git reset'
+alias grhh='git reset --hard'
 alias grevm="git checkout origin/master --"
 alias glog="git log"
 alias gaa='git add --all'
