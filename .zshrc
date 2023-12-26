@@ -60,6 +60,20 @@ alias zshedit="code ~/.zshrc"
 alias tmuxedit="nvim ~/.tmux.conf"
 alias zshreload="exec zsh"
 
+mvFromTo() {
+    cwd=$(pwd)
+    startfolder=$1
+    destination=$2
+
+    cd $startfolder
+    selection=$(pwd)/$(fzf)
+    echo $selection
+    cd -
+    destination=$(find . -type d -print | fzf)
+    mv $selection $destination
+}
+alias mvDl="mvFromTo ~/Downloads $PWD"
+
 #ruby 2 doesn't have gem exec command
 if [[ $(ruby --version) == 'ruby 2'* ]]; then
     alias ls="colorls"
@@ -94,12 +108,9 @@ fuzzy_find_staged_files() {
 }
 
 fuzzy_find_modified_files() {
-    git ls-files -m | fzf
-}
-
-fuzzy_find_modified_files() {
     git ls-files -m --others --exclude-standard | fzf
 }
+
 autoload -Uz fuzzy_find_staged_files
 autoload -Uz fuzzy_find_modified_files
 
@@ -114,6 +125,7 @@ alias gdf='fuzzy_find_modified_files | xargs git diff'
 alias gcbf='git --no-pager branch -l | fzf | xargs git checkout'
 alias gcleanf='git ls-files --others --exclude-standard | fzf | xargs git clean -fd'
 alias gbDs='git --no-pager branch -l | fzf | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt'
+alias gstaf='fuzzy_find_modified_files | xargs git stash'
 
 alias gs="git status"
 alias gf="git fetch"

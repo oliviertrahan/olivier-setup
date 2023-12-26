@@ -112,9 +112,7 @@ return require('packer').startup(function(use)
 
     use({
         'Mofiqul/dracula.nvim',
-        as = 'dracula'
     })
-
     use('vim-scripts/vis')
     use('nvim-treesitter/playground')
     use('theprimeagen/harpoon')
@@ -122,7 +120,9 @@ return require('packer').startup(function(use)
     use('tpope/vim-fugitive')
     use('tpope/vim-surround')
     use('tpope/vim-commentary')
+    use('mg979/vim-visual-multi')
     use('JoosepAlviste/nvim-ts-context-commentstring', {
+        
         config = function()
             require('ts_context_commentstring').setup {
                 enable_autocmd = false
