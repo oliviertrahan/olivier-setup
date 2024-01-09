@@ -45,6 +45,8 @@ vim.keymap.set('n', '<leader>fr', function() builtin.oldfiles{ only_cwd = true }
 vim.keymap.set('n', '<leader>fd', builtin.help_tags, {})
 vim.keymap.set('v', '<leader>fd', 'y<cmd>Telescope help_tags<CR><C-r>"', {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+-- vim.keymap.set('n', '<leader>fcg', function() builtin.live_grep{ search_dirs = {vim.fn.expand("%:p")}} end, {})
+vim.keymap.set('n', '<leader>fcg', '<cmd>Telescope current_buffer_fuzzy_find<CR>', {})
 vim.keymap.set('v', '<leader>fg', 'y<cmd>Telescope live_grep<CR><C-r>"', {})
 vim.keymap.set('n', '<leader>fyg','yiw<cmd>Telescope live_grep<CR><C-r>"', {})
 
