@@ -67,7 +67,7 @@ mvFromTo() {
 
     cd $startfolder
     selection=$(pwd)/$(fzf)
-    echo $selection
+    echo "selection: $selection"
     cd -
     destination=$(find . -type d -print | fzf)
     mv $selection $destination
@@ -114,48 +114,48 @@ fuzzy_find_modified_files() {
 autoload -Uz fuzzy_find_staged_files
 autoload -Uz fuzzy_find_modified_files
 
-alias gsfs='fuzzy_find_staged_files'
-alias gmfs='fuzzy_find_modified_files'
-alias ga='fuzzy_find_modified_files | xargs git add'
-alias grhf='fuzzy_find_staged_files | xargs git reset'
-alias grhhf='fuzzy_find_modified_files | xargs git reset --hard'
-alias gcof='fuzzy_find_modified_files | xargs git checkout'
-alias grevmf='fuzzy_find_modified_files | xargs git checkout origin/master --'
-alias gdf='fuzzy_find_modified_files | xargs git diff'
-alias gcbf='git --no-pager branch -l | fzf | xargs git checkout'
-alias gcleanf='git ls-files --others --exclude-standard | fzf | xargs git clean -fd'
-alias gbDs='git --no-pager branch -l | fzf | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt'
-alias gstaf='fuzzy_find_modified_files | xargs git stash'
+alias gsfs="fuzzy_find_staged_files"
+alias gmfs="fuzzy_find_modified_files"
+alias ga="fuzzy_find_modified_files | xargs git add"
+alias grhf="fuzzy_find_staged_files | xargs git reset"
+alias grhhf="fuzzy_find_modified_files | xargs git reset --hard"
+alias gcof="fuzzy_find_modified_files | xargs git checkout"
+alias grevmf="fuzzy_find_modified_files | xargs git checkout origin/master --"
+alias gdf="fuzzy_find_modified_files | xargs git diff"
+alias gcbf="git --no-pager branch -l | fzf | xargs git checkout"
+alias gcleanf="git ls-files --others --exclude-standard | fzf | xargs git clean -fd"
+alias gbDf="git --no-pager branch -l | fzf | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt"
+alias gstaf="fuzzy_find_modified_files | xargs git stash"
 
 alias gs="git status"
 alias gf="git fetch"
 alias gm="git merge"
 alias gp="git push"
-alias gpf='git push --force-with-lease'
+alias gpf="git push --force-with-lease"
 alias gP="git pull"
 alias gup="git pull"
-alias gd='git diff'
-alias gdt='git difftool'
-alias gdca='git diff --cached'
-alias gcp='git cherry-pick'
+alias gd="git diff"
+alias gdt="git difftool"
+alias gdca="git diff --cached"
+alias gcp="git cherry-pick"
 alias gco="git checkout"
 alias gcm="git checkout master || git checkout main"
-alias gcb='git checkout -b'
-alias grh='git reset'
-alias grhh='git reset --hard'
+alias gcb="git checkout -b"
+alias grh="git reset"
+alias grhh="git reset --hard"
 alias grevm="git checkout origin/master --"
 alias glog="git log"
-alias gaa='git add --all'
-alias gbd='git branch -d'
-alias gbD='git branch -D' 
+alias gaa="git add --all"
+alias gbd="git branch -d"
+alias gbD="git branch -D" 
 alias gcom="git commit"
 alias gcomm="git commit -m "
-alias gsta='git stash'
-alias gstc='git stash clear'
-alias gstd='git stash drop'
-alias gstl='git stash list'
-alias gstp='git stash pop'
-alias gcleanall='git clean -fd'
+alias gsta="git stash"
+alias gstc="git stash clear"
+alias gstd="git stash drop"
+alias gstl="git stash list"
+alias gstp="git stash pop"
+alias gcleanall="git clean -fd"
 
 git config --global core.editor $(which nvim)
 git config --global core.pager "nvim +Man!"
