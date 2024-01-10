@@ -78,5 +78,10 @@ vim.keymap.set('n', '<leader>fwg', function()
     builtin.live_grep{ search_dirs = get_working_directories() }
 end, {})
 
+vim.keymap.set('v', '<leader>fwg', function()
+    vim.cmd('norm! y')
+    builtin.grep_string{ search_dirs = get_working_directories(), search = vim.fn.getreg('"') }
+end, {})
+
 vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 

@@ -132,6 +132,7 @@ alias grhhf="fuzzy_find_modified_files | xargs git reset --hard"
 alias gcof="fuzzy_find_modified_files | xargs git checkout"
 alias grevmf="fuzzy_find_modified_files | xargs git checkout origin/master --"
 alias gdf="fuzzy_find_modified_files | xargs git diff"
+alias gdtf="fuzzy_find_modified_files | xargs git difftool"
 alias gcbf="git --no-pager branch -l | fzf | xargs git checkout"
 alias gcleanf="git ls-files --others --exclude-standard | fzf | xargs git clean -fd"
 alias gbDf="git --no-pager branch -l | fzf | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt"
@@ -169,6 +170,7 @@ alias gcleanall="git clean -fd"
 
 git config --global core.editor $(which nvim)
 git config --global core.pager "nvim +Man!"
+git config --global difftool.prompt false
 
 # End settings
 
