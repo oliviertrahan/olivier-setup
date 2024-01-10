@@ -83,10 +83,20 @@ fi
 
 #dotnet aliases
 alias dtf="dotnet test --filter"
-alias dtfs="dotnet test -t --no-build | fzf | xargs dotnet test --filter"
+# alias dtfs="dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf | sed 's/^[ \t]*//' | sed 's/\"/\\\"/g' | xargs -0 -I {} dotnet test --filter \"FullyQualifiedName={}\""
+alias dtfsD="dotnet test -t --no-build NUnit.DisplayName=FullName | fzf | sed 's/\s*$//' | sed 's/^[ \t]*//' | sed 's/"/\\"/g' | xargs -0 -I {} echo 'dotnet test --filter \"FullyQualifiedName={}\"'"
 alias dema="dotnet ef migrations add"
 alias dedu="dotnet ef database update"
 alias db="dotnet build"
+
+dtfs() {
+    #Fucking hate this fucking shit, fullyqualifiedname won't work when there are quotes 
+    # dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf | sed 's/\s*$//' | sed 's/^[ \t]*//' | sed 's/\"/\\\"/g' | tee yo.txt | xargs -I {} dotnet test --filter "FullyQualifiedName={}"
+    dotnet test -t --no-build -- | fzf |  xargs -I {} dotnet test --filter "{}"
+}
+
+autoload -Uz dtfs
+
 
 # git configs
  
