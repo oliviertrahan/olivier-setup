@@ -114,9 +114,8 @@ autocmd('BufEnter', {
 vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
 vim.keymap.set("t", "<C-a>", "<C-\\><C-n>")
-vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
-vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
-vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
+vim.keymap.set("t", "<C-p>", "<C-\\><C-o>p")
+vim.keymap.set("t", "<C-v>", "<C-\\><C-o>\"+P")
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
 --better terminal management
