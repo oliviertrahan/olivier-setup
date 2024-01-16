@@ -133,6 +133,17 @@ return require('packer').startup(function(use)
     use('nvim-treesitter/nvim-treesitter-context');
     use('christoomey/vim-tmux-navigator');
     use('github/copilot.vim')
+    use({
+      "jackMort/ChatGPT.nvim",
+        config = function()
+          require("chatgpt").setup()
+        end,
+        requires = {
+          "MunifTanjim/nui.nvim",
+          "nvim-lua/plenary.nvim",
+          "nvim-telescope/telescope.nvim"
+        }
+    })
 
     use {
         'VonHeikemen/lsp-zero.nvim',
