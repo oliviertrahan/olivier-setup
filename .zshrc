@@ -124,21 +124,30 @@ fuzzy_find_modified_files() {
 autoload -Uz fuzzy_find_staged_files
 autoload -Uz fuzzy_find_modified_files
 
+git_select_from_latest_branch() {
+    git --no-pager branch -l --sort=-committerdate | fzf
+}
+
+git_select_from_oldest_branch() {
+    git --no-pager branch -l --sort=committerdate | fzf
+}
+
 alias gsfs="fuzzy_find_staged_files"
 alias gmfs="fuzzy_find_modified_files"
-alias ga="fuzzy_find_modified_files | xargs git add"
+alias gaf="fuzzy_find_modified_files | xargs git add"
 alias grhf="fuzzy_find_staged_files | xargs git reset"
 alias grhhf="fuzzy_find_modified_files | xargs git reset --hard"
 alias gcof="fuzzy_find_modified_files | xargs git checkout"
 alias grevmf="fuzzy_find_modified_files | xargs git checkout origin/master --"
 alias gdf="fuzzy_find_modified_files | xargs git diff"
 alias gdtf="fuzzy_find_modified_files | xargs git difftool"
-alias gcbf="git --no-pager branch -l | fzf | xargs git checkout"
+alias gcbf="git_select_from_latest_branch | xargs git checkout"
 alias gcleanf="git ls-files --others --exclude-standard | fzf | xargs git clean -fd"
-alias gbDf="git --no-pager branch -l | fzf | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt"
+alias gbDf="git_select_from_oldest_branch | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt"
 alias gstaf="fuzzy_find_modified_files | xargs git stash"
 
 alias gs="git status"
+alias ga="git add"
 alias gf="git fetch"
 alias gm="git merge"
 alias gp="git push"
