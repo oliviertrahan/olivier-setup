@@ -99,11 +99,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("v", "<leader>vrn", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, opts)
         vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("n", "<leader>vf", vim.lsp.buf.format, opts)
 
         if vim.lsp.buf.format then
             vim.api.nvim_create_autocmd("BufWritePre", {
                 buffer = ev.buf,
-                command = "lua vim.lsp.buf.formatting_sync(nil, 1000)",
+                callback = function()
+                    vim.lsp.buf.format()
+                end
             })
         end
     end
