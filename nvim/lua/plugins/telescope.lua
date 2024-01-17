@@ -2,7 +2,6 @@ local function setup_telescope()
     ---@diagnostic disable: undefined-global
     local telescope = require('telescope')
     local actions = require('telescope.actions')
-    local standardize_url = require('o_utils').standardize_url
 
     telescope.setup {
         defaults = {

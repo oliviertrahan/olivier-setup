@@ -1,4 +1,4 @@
-function setup_lsp()
+local function setup_lsp()
     local lsp = require("lsp-zero")
 
     lsp.preset("recommended")
