@@ -1,23 +1,11 @@
-
-require('rose-pine').setup({
-    variant = 'main'
-})
-
-require('catppuccin').setup({
-    flavour = 'mocha'
-})
-
-require('kanagawa').setup({
-})
-
 local validColorSchemes = {
     "kanagawa",
-    -- "rose-pine",
+    "rose-pine",
     "catppuccin-mocha",
-    "nightfly",
+    -- "nightfly",
     -- "gruvbox-baby",
     "tokyonight-moon",
-    "oxocarbon",
+    -- "oxocarbon",
     "dracula"
 }
 
@@ -43,5 +31,33 @@ function ListColors()
     print(colorStr)
 end
 
+function setup_color_schemes()
+    require('rose-pine').setup({
+        variant = 'main'
+    })
 
-NewColor()
+    require('catppuccin').setup({
+        flavour = 'mocha'
+    })
+
+    require('kanagawa').setup({
+    })
+
+    NewColor()
+end
+
+return {
+    {
+        'catppuccin/nvim',
+        dependencies = {
+            'rose-pine/neovim',
+            'rebelot/kanagawa.nvim',
+            'bluz71/vim-nightfly-colors',
+            'luisiacc/gruvbox-baby',
+            'folke/tokyonight.nvim',
+            'nyoom-engineering/oxocarbon.nvim',
+            'Mofiqul/dracula.nvim',
+        },
+        config = setup_color_schemes
+    }
+}

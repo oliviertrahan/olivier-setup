@@ -6,3 +6,4 @@ nvim/lua/not_pushed
 nvim/plugin/not_pushed
 nvim/after/lua/not_pushed
 nvim/after/plugin/not_pushed
+nvim/lazy-lock.json
