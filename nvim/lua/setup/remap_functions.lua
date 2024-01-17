@@ -1,9 +1,8 @@
-
 local exports = {}
 local projectTermMap = {}
 local extraTermMap = {}
 
-function open_terminal_buffer(bufId)
+local function open_terminal_buffer(bufId)
     local open_term_buf = function(id)
         if bufId == nil then
             vim.cmd("terminal")
@@ -43,7 +42,7 @@ end
 
 function exports.open_project_terminal()
     local current_directory = vim.api.nvim_call_function("getcwd", {})
-    local current_directory_name = vim.api.nvim_call_function("fnamemodify", {current_directory, ":t"})
+    local current_directory_name = vim.api.nvim_call_function("fnamemodify", { current_directory, ":t" })
 
     if projectTermMap[current_directory_name] then
         open_terminal_buffer(projectTermMap[current_directory_name])

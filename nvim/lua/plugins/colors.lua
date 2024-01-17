@@ -31,7 +31,7 @@ function ListColors()
     print(colorStr)
 end
 
-function setup_color_schemes()
+local function setup_color_schemes()
     require('rose-pine').setup({
         variant = 'main'
     })

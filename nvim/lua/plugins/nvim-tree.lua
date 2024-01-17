@@ -1,4 +1,4 @@
-function nvim_tree_setup()
+local function nvim_tree_setup()
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrw_plugin = 1
 
