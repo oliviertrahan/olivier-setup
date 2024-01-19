@@ -10,6 +10,12 @@ local function setup_telescope()
                 i = {
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<C-j>"] = actions.move_selection_next,
+                    ["<C-c>"] = actions.close,
+                },
+                n = {
+                    ["<C-k>"] = actions.move_selection_previous,
+                    ["<C-j>"] = actions.move_selection_next,
+                    ["<C-c>"] = actions.close,
                 }
             }
         },
