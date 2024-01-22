@@ -15,7 +15,7 @@ Run `$ source env-setup.sh` to setup your mac/linux box ready for local dev
 
 Note: Run `$ source env-setup.zsh -l` to only run symlink updates
 
-### Adding to the script
+### Adding to the script - cd hooks
 
 your extra_zshrc.zsh may contain have to contain directory hooks to change git config based on working project example config used below.
 
@@ -52,6 +52,24 @@ switchSshBasedOnDir() {
     else
         switchsshwork
     fi
+}
+```
+
+### Adding to the script - tmux startup script
+
+Can add a tmux starting script, like the one below, can make it available to call from the shell.
+
+```
+tmuxW() {
+    tmux new-session -s work -n work-cli -d
+    tmux send-keys -t work:work-cli.0 "cd ~/workspace/rvezy-web-client-v3/ && nvimT" C-m #rvezy-web-client-v3
+    tmux split-pane -v -t work:work-cli
+    tmux send-keys -t work:work-cli.1 "cd ~/workspace/Operations-Dashboard/ && nvimT" C-m #operations-dashboard
+    tmux split-window -h -t work:work-cli
+    tmux send-keys -t work:work-cli.2 "cd ~/workspace/rvezy-back-end/ && nvimT" C-m #rvezy-back-end
+    tmux new-window -n work-nvim 
+    tmux send-keys -t work:work-nvim "nvimW" C-m #nvim
+    tmux attach -t work
 }
 ```
 

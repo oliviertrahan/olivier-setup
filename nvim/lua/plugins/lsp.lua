@@ -4,12 +4,12 @@ local function setup_lsp()
     lsp.preset("recommended")
 
     lsp.ensure_installed({
-        -- 'tsserver',
+        'tsserver',
         'rust_analyzer',
         'csharp_ls',
         'volar',
         'yamlls',
-        -- 'eslint',
+        'eslint',
         'bashls',
         'lua_ls'
     })
@@ -137,6 +137,10 @@ local function setup_lsp()
                 command = "EslintFixAll",
             })
         end,
+    })
+
+    lsp_config.tsserver.setup({
+        filetypes = { 'typescript', 'javascript' }
     })
 
     lsp_config.volar.setup {
