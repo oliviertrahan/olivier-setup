@@ -15,6 +15,8 @@ local function setup_telescope()
                 n = {
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<C-j>"] = actions.move_selection_next,
+                    ["H"] = actions.results_scrolling_up,
+                    ["L"] = actions.results_scrolling_down,
                     ["<C-c>"] = actions.close,
                 }
             }
