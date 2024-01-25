@@ -75,11 +75,11 @@ mvFromTo() {
 alias mvDl="mvFromTo ~/Downloads $PWD"
 
 #ruby 2 doesn't have gem exec command
-if [[ $(ruby --version) == 'ruby 2'* ]]; then
-    alias ls="colorls"
-else
-    alias ls="gem exec colorls"
-fi
+# if [[ $(ruby --version) == 'ruby 2'* ]]; then
+#     alias ls="colorls"
+# else
+#     alias ls="gem exec colorls"
+# fi
 
 #dotnet aliases
 alias dtf="dotnet test --filter"
