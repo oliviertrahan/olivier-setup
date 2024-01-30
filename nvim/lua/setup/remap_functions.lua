@@ -53,7 +53,7 @@ function exports.open_project_terminal()
 end
 
 function exports.set_print_snippet(is_visual, is_json, prefix, midfix, postfix, buffer)
-    local delete_op = is_visual and 'c' or 'ciw'
+    local delete_op = is_visual and 'c' or 'i'
     local keymap_mode = is_visual and 'v' or 'n'
     local keymap = is_json and '<leader>sjp' or '<leader>sp'
     local remap_str = delete_op .. prefix .. "<C-r>\"" .. midfix .. "<C-r>\"" .. postfix .. "<C-c>"
