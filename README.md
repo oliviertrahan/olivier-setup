@@ -77,7 +77,7 @@ tmuxW() {
 
 ### Workspace
 
-put a startup script which starts all your working directories in `lua/not_pushed/startup.lua`
+put a startup script which starts all your working directories in `lua/not_pushed/work_startup.lua`
 the script will look something like 
 
 ```
@@ -97,10 +97,10 @@ end
 vim.cmd("tabn 1")
 ```
 
-then set a shell alias as below
+then set a shell alias as below in your extra_zshrc.zsh file
 
 ```
-alias nvimS="nvim -S ~/.config/nvim/lua/not_pushed/startup.lua"
+alias nvimW="nvim -S ~/.config/nvim/lua/not_pushed/work_startup.lua"
 ```
 
 ### C# setup
