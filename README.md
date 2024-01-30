@@ -62,11 +62,11 @@ Can add a tmux starting script, like the one below, can make it available to cal
 ```
 tmuxW() {
     tmux new-session -s work -n work-cli -d
-    tmux send-keys -t work:work-cli.0 "cd ~/workspace/rvezy-web-client-v3/ && nvimT" C-m #rvezy-web-client-v3
+    tmux send-keys -t work:work-cli.0 "cd ~/workspace/rvezy-web-client-v3/ && launchdev -a w" C-m #rvezy-web-client-v3
     tmux split-pane -v -t work:work-cli
-    tmux send-keys -t work:work-cli.1 "cd ~/workspace/Operations-Dashboard/ && nvimT" C-m #operations-dashboard
+    tmux send-keys -t work:work-cli.1 "cd ~/workspace/Operations-Dashboard/ && launchdev -a o" C-m #operations-dashboard
     tmux split-window -h -t work:work-cli
-    tmux send-keys -t work:work-cli.2 "cd ~/workspace/rvezy-back-end/ && nvimT" C-m #rvezy-back-end
+    tmux send-keys -t work:work-cli.2 "cd ~/workspace/rvezy-back-end/ && launchdev -a b" C-m #rvezy-back-end
     tmux new-window -n work-nvim 
     tmux send-keys -t work:work-nvim "nvimW" C-m #nvim
     tmux attach -t work
