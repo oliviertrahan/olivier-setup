@@ -88,6 +88,10 @@ mac_install() {
     fi
 }
 
+install_nodejs_deb() {
+    curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - && sudo apt-get install -y nodejs 
+}
+
 linux_install() {
     # Currently assuming a Debian-based distro
     which rg || sudo apt install ripgrep
@@ -95,6 +99,15 @@ linux_install() {
     which jq || sudo apt install jq
     which tmux || sudo apt install tmux
     which code || sudo apt install visual-studio-code #fuck it why not
+    which node || install_nodejs_deb 
+    which pcregrep || sudo apt install pcregrep
+    node_major=$(node --version | pcregrep -io1 '^v([0-9]+)\.')
+    if [ $node_major -le 20 ]; then
+        echo "node major installed version is $node_major which is too low. Installing" 
+        install_nodejs_deb
+    else
+        echo "node major is $node_major which is high enough"
+    fi
     which npm || sudo apt install npm
     which thefuck || sudo apt install thefuck
     #Might need a patched font here
@@ -102,6 +115,7 @@ linux_install() {
     which ruby || sudo apt install ruby-full
     which colorls || sudo gem install colorls
     which nvim || sudo apt install neovim
+    
 }
 
 bash_version=$(bash --version)
