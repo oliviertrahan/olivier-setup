@@ -115,12 +115,6 @@ if [[ $update_only_links == 0 ]]; then
         linux_install
     fi
 
-    #Neovim setup
-    if [ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
-        git clone --depth 1 https://github.com/wbthomason/packer.nvim \
-            ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-    fi
-
     #zsh plugins
     if [ -d ~/.oh-my-zsh ]; then
         echo "oh-my-zsh already installed"
@@ -149,6 +143,13 @@ if [[ $update_only_links == 0 ]]; then
             ${ZSH_CUSTOM}/themes/powerlevel10k
     fi
 fi
+
+    #Tmux setup
+    if [ ! -e  ~/.tmux/plugins/tpm ]; then
+        git clone https://github.com/tmux-plugins/tpm \
+            ~/.tmux/plugins/tpm
+    fi
+
 
 if [ -e ./extra_zshrc.zsh ]; then
 	echo "Found extra_zshrc.zsh."
