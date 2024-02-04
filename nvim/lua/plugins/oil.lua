@@ -146,8 +146,8 @@ local function setup_oil()
     })
 
     vim.keymap.set('n', '<leader>ft', '<cmd>Oil --float .<CR>', { noremap = true, silent = true })
-    vim.keymap.set('n', '<leader>fs', '<cmd>lefta vnew<CR><C-w>h<cmd>vertical resize 50<CR><cmd>e .<CR>', { noremap = true })
-    vim.keymap.set('n', '<leader>fa', '<cmd>call setreg("n", expand("%:h"))<CR><cmd>lefta vnew<CR><C-w>h<cmd>vertical resize 50<CR><cmd>exe "e" getreg("n")<CR>', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>fs', '<cmd>lefta vnew<CR><cmd>vertical resize 50<CR><cmd>e .<CR>', { noremap = true })
+    vim.keymap.set('n', '<leader>fa', '<cmd>call setreg("n", expand("%:h"))<CR><cmd>lefta vnew<CR><cmd>vertical resize 50<CR><cmd>exe "e" getreg("n")<CR>', { noremap = true, silent = true })
 end
 
 return {
