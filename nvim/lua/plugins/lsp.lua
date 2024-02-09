@@ -4,10 +4,10 @@ local function setup_lsp()
     lsp.preset("recommended")
 
     lsp.ensure_installed({
-        'tsserver',
-        'rust_analyzer',
-        'csharp_ls',
-        'volar',
+        -- 'tsserver',
+        -- 'rust_analyzer',
+        -- 'csharp_ls',
+        -- 'volar',
         'yamlls',
         'eslint',
         'bashls',
@@ -117,16 +117,19 @@ local function setup_lsp()
 
     local lsp_config = require('lspconfig')
 
-    lsp_config.csharp_ls.setup({
-        root_dir = function(startpath)
-            local cwd = vim.fn.getcwd()
-            return lsp_config.util.root_pattern("*.sln")(cwd)
+    if lsp_config.csharp_ls then
+        lsp_config.csharp_ls.setup({
+            root_dir = function(startpath)
+                local cwd = vim.fn.getcwd()
+                return lsp_config.util.root_pattern("*.sln")(cwd)
                 or lsp_config.util.root_pattern("*.sln")(startpath)
                 or lsp_config.util.root_pattern("*.csproj")(startpath)
                 or lsp_config.util.root_pattern("*.fsproj")(startpath)
                 or lsp_config.util.root_pattern(".git")(startpath)
-        end
-    })
+            end
+        })
+    end
+
 
 
     --eslint LSP attaches formatting command, use it
@@ -138,10 +141,12 @@ local function setup_lsp()
             })
         end,
     })
-
-    lsp_config.tsserver.setup({
-        filetypes = { 'typescript', 'javascript' }
-    })
+    
+    if lsp_config.tsserver then
+        lsp_config.tsserver.setup({
+            filetypes = { 'typescript', 'javascript' }
+        })
+    end
 
     lsp_config.volar.setup {
         filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' }
