@@ -55,11 +55,12 @@ local function setup_telescope()
     vim.keymap.set('v', '<leader>fg', function()
         vim.cmd('norm! y')
         builtin.grep_string { search = vim.fn.getreg('"') }
+        local key = vim.api.nvim_replace_termcodes("<C-c>", true, false, true)
+        vim.api.nvim_feedkeys(key, "n", true)
     end, {})
     -- vim.keymap.set('n', '<leader>fcg', function() builtin.live_grep{ search_dirs = {vim.fn.expand("%:p")}} end, {})
     vim.keymap.set('n', '<leader>fcg', '<cmd>Telescope current_buffer_fuzzy_find<CR>', {})
     vim.keymap.set('v', '<leader>fcg', 'y<cmd>Telescope current_buffer_fuzzy_find<CR><C-r>"', {})
-    vim.keymap.set('n', '<leader>fyg', 'yiw<cmd>Telescope live_grep<CR><C-r>"', {})
 
     local function get_working_directories()
         local tabpages = vim.api.nvim_list_tabpages()
