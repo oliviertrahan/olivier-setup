@@ -1,12 +1,15 @@
 local validColorSchemes = {
     "kanagawa",
-    "rose-pine",
+    "rose-pine-moon",
     "catppuccin-mocha",
+    "tokyonight-moon",
+    "dracula-soft",
+    "sonokai",
+    "nord"
+    -- "oxocarbon",
     -- "nightfly",
     -- "gruvbox-baby",
-    "tokyonight-moon",
-    -- "oxocarbon",
-    "dracula"
+    -- "everforest",
 }
 
 function NewColor()
@@ -33,7 +36,7 @@ end
 
 local function setup_color_schemes()
     require('rose-pine').setup({
-        variant = 'main'
+        variant = 'moon'
     })
 
     require('catppuccin').setup({
@@ -57,6 +60,10 @@ return {
             'folke/tokyonight.nvim',
             'nyoom-engineering/oxocarbon.nvim',
             'Mofiqul/dracula.nvim',
+            'sainnhe/everforest',
+            'sainnhe/sonokai',
+            'loctvl842/monokai-pro.nvim',
+            'nordtheme/vim'
         },
         config = setup_color_schemes
     }
