@@ -110,6 +110,17 @@ autocmd('BufEnter', {
     end,
 })
 
+autocmd('BufEnter', {
+    group = snippet_group,
+    pattern = { '*.py' },
+    callback = function(ev)
+        set_print_snippet(true, false, "print(f\"", ": {", "}\")", ev.buf)
+        set_print_snippet(false, false, "print(f\"", ": {", "}\")", ev.buf)
+        set_print_snippet(true, true, "print(f\"", ": {json.dumps(", ")}\")", ev.buf)
+        set_print_snippet(false, true, "print(f\"", ": {json.dumps(", ")}\")", ev.buf)
+    end,
+})
+
 --Terminal mode improvement
 vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
