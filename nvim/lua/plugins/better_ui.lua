@@ -174,10 +174,7 @@ end
 
 return {
   "folke/noice.nvim",
-  event = "VeryLazy",
-  opts = {
-    -- add any options here
-  },
+  lazy = vim.g.started_by_firenvim,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",
@@ -185,6 +182,9 @@ return {
     "stevearc/dressing.nvim"
   },
   config = function ()
+    if vim.g.started_by_firenvim then
+      return
+    end
     setup_noice()
     setup_dressing()
     require("telescope").load_extension("noice")
