@@ -1,6 +1,15 @@
 local exports = {}
 local projectTermMap = {}
 local extraTermMap = {}
+local debugInBuf = nil
+local debugOutBuf = nil
+local debugFileTypeToCommand = {
+    go = { "go", "run" },
+    py = { "python3" },
+    js = { "node" },
+    mjs = { "node" },
+    cjs = { "node" },
+}
 
 local function open_terminal_buffer(bufId)
     local open_term_buf = function(id)
@@ -63,5 +72,57 @@ function exports.set_print_snippet(is_visual, is_json, prefix, midfix, postfix, 
     end
     vim.keymap.set(keymap_mode, keymap, remap_str, opts)
 end
+
+---@diagnostic disable-next-line: duplicate-set-field
+function table.shallow_copy(t)
+  local t2 = {}
+  for k,v in pairs(t) do
+    t2[k] = v
+  end
+  return t2
+end
+
+function exports.create_debug_buffer()
+    local debugFile = vim.fn.expand("%:p") -- full path from root
+    local debugFilePattern = vim.fn.expand("%") -- path relative to working directory
+    local currentWin = vim.api.nvim_get_current_win()
+    vim.cmd("rightb new")
+    debugOutBuf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_set_current_win(currentWin)
+
+    vim.api.nvim_create_autocmd("BufWritePost", {
+        group = vim.api.nvim_create_augroup("DebugBuffer", { clear = true }),
+        pattern = debugFilePattern,
+        callback = function()
+            local debugFileType = vim.fn.expand("%:e")
+            local command = debugFileTypeToCommand[debugFileType]
+            if command == nil then
+                return
+            end
+            -- append the file name to the command for debugging. Revisit this if it doesn't work for a certain CLI tool
+            local runCommand = table.shallow_copy(command)
+            table.insert(runCommand, debugFile)
+
+            -- Clear the buffer
+            local line_count = vim.api.nvim_buf_line_count(debugOutBuf)
+            vim.api.nvim_buf_set_lines(debugOutBuf, 0, line_count, false, {})
+
+            vim.fn.jobstart(runCommand, {
+                stdout_buffered = true,
+                on_stdout = function(_, data, _)
+                    if data then
+                    	vim.api.nvim_buf_set_lines(debugOutBuf, -1, -1, false, data)
+                	end
+                end,
+                on_stderr = function(_, data, _)
+                    if data then
+                    	vim.api.nvim_buf_set_lines(debugOutBuf, -1, -1, false, data)
+                	end
+                end
+            })
+        end
+    })
+end
+
 
 return exports

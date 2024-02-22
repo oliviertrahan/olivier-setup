@@ -2,6 +2,7 @@ local remap_funcs = require('setup.remap_functions')
 local set_print_snippet = remap_funcs.set_print_snippet
 local open_project_terminal = remap_funcs.open_project_terminal
 local open_terminal = remap_funcs.open_terminal
+local create_debug_buffer = remap_funcs.create_debug_buffer
 
 vim.g.mapleader = " "
 
@@ -26,7 +27,7 @@ vim.keymap.set("n", "<leader>pp", function()
 end)
 vim.keymap.set("n", "<leader>ss", "yiw:%s/<C-r>\"//g<Left><Left>") -- go back to last file
 vim.keymap.set("v", "<leader>ss", "y:%s/<C-r>\"//g<Left><Left>")   -- go back to last file
-
+vim.keymap.set("n", "<leader>dd", create_debug_buffer)
 
 -- create new line without going into insert mode
 vim.keymap.set("n", "<leader>O", "Oi<ESC>\"_dl", { noremap = false })
