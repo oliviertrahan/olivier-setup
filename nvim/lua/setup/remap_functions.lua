@@ -1,7 +1,6 @@
 local exports = {}
 local projectTermMap = {}
 local extraTermMap = {}
-local debugInBuf = nil
 local debugOutBuf = nil
 local debugFileTypeToCommand = {
     go = { "go", "run" },
