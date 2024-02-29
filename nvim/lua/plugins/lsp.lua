@@ -131,18 +131,6 @@ local function setup_lsp()
         })
     end
 
-
-
-    --eslint LSP attaches formatting command, use it
-    lsp_config.eslint.setup({
-        on_attach = function(_, bufnr)
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                buffer = bufnr,
-                command = "EslintFixAll",
-            })
-        end,
-    })
-    
     if lsp_config.tsserver then
         lsp_config.tsserver.setup({
             filetypes = { 'typescript', 'javascript' }
