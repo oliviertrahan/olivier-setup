@@ -45,6 +45,7 @@ local function setup_telescope()
     local find_standard = function() builtin.find_files({ find_command = find_standard_params }) end
     local find_include_gitignore = function() builtin.find_files({ find_command = find_include_gitignore_params }) end
 
+    vim.keymap.set('n', '<leader>ft', '<cmd>lua require("telescope-tabs").list_tabs()<CR><ESC>', {})
     vim.keymap.set('n', '<leader>ff', find_standard, {})
     vim.keymap.set('n', '<leader>fhf', find_include_gitignore, {})
     vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
@@ -100,6 +101,10 @@ return {
         'nvim-telescope/telescope.nvim',
         version = '0.1.4',
         dependencies = { { 'nvim-lua/plenary.nvim' } }
+    },
+    {
+        'LukasPietzschmann/telescope-tabs',
+        dependencies = { { 'nvim-telescope/telescope.nvim' } },
     },
     {
         'nvim-telescope/telescope-file-browser.nvim',
