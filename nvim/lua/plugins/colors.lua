@@ -20,7 +20,7 @@ function NewColor()
         colorscheme = validColorSchemes[choice]
     end
     vim.cmd(string.format('colorscheme %s', colorscheme))
-    print(string.format("chosen colorscheme: %s", colorscheme))
+    -- print(string.format("chosen colorscheme: %s", colorscheme))
 end
 
 function ListColors()

@@ -3,11 +3,24 @@ local projectTermMap = {}
 local extraTermMap = {}
 local debugOutBuf = nil
 local debugFileTypeToCommand = {
-    go = { "go", "run" },
-    py = { "python3" },
-    js = { "node" },
-    mjs = { "node" },
-    cjs = { "node" },
+    go = function(fileName)
+        return { "go", "run", fileName }
+    end,
+    py = function(fileName)
+        return { "python3", fileName }
+    end,
+    js = function(fileName)
+        return { "node", fileName }
+    end,
+    mjs = function(fileName)
+        return { "node", fileName }
+    end,
+    cjs = function(fileName)
+        return { "node", fileName }
+    end,
+    lua = function(fileName)
+        return { "nvim", "--headless", "-c", 'source ' .. fileName .. ' | qa!' }
+    end,
 }
 
 local function open_terminal_buffer(bufId)
@@ -81,6 +94,27 @@ function table.shallow_copy(t)
   return t2
 end
 
+
+function run_external_command_and_print_output(command)
+    -- Clear the buffer
+    local line_count = vim.api.nvim_buf_line_count(debugOutBuf)
+    vim.api.nvim_buf_set_lines(debugOutBuf, 0, line_count, false, {})
+
+    vim.fn.jobstart(command, {
+        stdout_buffered = true,
+        on_stdout = function(_, data, _)
+            if data then
+                vim.api.nvim_buf_set_lines(debugOutBuf, -1, -1, false, data)
+            end
+        end,
+        on_stderr = function(_, data, _)
+            if data then
+                vim.api.nvim_buf_set_lines(debugOutBuf, -1, -1, false, data)
+            end
+        end
+    })
+end
+
 function exports.create_debug_buffer()
     local debugFile = vim.fn.expand("%:p") -- full path from root
     local debugFilePattern = vim.fn.expand("%") -- path relative to working directory
@@ -94,31 +128,12 @@ function exports.create_debug_buffer()
         pattern = debugFilePattern,
         callback = function()
             local debugFileType = vim.fn.expand("%:e")
-            local command = debugFileTypeToCommand[debugFileType]
-            if command == nil then
+            local commandFunc = debugFileTypeToCommand[debugFileType]
+            if commandFunc == nil then
                 return
             end
-            -- append the file name to the command for debugging. Revisit this if it doesn't work for a certain CLI tool
-            local runCommand = table.shallow_copy(command)
-            table.insert(runCommand, debugFile)
-
-            -- Clear the buffer
-            local line_count = vim.api.nvim_buf_line_count(debugOutBuf)
-            vim.api.nvim_buf_set_lines(debugOutBuf, 0, line_count, false, {})
-
-            vim.fn.jobstart(runCommand, {
-                stdout_buffered = true,
-                on_stdout = function(_, data, _)
-                    if data then
-                    	vim.api.nvim_buf_set_lines(debugOutBuf, -1, -1, false, data)
-                	end
-                end,
-                on_stderr = function(_, data, _)
-                    if data then
-                    	vim.api.nvim_buf_set_lines(debugOutBuf, -1, -1, false, data)
-                	end
-                end
-            })
+            local command = commandFunc(debugFile)
+            run_external_command_and_print_output(command)
         end
     })
 end

@@ -11,12 +11,14 @@ return {
 
     config = function()
         local dap = require('dap')
+        local dapui = require("dapui")
         vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
         vim.keymap.set("n", "<leader>dc", dap.continue)
         vim.keymap.set("n", "<leader>dso", dap.step_over)
         vim.keymap.set("n", "<leader>dgo", dap.step_out)
         vim.keymap.set("n", "<leader>di", dap.step_into)
         vim.keymap.set("n", "<leader>dro", dap.repl.open)
+        vim.keymap.set("n", "<leader>duc", dapui.close)
 
         vim.keymap.set({ 'n', 'v' }, '<leader>dh', function()
             require('dap.ui.widgets').hover()
