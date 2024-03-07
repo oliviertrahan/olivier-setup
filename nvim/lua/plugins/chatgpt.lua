@@ -1,5 +1,6 @@
 return {
     "jackMort/ChatGPT.nvim",
+  	lazy = vim.g.started_by_firenvim,
     dependencies = {
         "MunifTanjim/nui.nvim",
         "nvim-lua/plenary.nvim",

@@ -1,4 +1,7 @@
 local function setup_telescope()
+    if vim.g.started_by_firenvim then
+        return
+    end
     ---@diagnostic disable: undefined-global
     local telescope = require('telescope')
     local actions = require('telescope.actions')
@@ -100,14 +103,17 @@ return {
     {
         'nvim-telescope/telescope.nvim',
         version = '0.1.4',
+  		lazy = vim.g.started_by_firenvim,
         dependencies = { { 'nvim-lua/plenary.nvim' } }
     },
     {
         'LukasPietzschmann/telescope-tabs',
+  		lazy = vim.g.started_by_firenvim,
         dependencies = { { 'nvim-telescope/telescope.nvim' } },
     },
     {
         'nvim-telescope/telescope-file-browser.nvim',
+  		lazy = vim.g.started_by_firenvim,
         dependencies = { { 'nvim-telescope/telescope.nvim' } },
         config = setup_telescope
     },

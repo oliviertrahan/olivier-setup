@@ -30,6 +30,8 @@ vim.keymap.set("v", "<leader>ss", "y:%s/<C-r>\"//g<Left><Left>")   -- go back to
 vim.keymap.set("n", "<leader>dd", create_debug_buffer)
 vim.keymap.set("n", "/", "/\\c") -- Case Insensitive search
 vim.keymap.set("n", "?", "?\\c") -- Case Insensitive search
+vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
+vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list 
 
 -- create new line without going into insert mode
 vim.keymap.set("n", "<leader>O", "Oi<ESC>\"_dl", { noremap = false })

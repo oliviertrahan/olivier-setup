@@ -79,7 +79,7 @@ mac_install() {
 
     if [ ! -d ~/netcoredbg ]; then
         mkdir ~/netcoredbg
-        wget -P ~/netcoredbg/ "https://github.com/Samsung/netcoredbg/releases/download/3.0.0-1012/netcoredbg-osx-amd64.tar.gz"
+        wget -P ~/netcoredbg/ "https://github.com/Samsung/netcoredbg/releases/download/3.0.0-1018/netcoredbg-osx-amd64.tar.gz"
         cd ~/netcoredbg/
         tar -xf netcoredbg-osx-amd64.tar.gz
         cd netcoredbg
@@ -166,7 +166,7 @@ fi
 
 
 if [ -e ./extra_zshrc.zsh ]; then
-	echo "Found extra_zshrc.zsh."
+    echo "Found extra_zshrc.zsh."
     replace_file_and_link "$(pwd)/extra_zshrc.zsh" ~/extra_zshrc.zsh
 else
     echo "No extra_zshrc.zsh found"
