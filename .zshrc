@@ -89,13 +89,14 @@ alias dema="dotnet ef migrations add"
 alias dedu="dotnet ef database update"
 alias db="dotnet build"
 
-dtfs() {
-    #Fucking hate this fucking shit, fullyqualifiedname won't work when there are quotes 
+dtff() {
+    # fullyqualifiedname won't work when there are quotes, figure out how to make it work later
     # dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf | sed 's/\s*$//' | sed 's/^[ \t]*//' | sed 's/\"/\\\"/g' | tee yo.txt | xargs -I {} dotnet test --filter "FullyQualifiedName={}"
-    dotnet test -t --no-build -- | fzf |  xargs -I {} dotnet test --filter "{}"
+    # dotnet test -t --no-build -- | fzf |  xargs -I {} dotnet test --filter "{}"
+    dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf |  xargs -I {} dotnet test --filter "FullyQualifiedName={}"
 }
 
-autoload -Uz dtfs
+autoload -Uz dtff
 
 
 # git configs
@@ -144,7 +145,7 @@ alias gdtf="fuzzy_find_modified_files | xargs git difftool"
 alias gcbf="git_select_from_latest_branch | xargs git checkout"
 alias gcleanf="git ls-files --others --exclude-standard | fzf | xargs git clean -fd"
 alias gbDf="git_select_from_oldest_branch | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt"
-alias gstaf="fuzzy_find_modified_files | xargs git stash"
+alias gstaf="fuzzy_find_modified_files | xargs git stash push"
 
 alias gs="git status"
 alias ga="git add"
