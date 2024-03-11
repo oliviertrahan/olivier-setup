@@ -1,6 +1,6 @@
 return {
     "lewis6991/gitsigns.nvim",
-    lazy = not vim.g.started_by_firenvim,
+    lazy = vim.g.started_by_firenvim,
     config = function()
         if vim.g.started_by_firenvim then
           return

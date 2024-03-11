@@ -25,6 +25,7 @@ vim.keymap.set("n", "<leader>pp", function()
     vim.fn.setreg("+", path)
     vim.notify('Copied "' .. path .. '" to the clipboard!')
 end)
+
 vim.keymap.set("n", "<leader>ss", "yiw:%s/<C-r>\"//g<Left><Left>") -- go back to last file
 vim.keymap.set("v", "<leader>ss", "y:%s/<C-r>\"//g<Left><Left>")   -- go back to last file
 vim.keymap.set("n", "<leader>dd", create_debug_buffer)
@@ -48,8 +49,8 @@ vim.keymap.set("v", "L", "Lzz", { noremap = true })              --move down doc
 vim.keymap.set("v", ">", ">gv", { noremap = true })              --continue visually selecting after indenting
 vim.keymap.set("v", "<", "<gv", { noremap = true })              --continue visually selecting after indenting
 vim.keymap.set("v", "Y", "\"+ygv<Esc>", { noremap = true })      --Y to copy to system clipboard
-vim.keymap.set("v", "p", "\"_dP", { noremap = true })            --pasting over selected text doesn't delete what is in yank buffer
-vim.keymap.set("v", "P", "\"_d\"+P", { noremap = true })         --pasting over selected text doesn't delete what is in yank buffer
+vim.keymap.set("v", "p", "\"0p", { noremap = true })            --pasting over selected text doesn't delete what is in yank buffer
+vim.keymap.set("v", "P", "\"+p", { noremap = true })         	--pasting over selected text doesn't delete what is in yank buffer
 vim.keymap.set("v", "il", "<Esc>^v$h", { noremap = true })       --visually select whole line but not EOL char
 vim.keymap.set("v", "iL", "<Esc>^v$h", { noremap = true })       --visually select whole line but not EOL char
 
