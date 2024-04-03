@@ -6,6 +6,12 @@ local debugFileTypeToCommand = {
     go = function(fileName)
         return { "go", "run", fileName }
     end,
+    sh = function(fileName)
+        return { "sh", fileName }
+    end,
+    zsh = function(fileName)
+        return { "zsh", fileName }
+    end,
     py = function(fileName)
         return { "python3", fileName }
     end,
