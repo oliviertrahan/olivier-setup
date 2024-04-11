@@ -67,29 +67,17 @@ local function setup_lsp()
             local telescope = require('telescope.builtin')
             if telescope then
                 definitions = telescope.lsp_definitions
-                references = telescope.lsp_references
+                references = '<cmd>lua require("telescope.builtin").lsp_references()<CR><ESC>'
                 implementations = telescope.lsp_implementations
                 workspace_symbols = telescope.lsp_workspace_symbols
                 document_symbols = telescope.lsp_document_symbols
             end
 
             local opts = { buffer = ev.buf }
-            vim.keymap.set("n", "gd", function()
-                definitions()
-                vim.cmd("norm zz")
-            end, opts)
-            vim.keymap.set("n", "gD", function()
-                declarations()
-                vim.cmd("norm zz")
-            end, opts)
-            vim.keymap.set("n", "gr", function()
-                references()
-                vim.cmd("norm zz")
-            end, opts)
-            vim.keymap.set("n", "gi", function()
-                implementations()
-                vim.cmd("norm zz")
-            end, opts)
+            vim.keymap.set("n", "gd", definitions)
+            vim.keymap.set("n", "gD", declarations)
+            vim.keymap.set("n", "gr", references)
+            vim.keymap.set("n", "gi", implementations)
             vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
             vim.keymap.set("n", "=", vim.lsp.buf.format, opts)
             vim.keymap.set("n", "<leader>vws", workspace_symbols, opts)
