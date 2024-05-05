@@ -103,6 +103,25 @@ then set a shell alias as below in your extra_zshrc.zsh file
 alias nvimW="nvim -S ~/.config/nvim/lua/not_pushed/work_startup.lua"
 ```
 
+### Neoformat config
+
+Put a lua file in `lua/not_pushed/neoformat_config.lua` with the following content of format like this
+
+```
+local neoformat_formatter_config_list = {}
+table.insert(neoformat_formatter_config_list, {
+    neoformat_command = 'black',
+    filetypes = { 'py' },
+    dir_path = '~/personal',
+})
+table.insert(neoformat_formatter_config_list, {
+    neoformat_command = 'prettier',
+    filetypes = { 'vue', 'js', 'mjs', 'cjs' },
+    dir_path = '~/workspace/rvezy-web-client-v3',
+})
+return neoformat_formatter_config_list
+```
+
 ### C# setup
 
 Put values for C# project configs in `csharp_project_configs` in the `nvim/plugin/not_pushed` folder. 

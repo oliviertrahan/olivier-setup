@@ -26,6 +26,14 @@ vim.keymap.set("n", "<leader>pp", function()
     vim.notify('Copied "' .. path .. '" to the clipboard!')
 end)
 
+-- function YankWithoutMoving()
+--     local save_cursor = vim.api.nvim_win_get_cursor(0)
+--     vim.cmd([[normal! `[v`]y]])
+--     vim.api.nvim_win_set_cursor(0, save_cursor)
+-- end
+-- -- Create a mapping for yanking without moving the cursor
+-- vim.keymap.set('n', 'y', ':lua YankWithoutMoving()<CR>', { noremap = true, silent = true })
+
 vim.keymap.set("n", "<leader>ss", "yiw:%s/<C-r>\"//g<Left><Left>") -- go back to last file
 vim.keymap.set("v", "<leader>ss", "y:%s/<C-r>\"//g<Left><Left>")   -- go back to last file
 vim.keymap.set("n", "<leader>dd", create_debug_buffer)
@@ -89,8 +97,8 @@ vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
 set_print_snippet(true, false, "vim.print(\"", ": \" .. ", ")")
 set_print_snippet(false, false, "vim.print(\"", ": \" .. ", ")")
-set_print_snippet(true, true, "vim.print(\"", ": \" .. ", ")")
-set_print_snippet(false, true, "vim.print(\"", ": \" .. ", ")")
+set_print_snippet(true, true, "vim.print(\"", ": \" .. dump(", "))")
+set_print_snippet(false, true, "vim.print(\"", ": \" .. dump(", "))")
 
 local snippet_group = vim.api.nvim_create_augroup('augroup', {})
 local autocmd = vim.api.nvim_create_autocmd
