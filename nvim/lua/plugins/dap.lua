@@ -1,3 +1,6 @@
+
+local _, csharp_project_configs = pcall(function() return require('not_pushed.csharp_project_configs') end)
+
 function dap_config()
     local dap = require('dap')
     local dapui = require("dapui")
@@ -32,7 +35,7 @@ function dap_config()
     }
 
     vim.g.select_dotnet_project = function()
-        if csharp_project_configs == nil then
+        if not csharp_project_configs then
             vim.print("No project configs found")
             return
         end
