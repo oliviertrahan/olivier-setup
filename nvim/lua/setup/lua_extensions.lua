@@ -1,0 +1,40 @@
+function interp(s, tab)
+  return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+end
+
+function standardize_url(url)
+    if url:sub(-1) ~= '/' then
+        return url .. '/'
+    end
+    return url
+end
+
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
+---@diagnostic disable-next-line: duplicate-set-field
+function shallow_copy(t)
+  local t2 = {}
+  for k,v in pairs(t) do
+    t2[k] = v
+  end
+  return t2
+end
+
+getmetatable("").shallow_copy = shallow_copy
+getmetatable("").dump = dump
+getmetatable("").standardize_url = standardize_url
+getmetatable("").interp = interp
+getmetatable("").__mod = interp
+-- print( interp("${name} is ${value}", {name = "foo", value = "bar"}) )
+-- print( "${name} is ${value}" % {name = "foo", value = "bar"} )

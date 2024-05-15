@@ -79,7 +79,19 @@ function exports.open_project_terminal()
     end
 end
 
-function exports.set_print_snippet(is_visual, is_json, prefix, midfix, postfix, buffer)
+
+function exports.set_print_snippet(kwargs)
+    local is_visual = kwargs.is_visual
+    local is_json = kwargs.is_json
+    local prefix = kwargs.prefix
+    local midfix = kwargs.midfix
+    local postfix = kwargs.postfix
+    local buffer = kwargs.buffer
+
+    local copyVal = vim.fn.getreg('"')
+
+
+    
     local delete_op = is_visual and 'c' or 'o'
     local keymap_mode = is_visual and 'v' or 'n'
     local keymap = is_json and '<leader>sjp' or '<leader>sp'
@@ -90,6 +102,19 @@ function exports.set_print_snippet(is_visual, is_json, prefix, midfix, postfix, 
     end
     vim.keymap.set(keymap_mode, keymap, remap_str, opts)
 end
+
+
+-- function exports.set_print_snippet(is_visual, is_json, prefix, midfix, postfix, buffer)
+--     local delete_op = is_visual and 'c' or 'o'
+--     local keymap_mode = is_visual and 'v' or 'n'
+--     local keymap = is_json and '<leader>sjp' or '<leader>sp'
+--     local remap_str = delete_op .. prefix .. "<C-r>\"" .. midfix .. "<C-r>\"" .. postfix .. "<C-c>"
+--     local opts = {}
+--     if buffer then
+--         opts.buffer = buffer
+--     end
+--     vim.keymap.set(keymap_mode, keymap, remap_str, opts)
+-- end
 
 ---@diagnostic disable-next-line: duplicate-set-field
 function table.shallow_copy(t)

@@ -99,6 +99,7 @@ set_print_snippet(true, false, "vim.print(\"", ": \" .. ", ")")
 set_print_snippet(false, false, "vim.print(\"", ": \" .. ", ")")
 set_print_snippet(true, true, "vim.print(\"", ": \" .. dump(", "))")
 set_print_snippet(false, true, "vim.print(\"", ": \" .. dump(", "))")
+set_print_snippet(false, true, "vim.print(\"", ": \" .. dump(", "))")
 
 local snippet_group = vim.api.nvim_create_augroup('augroup', {})
 local autocmd = vim.api.nvim_create_autocmd
