@@ -95,11 +95,10 @@ vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
 
 -- print snippets in multiple languages
 
-set_print_snippet(true, false, "vim.print(\"", ": \" .. ", ")")
-set_print_snippet(false, false, "vim.print(\"", ": \" .. ", ")")
-set_print_snippet(true, true, "vim.print(\"", ": \" .. dump(", "))")
-set_print_snippet(false, true, "vim.print(\"", ": \" .. dump(", "))")
-set_print_snippet(false, true, "vim.print(\"", ": \" .. dump(", "))")
+set_print_snippet({ is_visual = true,  is_json = false, format = 'vim.print("${copy}: " .. ${copy})'})
+set_print_snippet({ is_visual = false, is_json = false, format = 'vim.print("${copy}: " .. ${copy})' })
+set_print_snippet({ is_visual = true,  is_json = true,  format = 'vim.print("${copy}: " .. dump(${copy}))' })
+set_print_snippet({ is_visual = false, is_json = true,  format = 'vim.print("${copy}: " .. dump(${copy}))' })
 
 local snippet_group = vim.api.nvim_create_augroup('augroup', {})
 local autocmd = vim.api.nvim_create_autocmd
@@ -108,10 +107,10 @@ autocmd('BufEnter', {
     group = snippet_group,
     pattern = '*.cs',
     callback = function(ev)
-        set_print_snippet(true, false, "Console.WriteLine($\"", ": {", "}\");", ev.buf)
-        set_print_snippet(false, false, "Console.WriteLine($\"", ": {", "}\");", ev.buf)
-        set_print_snippet(true, true, "Console.WriteLine($\"", ": {JsonConvert.SerializeObject(", ")}\");", ev.buf)
-        set_print_snippet(false, true, "Console.WriteLine($\"", ": {JsonConvert.SerializeObject(", ")}\");", ev.buf)
+        set_print_snippet({ is_visual = true,  is_json = false, format = 'Console.WriteLine("${copy}: " +  ${copy});', buffer = ev.buf })
+        set_print_snippet({ is_visual = false, is_json = false, format = 'Console.WriteLine("${copy}: " +  ${copy});', buffer = ev.buf })
+        set_print_snippet({ is_visual = true,  is_json = true,  format = 'Console.WriteLine("${copy}: " +  JsonConvert.SerializeObject(${copy}));', buffer = ev.buf })
+        set_print_snippet({ is_visual = false, is_json = true,  format = 'Console.WriteLine("${copy}: " +  JsonConvert.SerializeObject(${copy}));', buffer = ev.buf })
     end,
 })
 
@@ -119,10 +118,10 @@ autocmd('BufEnter', {
     group = snippet_group,
     pattern = { '*.js', '*.mjs', '*.cjs', '*.vue' },
     callback = function(ev)
-        set_print_snippet(true, false, "console.log(`", ": ${", "}`)", ev.buf)
-        set_print_snippet(false, false, "console.log(`", ": ${", "}`)", ev.buf)
-        set_print_snippet(true, true, "console.log(`", ": ${JSON.stringify(", ")}`)", ev.buf)
-        set_print_snippet(false, true, "console.log(`", ": ${JSON.stringify(", ")}`)", ev.buf)
+        set_print_snippet({ is_visual = true,  is_json = false, format = 'console.log("${copy}: " + ${copy})', buffer = ev.buf })
+        set_print_snippet({ is_visual = false, is_json = false, format = 'console.log("${copy}: " + ${copy})', buffer = ev.buf })
+        set_print_snippet({ is_visual = true,  is_json = true,  format = 'console.log("${copy}: " + JSON.stringify(${copy}))', buffer = ev.buf })
+        set_print_snippet({ is_visual = false, is_json = true,  format = 'console.log("${copy}: " + JSON.stringify(${copy}))', buffer = ev.buf })
     end,
 })
 
@@ -130,10 +129,10 @@ autocmd('BufEnter', {
     group = snippet_group,
     pattern = { '*.py' },
     callback = function(ev)
-        set_print_snippet(true, false, "print(f\"", ": {", "}\")", ev.buf)
-        set_print_snippet(false, false, "print(f\"", ": {", "}\")", ev.buf)
-        set_print_snippet(true, true, "print(f\"", ": {json.dumps(", ")}\")", ev.buf)
-        set_print_snippet(false, true, "print(f\"", ": {json.dumps(", ")}\")", ev.buf)
+        set_print_snippet({ is_visual = true,  is_json = false, format = 'print("${copy}: " + ${copy})', buffer = ev.buf })
+        set_print_snippet({ is_visual = false, is_json = false, format = 'print("${copy}: " + ${copy})', buffer = ev.buf })
+        set_print_snippet({ is_visual = true,  is_json = true,  format = 'print("${copy}: " + json.dumps(${copy}))', buffer = ev.buf })
+        set_print_snippet({ is_visual = false, is_json = true,  format = 'print("${copy}: " + json.dumps(${copy}))', buffer = ev.buf })
     end,
 })
 
