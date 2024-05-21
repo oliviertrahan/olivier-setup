@@ -196,7 +196,7 @@ export HOMEBREW_NO_INSTALL_CLEANUP=
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-source $(dirname $(gem which colorls))/tab_complete.sh
+# source $(dirname $(gem which colorls))/tab_complete.sh
 
 #always keep this at end of file
 if [ -e ~/extra_zshrc.zsh ]; then
