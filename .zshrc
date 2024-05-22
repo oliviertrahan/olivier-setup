@@ -74,13 +74,6 @@ mvFromTo() {
 }
 alias mvDl="mvFromTo ~/Downloads $PWD"
 
-#ruby 2 doesn't have gem exec command
-# if [[ $(ruby --version) == 'ruby 2'* ]]; then
-#     alias ls="colorls"
-# else
-#     alias ls="gem exec colorls"
-# fi
-
 #dotnet aliases
 alias dtf="dotnet test --filter"
 # alias dtfs="dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf | sed 's/^[ \t]*//' | sed 's/\"/\\\"/g' | xargs -0 -I {} dotnet test --filter \"FullyQualifiedName={}\""
@@ -195,8 +188,6 @@ export HOMEBREW_NO_INSTALL_CLEANUP=
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# source $(dirname $(gem which colorls))/tab_complete.sh
 
 #always keep this at end of file
 if [ -e ~/extra_zshrc.zsh ]; then
