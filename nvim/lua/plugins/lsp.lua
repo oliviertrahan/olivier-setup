@@ -133,6 +133,8 @@ local function setup_lsp()
     vim.diagnostic.config({
         virtual_text = true
     })
+    
+    require("lsp-file-operations").setup()
 end
 
 return {
@@ -156,6 +158,11 @@ return {
             -- Snippets
             { 'L3MON4D3/LuaSnip' },
             { 'rafamadriz/friendly-snippets' },
+            
+            -- nvim-lsp-file-operations
+            { 'antosha417/nvim-lsp-file-operations' },
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-tree/nvim-tree.lua' }
         },
         config = setup_lsp
     }
