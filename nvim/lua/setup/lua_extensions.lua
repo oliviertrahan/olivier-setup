@@ -11,6 +11,15 @@ function standardize_url(url)
 	return url
 end
 
+function uuid()
+	local random = math.random
+	local template = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+	return string.gsub(template, "[xy]", function(c)
+		local v = (c == "x") and random(0, 0xf) or random(8, 0xb)
+		return string.format("%x", v)
+	end)
+end
+
 function dump(o)
 	if type(o) == "table" then
 		local s = "{ "
@@ -47,5 +56,4 @@ getmetatable("").dump = dump
 getmetatable("").standardize_url = standardize_url
 getmetatable("").interp = interp
 getmetatable("").insertAtCursor = insertAtCursor
--- print( interp("${name} is ${value}", {name = "foo", value = "bar"}) )
--- print( "${name} is ${value}" % {name = "foo", value = "bar"} )
+getmetatable("").uuid = uuid

@@ -1,3 +1,5 @@
+vim.g.print_remap_func = {}
+
 local exports = {}
 local projectTermMap = {}
 local extraTermMap = {}
@@ -88,32 +90,21 @@ function exports.set_print_snippet(kwargs)
 	local delete_op = is_visual and "c" or "o"
 	local keymap_mode = is_visual and "v" or "n"
 	local keymap = is_json and "<leader>sjp" or "<leader>sp"
-	local remap_func = function()
+	local func_id = uuid()
+	local remap_func_tab = vim.g.print_remap_func
+	remap_func_tab[func_id] = function()
 		local copyVal = vim.fn.getreg('"')
 		local formattedInsert = interp(format, { copy = copyVal })
-		-- vim.api.nvim_feedkeys(delete_op, "t", {})
-		-- feed_keys(delete_op, "t", {})
-		insertAtCursor(formattedInsert)
-		vim.cmd("stopinsert!")
+		vim.fn.setreg("x", formattedInsert)
 	end
+	vim.g.print_remap_func = remap_func_tab
+	local remap_str = string.format("%s<cmd>lua vim.g.print_remap_func['%s']()<CR><C-r>x<ESC>", delete_op, func_id)
 	local opts = {}
 	if buffer then
 		opts.buffer = buffer
 	end
-	vim.keymap.set(keymap_mode, keymap, remap_func, opts)
+	vim.keymap.set(keymap_mode, keymap, remap_str, opts)
 end
-
--- function exports.set_print_snippet(is_visual, is_json, prefix, midfix, postfix, buffer)
---     local delete_op = is_visual and 'c' or 'o'
---     local keymap_mode = is_visual and 'v' or 'n'
---     local keymap = is_json and '<leader>sjp' or '<leader>sp'
---     local remap_str = delete_op .. prefix .. "<C-r>\"" .. midfix .. "<C-r>\"" .. postfix .. "<C-c>"
---     local opts = {}
---     if buffer then
---         opts.buffer = buffer
---     end
---     vim.keymap.set(keymap_mode, keymap, remap_str, opts)
--- end
 
 ---@diagnostic disable-next-line: duplicate-set-field
 function table.shallow_copy(t)
