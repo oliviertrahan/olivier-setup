@@ -1,12 +1,5 @@
 local exports = {}
 local projectTermMap = {}
-vim.print("projectTermMap: " .. projectTermMap)
-vim.print("projectTermMap: " .. projectTermMap)
-vim.print("projectTermMap: " .. projectTermMap)
-vim.print("projectTermMap: " .. projectTermMap)
-vim.print("projectTermMap: " .. projectTermMap)
-vim.print("projectTermMap: " .. projectTermMap)
-
 local extraTermMap = {}
 local debugOutBuf = nil
 local debugFileTypeToCommand = {
