@@ -61,6 +61,13 @@ Can add a tmux starting script, like the one below, can make it available to cal
 
 ```
 tmuxW() {
+    tmux has-session -t work 2> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "tmux work session already found. Attaching to it"
+        tmux a -t work
+        return
+    fi
+    echo "tmux work session not found. Creating it"
     tmux new-session -s work -n work-cli -d
     tmux send-keys -t work:work-cli.0 "cd ~/workspace/rvezy-web-client-v3/ && launchdev -a w" C-m #rvezy-web-client-v3
     tmux split-pane -v -t work:work-cli
@@ -69,7 +76,7 @@ tmuxW() {
     tmux send-keys -t work:work-cli.2 "cd ~/workspace/rvezy-back-end/ && launchdev -a b" C-m #rvezy-back-end
     tmux new-window -n work-nvim 
     tmux send-keys -t work:work-nvim "nvimW" C-m #nvim
-    tmux attach -t work
+    tmux a -t work
 }
 ```
 
