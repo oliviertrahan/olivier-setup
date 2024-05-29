@@ -3,6 +3,7 @@ require("setup.set")
 require("setup.remap")
 require("setup.lazy")
 require("setup.snippets")
+require("setup.print_snippets")
 vim.g.tab_names = {}
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd

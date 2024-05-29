@@ -45,13 +45,15 @@ local function setup_telescope()
 		},
 	})
 	telescope.load_extension("telescope-tabs")
+	local tab_display = function(tab_id, _, _, _, is_current)
+		local tab_name = vim.g.tab_names[tab_id] or ""
+		local current_str = is_current and "<" or ""
+		local tab_str = string.format("%s: %s %s", tab_id, tab_name, current_str)
+		return tostring(tab_str)
+	end
 	require("telescope-tabs").setup({
-		entry_formatter = function(tab_id, _, _, _, is_current)
-			local tab_name = vim.g.tab_names[tab_id] or ""
-			local current_str = is_current and "<" or ""
-			local tab_str = string.format("%s: %s %s", tab_id, tab_name, current_str)
-			return tostring(tab_str)
-		end,
+		entry_formatter = tab_display,
+		entry_ordinal = tab_display,
 	})
 
 	local builtin = require("telescope.builtin")
@@ -65,7 +67,7 @@ local function setup_telescope()
 		builtin.find_files({ find_command = find_include_gitignore_params })
 	end
 
-	vim.keymap.set("n", "<leader>ft", '<cmd>lua require("telescope-tabs").list_tabs()<CR><ESC>', {})
+	vim.keymap.set("n", "<leader>ft", '<cmd>lua require("telescope-tabs").list_tabs()<CR>', {})
 	vim.keymap.set("n", "<leader>ff", find_standard, {})
 	vim.keymap.set("n", "<leader>fhf", find_include_gitignore, {})
 	vim.keymap.set("n", "<leader>fb", builtin.buffers, {})

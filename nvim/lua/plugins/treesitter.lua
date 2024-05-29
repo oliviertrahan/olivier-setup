@@ -17,8 +17,6 @@ return {
 				enable = true,
 				additional_vim_regex_highlighting = false,
 			},
-		})
-		require("nvim-treesitter.configs").setup({
 			textobjects = {
 				swap = {
 					enable = true,
@@ -40,17 +38,17 @@ return {
 						["a="] = { query = "@assignment.outer", desc = "Select outer part of the assignment" },
 						["i="] = { query = "@assignment.inner", desc = "Select inner part of the assignment" },
 
-						["l="] = { query = "@assignment.lhs", desc = "Select left part of the assignment" },
-						["r="] = { query = "@assignment.rhs", desc = "Select right part of the assignment" },
+						["af"] = { query = "@function.outer", desc = "Select outer part of the function" },
+						["if"] = { query = "@function.inner", desc = "Select inner part of the function" },
 
-						["am"] = { query = "@function.outer", desc = "Select outer part of the function" },
-						["im"] = { query = "@function.inner", desc = "Select the inner part of the function" },
-
-						["ai"] = { query = "@conditional.outer", desc = "Select outer part of the conditional" },
-						["ii"] = { query = "@conditional.inner", desc = "Select the inner part of the conditional" },
+						["aa"] = { query = "@paramater.outer", desc = "Select outer part of the function paramater" },
+						["ia"] = { query = "@parameter.inner", desc = "Select inner part of the function parameter" },
 
 						["ac"] = { query = "@class.outer", desc = "Select the outer part of the class" },
 						["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
+
+						["ai"] = { query = "@conditional.outer", desc = "Select outer part of the conditional" },
+						["ii"] = { query = "@conditional.inner", desc = "Select the inner part of the conditional" },
 
 						["as"] = { query = "@scope", desc = "Select language scope" },
 						["is"] = { query = "@scope", desc = "Select language scope" },
@@ -75,7 +73,7 @@ return {
 					-- * query_string: eg '@function.inner'
 					-- * selection_mode: eg 'v'
 					-- and should return true or false
-					include_surrounding_whitespace = true,
+					include_surrounding_whitespace = false,
 				},
 			},
 		})
