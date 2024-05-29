@@ -1,0 +1,15 @@
+live_config_reload = true
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+opacity = 0.6
+startup_mode = "Fullscreen"
+
+[font.normal]
+family = "Hack Nerd Font Mono"
+# family = "GohuFont 14 Nerd Font Mono"
+style = "Regular"
+
+

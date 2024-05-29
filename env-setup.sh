@@ -56,6 +56,7 @@ mac_install() {
         eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
 
+    which alacritty || brew install --cask alacritty
     which rg || brew install ripgrep
     which fd || brew install fd
     which jq || brew install jq
@@ -70,6 +71,7 @@ mac_install() {
     #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
     which fzf || brew install fzf
     which nvim || brew install neovim
+    which zoxide || brew install zoxide
 
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
@@ -115,7 +117,7 @@ linux_install() {
     which ruby || sudo apt install ruby-full
     which colorls || sudo gem install colorls
     which nvim || sudo apt install neovim
-    
+    which zoxide || sudo apt install zoxide
 }
 
 bash_version=$(bash --version)
@@ -177,16 +179,21 @@ replace_file_and_link "$(pwd)/.zshrc" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
 replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
 
+if [ ! -e ~/.config ]; then
+    mkdir ~/.config
+fi
+replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
+
+if [ ! -e ~/.config/alacritty ]; then
+  mkdir ~/.config/alacritty
+fi
+replace_file_and_link "$(pwd)/alacritty.toml" ~/.config/alacritty/alacritty.toml
+
 if [ ! -e ~/.zsh ]; then
   mkdir ~/.zsh
 fi
 replace_file_and_link "$(pwd)/catppuccin_mocha-zsh-syntax-highlighting.zsh" ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
-if [ ! -e ~/.config ]; then
-  mkdir ~/.config
-fi
-replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
-
-[ -f ./extra-mac-setup.sh ] && chmod +x ./extra-mac-setup.sh && ./extra-mac-setup.sh
+[ -f ./extra-env-setup.sh ] && chmod +x ./extra-env-setup.sh && ./extra-env-setup.sh
 
 exec zsh

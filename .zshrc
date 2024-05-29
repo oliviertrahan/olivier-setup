@@ -185,9 +185,12 @@ git config --global difftool.prompt false
 
 export PATH=/Users/oliviertrahan/.local/bin:$PATH
 export HOMEBREW_NO_INSTALL_CLEANUP=
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+which zoxide > /dev/null && eval "$(zoxide init zsh)"
 
 #always keep this at end of file
 if [ -e ~/extra_zshrc.zsh ]; then
