@@ -59,6 +59,7 @@ alias vimedit="nvim ~/.vimrc"
 alias zshedit="code ~/.zshrc"
 alias tmuxedit="nvim ~/.tmux.conf"
 alias zshreload="exec zsh"
+alias killNvim="ps -a | grep nvim | grep -v grep | awk '{print $1}' | xargs kill -9"
 
 mvFromTo() {
     cwd=$(pwd)

@@ -12,8 +12,8 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
-vim.keymap.set("n", "yA", "mzgg0VG$y`z") -- yank the whole document
-vim.keymap.set("n", "=A", "mzgg0VG$=`z") -- format the whole document
+vim.keymap.set("n", "yA", "mpgg0VG$y`p") -- yank the whole document
+vim.keymap.set("n", "=A", "mpgg0VG$=`p") -- format the whole document
 vim.keymap.set("n", "Q", "@q") --Execute "q" macro with Q
 vim.keymap.set("x", "Q", ":norm @q<CR>", { noremap = true }) --Execute "q" macro with Q
 vim.keymap.set("n", "x", '"_dl') --delete single character doesn't mess with yank register
@@ -24,6 +24,25 @@ vim.keymap.set("n", "<leader>pp", function()
 	vim.notify('Copied "' .. path .. '" to the clipboard!')
 end)
 
+--better yanking experience
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup("HighlightYank", {})
+
+vim.keymap.set("n", "y", "myy", { noremap = true }) -- set mark before yanking
+-- Highlight yanked text
+autocmd("TextYankPost", {
+	group = yank_group,
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({
+			higroup = "IncSearch",
+			timeout = 40,
+		})
+		vim.cmd("normal! `y")
+	end,
+})
+
 vim.keymap.set("n", "<leader>ss", 'yiw:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("v", "<leader>ss", 'y:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("n", "<leader>dd", create_debug_buffer)
@@ -33,15 +52,15 @@ vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
 
 -- create new line without going into insert mode
-vim.keymap.set("n", "<leader>O", 'Oi<ESC>"_dl', { noremap = false })
-vim.keymap.set("n", "<leader>o", 'oi<ESC>"_dl', { noremap = false })
+vim.keymap.set("n", "<leader>O", 'Oi<ESC>"_dl', { noremap = true })
+vim.keymap.set("n", "<leader>o", 'oi<ESC>"_dl', { noremap = true })
 
 -- better visual experience
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true }) -- Move visually selected text one line up
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true }) -- Move visually selected text one line down
 vim.keymap.set("v", "x", "<Esc>", { noremap = true }) --x to exit visual mode easily
 vim.keymap.set("v", "y", "ygv<Esc>", { noremap = true }) --yank won't move cursor anymore
-vim.keymap.set("v", "A", "mzgg0oG$", { noremap = true }) -- visual select everything
+vim.keymap.set("v", "A", "mpgg0oG$", { noremap = true }) -- visual select everything
 vim.keymap.set("v", "H", "Hzz", { noremap = true }) --move up doc easily
 vim.keymap.set("v", "L", "Lzz", { noremap = true }) --move down doc easily
 vim.keymap.set("v", ">", ">gv", { noremap = true }) --continue visually selecting after indenting
@@ -50,7 +69,6 @@ vim.keymap.set("v", "Y", '"+ygv<Esc>', { noremap = true }) --Y to copy to system
 vim.keymap.set("v", "d", '"0d', { noremap = true }) -- make delete in visual mode go to yank register so I can paste it later
 vim.keymap.set("v", "p", '"0p', { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
 vim.keymap.set("v", "P", '"+p', { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
-vim.keymap.set("v", "il", "<Esc>^v$h", { noremap = true }) --visually select whole line but not EOL char
 vim.keymap.set("v", "iL", "<Esc>^v$h", { noremap = true }) --visually select whole line but not EOL char
 
 -- better insert experience
