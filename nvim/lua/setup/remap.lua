@@ -29,7 +29,7 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup("HighlightYank", {})
 
-vim.keymap.set("n", "y", "myy", { noremap = true }) -- set mark before yanking
+vim.keymap.set("n", "y", "mpy", { noremap = true }) -- set mark before yanking
 -- Highlight yanked text
 autocmd("TextYankPost", {
 	group = yank_group,
@@ -39,7 +39,10 @@ autocmd("TextYankPost", {
 			higroup = "IncSearch",
 			timeout = 40,
 		})
-		vim.cmd("normal! `y")
+		local ev = vim.v.event
+		if ev.operator == "y" then
+			vim.cmd("normal! `p") --go back to mark after yanking
+		end
 	end,
 })
 
