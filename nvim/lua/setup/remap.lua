@@ -40,7 +40,7 @@ autocmd("TextYankPost", {
 			timeout = 40,
 		})
 		local ev = vim.v.event
-		if ev.operator == "y" then
+		if ev.operator == "y" and not ev.visual then
 			vim.cmd("normal! `p") --go back to mark after yanking
 		end
 	end,
