@@ -18,7 +18,7 @@ style.blinking = "Never"
 unfocused_hollow = true
 
 [font]
-size = 18
+size = 16
 normal.family = "Hack Nerd Font Mono"
 # normal.family = "GohuFont 14 Nerd Font Mono"
 normal.style = "Regular"

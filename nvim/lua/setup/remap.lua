@@ -49,6 +49,9 @@ autocmd("TextYankPost", {
 vim.keymap.set("n", "<leader>ss", 'yiw:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("v", "<leader>ss", 'y:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("n", "<leader>dd", create_debug_buffer)
+vim.keymap.set("n", "d/", "d/\\c")
+vim.keymap.set("n", "c/", "c/\\c")
+vim.keymap.set("n", "y/", "y/\\c")
 vim.keymap.set("n", "/", "/\\c") -- Case Insensitive search
 vim.keymap.set("n", "?", "?\\c") -- Case Insensitive search
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
