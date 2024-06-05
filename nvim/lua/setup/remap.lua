@@ -30,6 +30,7 @@ local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup("HighlightYank", {})
 
 vim.keymap.set("n", "y", "mpy", { noremap = true }) -- set mark before yanking
+vim.keymap.set("n", "Y", "mpY", { noremap = true }) -- set mark before yanking
 -- Highlight yanked text
 autocmd("TextYankPost", {
 	group = yank_group,
@@ -50,8 +51,11 @@ vim.keymap.set("n", "<leader>ss", 'yiw:%s/<C-r>"//g<Left><Left>') -- go back to 
 vim.keymap.set("v", "<leader>ss", 'y:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("n", "<leader>dd", create_debug_buffer)
 vim.keymap.set("n", "d/", "d/\\c")
+vim.keymap.set("n", "d?", "d?\\c")
 vim.keymap.set("n", "c/", "c/\\c")
+vim.keymap.set("n", "c?", "c?\\c")
 vim.keymap.set("n", "y/", "y/\\c")
+vim.keymap.set("n", "y?", "y?\\c")
 vim.keymap.set("n", "/", "/\\c") -- Case Insensitive search
 vim.keymap.set("n", "?", "?\\c") -- Case Insensitive search
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
