@@ -69,13 +69,14 @@ vim.keymap.set("n", "<leader>o", 'oi<ESC>"_dl', { noremap = true })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true }) -- Move visually selected text one line up
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true }) -- Move visually selected text one line down
 vim.keymap.set("v", "x", "<Esc>", { noremap = true }) --x to exit visual mode easily
-vim.keymap.set("v", "y", "ygv<Esc>", { noremap = true }) --yank won't move cursor anymore
 vim.keymap.set("v", "A", "mpgg0oG$", { noremap = true }) -- visual select everything
 vim.keymap.set("v", "H", "Hzz", { noremap = true }) --move up doc easily
 vim.keymap.set("v", "L", "Lzz", { noremap = true }) --move down doc easily
 vim.keymap.set("v", ">", ">gv", { noremap = true }) --continue visually selecting after indenting
 vim.keymap.set("v", "<", "<gv", { noremap = true }) --continue visually selecting after indenting
+vim.keymap.set("v", "y", "ygv<Esc>", { noremap = true }) --yank won't move cursor anymore
 vim.keymap.set("v", "Y", '"+ygv<Esc>', { noremap = true }) --Y to copy to system clipboard
+vim.keymap.set("v", "D", '"+dgv<Esc>', { noremap = true }) --D to copy to system clipboard
 vim.keymap.set("v", "d", '"0d', { noremap = true }) -- make delete in visual mode go to yank register so I can paste it later
 vim.keymap.set("v", "p", '"0p', { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
 vim.keymap.set("v", "P", '"+p', { noremap = true }) --pasting over selected text doesn't delete what is in yank buffer
