@@ -1,10 +1,12 @@
+vim.cmd("source ~/.config/nvim/common_remaps.vim")
+vim.g.tab_names = {}
+
 require("setup.lua_extensions")
 require("setup.set")
 require("setup.remap")
 require("setup.lazy")
 require("setup.snippets")
 require("setup.print_snippets")
-vim.g.tab_names = {}
 local autocmd = vim.api.nvim_create_autocmd
 
 function R(name)
