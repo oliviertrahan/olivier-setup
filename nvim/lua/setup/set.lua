@@ -1,6 +1,7 @@
 -- vim.opt.guicursor = ""
 vim.opt.vb = false
--- vim.opt.t_vb = false
+
+vim.o.fillchars = "eob: "
 
 vim.opt.nu = true
 vim.opt.relativenumber = true

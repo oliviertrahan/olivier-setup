@@ -20,7 +20,7 @@ function NewColor()
 		colorscheme = validColorSchemes[choice]
 	end
 	vim.cmd(string.format("colorscheme %s", colorscheme))
-	-- print(string.format("chosen colorscheme: %s", colorscheme))
+	print(string.format("chosen colorscheme: %s", colorscheme))
 end
 
 function ListColors()
@@ -66,8 +66,6 @@ local function setup_color_schemes()
 			}
 			for _, name in pairs(highlights) do
 				vim.cmd.highlight(name .. " guibg=none ctermbg=none")
-				-- vim.cmd.highlight(name .. " ctermbg=none")
-				-- vim.cmd.highlight(name .. " guibg=none")
 			end
 		end,
 	})
