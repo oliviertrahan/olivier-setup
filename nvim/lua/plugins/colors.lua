@@ -45,6 +45,33 @@ local function setup_color_schemes()
 
 	require("kanagawa").setup({})
 
+	-- Make sure colorscheme inherits the background color and transparency of the terminal
+	vim.api.nvim_create_autocmd("ColorScheme", {
+		callback = function()
+			local highlights = {
+				"NonText",
+				"Normal",
+				"NormalNC",
+				"NormalFloat",
+				"FloatBorder",
+				"SignColumn",
+				"Tabline",
+				"TablineFill",
+				"Pmenu",
+				"LineNr",
+				"Folded",
+				"SpecialKey",
+				"VertSplit",
+				"EndOfBuffer",
+			}
+			for _, name in pairs(highlights) do
+				vim.cmd.highlight(name .. " guibg=none ctermbg=none")
+				-- vim.cmd.highlight(name .. " ctermbg=none")
+				-- vim.cmd.highlight(name .. " guibg=none")
+			end
+		end,
+	})
+
 	NewColor()
 end
 

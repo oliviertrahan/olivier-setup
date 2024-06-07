@@ -189,6 +189,14 @@ if [ ! -e ~/.config/alacritty ]; then
 fi
 replace_file_and_link "$(pwd)/alacritty.toml" ~/.config/alacritty/alacritty.toml
 
+if [[ "$machine" == "Mac" ]]; then
+    echo "Mac detected. Using mac alacritty overrides"
+    replace_file_and_link "$(pwd)/alacritty_mac_overrides.toml" ~/.config/alacritty/overrides.toml
+else 
+    echo "Non-Mac detected. Using default alacritty overrides"
+    replace_file_and_link "$(pwd)/alacritty_default_overrides.toml" ~/.config/alacritty/overrides.toml
+fi
+
 if [ ! -e ~/.zsh ]; then
   mkdir ~/.zsh
 fi
