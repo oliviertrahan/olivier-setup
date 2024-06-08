@@ -184,6 +184,7 @@ if [ ! -e ~/.config ]; then
 fi
 replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
 
+# alacritty setup
 if [ ! -e ~/.config/alacritty ]; then
   mkdir ~/.config/alacritty
 fi
@@ -197,6 +198,11 @@ else
     replace_file_and_link "$(pwd)/alacritty_default_overrides.toml" ~/.config/alacritty/overrides.toml
 fi
 
+# other vim extensions setup
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vrapperrc
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.ideavimrc
+
+# zsh setup
 if [ ! -e ~/.zsh ]; then
   mkdir ~/.zsh
 fi
