@@ -1,6 +1,6 @@
-let mapleader = " "
+let mapleader="\<Space>"
 
-" better editing experience
+" better movement experience
 nnoremap J miJ`i
 nnoremap H Hzz
 nnoremap L Lzz
@@ -11,11 +11,11 @@ nnoremap N Nzzzv
 nnoremap yA mpgg0VG$y`p
 nnoremap =A mpgg0VG$=`p
 nnoremap Q @q
-xnoremap Q :norm @q<CR>
+vnoremap Q :norm @q<CR>
 nnoremap x "_dl
 nnoremap gb <C-6>
 
-" better editing experience
+" better search editing experience
 nnoremap d/ d/\c
 nnoremap d? d?\c
 nnoremap c/ c/\c
@@ -26,8 +26,9 @@ nnoremap / /\c
 nnoremap ? ?\c
 
 " create new line without going into insert mode
-nnoremap <leader>O Oi<ESC>"_dl
-nnoremap <leader>o oi<ESC>"_dl
+" using <leader> won't work for some reason
+nnoremap <Space>O Oi<Esc>"_dl
+nnoremap <Space>o oi<Esc>"_dl
 
 " better visual experience
 vnoremap J :m '>+1<CR>gv=gv
@@ -39,12 +40,13 @@ vnoremap L Lzz
 vnoremap > >gv
 vnoremap < <gv
 vnoremap y ygv<Esc>
-vnoremap Y +ygv<Esc>
-vnoremap D +dgv<Esc>
-vnoremap d 0d'
-vnoremap p 0p'
-vnoremap P +p'
-vnoremap i <Esc>^v$h
+vnoremap Y "+ygv<Esc>
+vnoremap D "+dgv<Esc>
+vnoremap d "0d'
+vnoremap p "0p'
+vnoremap P "+p'
+vnoremap iL <Esc>^v$h
+vnoremap il <Esc>^v$h
 
 " better insert experience
 inoremap <C-h> <C-o>h

@@ -1,10 +1,10 @@
 -- the file has extra remaps that are neovim specific
 -- common remaps are at common_remaps.vim
+
 local remap_funcs = require("setup.remap_functions")
 local open_project_terminal = remap_funcs.open_project_terminal
 local open_terminal = remap_funcs.open_terminal
 local create_debug_buffer = remap_funcs.create_debug_buffer
-vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>pp", function()
 	local path = vim.fn.expand("%")
