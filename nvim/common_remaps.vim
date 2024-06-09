@@ -12,8 +12,8 @@ set ignorecase!
 
 " better movement experience
 nnoremap J miJ`i
-nnoremap H Hzz
-nnoremap L Lzz
+nnoremap H <C-u>zz
+nnoremap L <C-d>zz
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
@@ -41,12 +41,14 @@ nnoremap <Space>O Oi<Esc>"_dl
 nnoremap <Space>o oi<Esc>"_dl
 
 " better visual experience
-vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
 vnoremap x <Esc>
 vnoremap A mpgg0oG$
-vnoremap H Hzz
-vnoremap L Lzz
+vnoremap H <C-u>zz
+vnoremap L <C-d>zz
+vnoremap <C-d> <C-d>zz
+vnoremap <C-u> <C-u>zz
 vnoremap > >gv
 vnoremap < <gv
 vnoremap y ygv<Esc>

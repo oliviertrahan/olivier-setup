@@ -1,0 +1,13 @@
+{
+    "vim.vimrc.enable": true,
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": ["J"],
+            "commands": ["editor.action.moveLinesDownAction"]
+        }, 
+        {
+            "before": ["K"],
+            "commands": ["editor.action.moveLinesUpAction"]
+        } 
+    ],
+}

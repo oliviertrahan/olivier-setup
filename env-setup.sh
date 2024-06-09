@@ -203,6 +203,16 @@ replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vrapperrc
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.ideavimrc
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vimrc
 
+# vscode local settings setup
+# file locations according to: https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
+if [[ "$machine" == "Mac" ]]; then
+    replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+elif [[ "$machine" == "Linux" ]]; then
+    replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Code/User/settings.json"
+else #Windows
+    replace_file_and_link "$(pwd)/vscodesettings.json" "%APPDATA%\Code\User\settings.json"
+fi
+
 # zsh setup
 if [ ! -e ~/.zsh ]; then
   mkdir ~/.zsh
