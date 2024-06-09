@@ -1,5 +1,15 @@
 let mapleader="\<Space>"
 
+" set options
+set nu
+set relativenumber
+set autoread
+set showmode!
+set wrap
+set hlsearch! " ! means setting to false
+set incsearch
+set ignorecase!
+
 " better movement experience
 nnoremap J miJ`i
 nnoremap H Hzz

@@ -201,6 +201,7 @@ fi
 # other vim extensions setup
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vrapperrc
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.ideavimrc
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vimrc
 
 # zsh setup
 if [ ! -e ~/.zsh ]; then
