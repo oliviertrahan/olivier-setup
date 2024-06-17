@@ -25,6 +25,9 @@ vnoremap Q :norm @q<CR>
 nnoremap x "_dl
 nnoremap gb <C-6>
 
+" <Ctrl-i> is the same as <Tab> on most terminals
+nnoremap <C-m> <C-i>
+
 " better search editing experience
 nnoremap d/ d/\c
 nnoremap d? d?\c
