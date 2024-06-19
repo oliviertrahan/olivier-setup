@@ -69,7 +69,7 @@ mac_install() {
     brew tap homebrew/cask-fonts
     brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
     #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
-    which fzf || brew install fzf
+    which fzf || brew install fzf && $(brew --prefix)/opt/fzf/install
     which nvim || brew install neovim
     which zoxide || brew install zoxide
 
@@ -178,6 +178,7 @@ fi
 replace_file_and_link "$(pwd)/.zshrc" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
 replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
+replace_file_and_link "$(pwd)/.fzf.zsh" ~/.fzf.zsh
 
 if [ ! -e ~/.config ]; then
     mkdir ~/.config

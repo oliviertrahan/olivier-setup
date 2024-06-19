@@ -121,7 +121,6 @@ end
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		version = "0.1.4",
 		lazy = vim.g.started_by_firenvim,
 		dependencies = { { "nvim-lua/plenary.nvim" } },
 	},

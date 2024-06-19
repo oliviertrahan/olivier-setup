@@ -72,3 +72,6 @@ inoremap <C-d> <C-o>diw
 inoremap <C-c> <Esc>
 inoremap jj <Esc>
 inoremap <Tab> <C-V><Tab>
+
+" make quickfix enter key open at location
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>

@@ -193,8 +193,12 @@ export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 
 which zoxide > /dev/null && eval "$(zoxide init zsh)"
 
+# fzf shell integration
+if [ -f ~/.fzf.zsh ]; then
+  which fzf > /dev/null && source ~/.fzf.zsh
+fi
+
 #always keep this at end of file
 if [ -e ~/extra_zshrc.zsh ]; then
     source ~/extra_zshrc.zsh
 fi
-
