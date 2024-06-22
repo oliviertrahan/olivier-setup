@@ -55,11 +55,6 @@ export VSCODE_DEBUG='1'
 
 
 # Helpful aliases
-alias nvimT="nvim -c \"term\""
-alias vshedit="nvim ~/.zshrc"
-alias vimedit="nvim ~/.vimrc"
-alias zshedit="code ~/.zshrc"
-alias tmuxedit="nvim ~/.tmux.conf"
 alias zshreload="exec zsh"
 alias killNvim="ps -a | grep nvim | grep -v grep | awk '{print $1}' | xargs kill -9"
 
