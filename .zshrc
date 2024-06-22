@@ -189,12 +189,13 @@ export HOMEBREW_NO_INSTALL_CLEANUP=
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -e ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 which zoxide > /dev/null && eval "$(zoxide init zsh)"
 
 # fzf shell integration
-if [ -f ~/.fzf.zsh ]; then
+if [ -e ~/.fzf.zsh ]; then
+  echo "yo"
   which fzf > /dev/null && source ~/.fzf.zsh
 fi
 
