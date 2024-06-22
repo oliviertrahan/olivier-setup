@@ -110,23 +110,28 @@ then set a shell alias as below in your extra_zshrc.zsh file
 alias nvimW="nvim -S ~/.config/nvim/lua/not_pushed/work_startup.lua"
 ```
 
-### Neoformat config
+### Neoformat/commands to run on save config
 
-Put a lua file in `lua/not_pushed/neoformat_config.lua` with the following content of format like this
+Put a lua file in `lua/not_pushed/buf_write_pre_config.lua` with the following content of format like this
 
 ```
-local neoformat_formatter_config_list = {}
-table.insert(neoformat_formatter_config_list, {
-    neoformat_command = 'black',
-    filetypes = { 'py' },
-    dir_path = '~/personal',
+local buf_write_pre_config_list = {}
+table.insert(buf_write_pre_config_list, {
+	command = "Neoformat black",
+	filetypes = { "py" },
+	dir_path = "~/personal",
 })
-table.insert(neoformat_formatter_config_list, {
-    neoformat_command = 'prettier',
-    filetypes = { 'vue', 'js', 'mjs', 'cjs' },
-    dir_path = '~/workspace/rvezy-web-client-v3',
+table.insert(buf_write_pre_config_list, {
+	command = "Neoformat prettier",
+	filetypes = { "vue", "js", "mjs", "cjs" },
+	dir_path = "~/workspace/rvezy-web-client-v3",
 })
-return neoformat_formatter_config_list
+table.insert(buf_write_pre_config_list, {
+	command = "EslintFixAll",
+	filetypes = { "vue", "js", "mjs", "cjs" },
+	dir_path = "~/workspace/rvezy-web-client",
+})
+return buf_write_pre_config_list
 ```
 
 ### C# setup

@@ -1,13 +1,13 @@
 local validColorSchemes = {
 	"kanagawa",
 	"rose-pine-moon",
-	"catppuccin-mocha",
-	"tokyonight-moon",
-	"dracula",
+	-- "catppuccin-mocha",
+	-- "tokyonight-moon",
+	-- "dracula",
 	"sonokai",
 	"oxocarbon",
 	-- "nord",
-	-- "nightfly",
+	"nightfly",
 	-- "gruvbox-baby",
 	-- "everforest",
 }
