@@ -178,7 +178,6 @@ fi
 replace_file_and_link "$(pwd)/.zshrc" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
 replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
-replace_file_and_link "$(pwd)/.fzf.zsh" ~/.fzf.zsh
 
 if [ ! -e ~/.config ]; then
     mkdir ~/.config
