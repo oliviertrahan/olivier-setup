@@ -195,7 +195,6 @@ which zoxide > /dev/null && eval "$(zoxide init zsh)"
 
 # fzf shell integration
 if [ -e ~/.fzf.zsh ]; then
-  echo "yo"
   which fzf > /dev/null && source ~/.fzf.zsh
 fi
 
