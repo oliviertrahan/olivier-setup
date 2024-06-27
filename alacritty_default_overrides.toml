@@ -1,2 +1,7 @@
 [window]
 startup_mode = "Fullscreen"
+
+[keyboard]
+bindings = [
+	{ key = "F10", action = "ToggleFullscreen" }
+]

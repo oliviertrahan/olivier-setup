@@ -19,6 +19,13 @@ style.shape = "Block"
 style.blinking = "Never"
 unfocused_hollow = true
 
+[keyboard]
+bindings = [
+	{ key = "F12", action = "ToggleMaximized" },
+	{ key = "+", mods = "Control", action = "IncreaseFontSize" },
+	{ key = "-", mods = "Control", action = "DecreaseFontSize" },
+]
+
 [colors]
 primary.background = "#282a36"
 transparent_background_colors = true

@@ -63,14 +63,16 @@ local function setup_telescope()
 	local find_standard = function()
 		builtin.find_files({ find_command = find_standard_params })
 	end
-    local find_standard_on_path = function()
-        local path = vim.fn.input("Directory path to search from: ")
+	local find_standard_on_path = function()
+		local path = vim.fn.input("Directory path to search from: ")
 		builtin.find_files({ find_command = find_standard_params, cwd = path })
-    end
+	end
 	local find_include_gitignore = function()
 		builtin.find_files({ find_command = find_include_gitignore_params })
 	end
 
+	vim.keymap.set("n", "<leader>f<Space>", builtin.resume, {})
+	vim.keymap.set("n", "<leader>fe", builtin.resume, {})
 	vim.keymap.set("n", "<leader>ft", '<cmd>lua require("telescope-tabs").list_tabs()<CR>', {})
 	vim.keymap.set("n", "<leader>ff", find_standard, {})
 	vim.keymap.set("n", "<leader>fp", find_standard_on_path, {})
