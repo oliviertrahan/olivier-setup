@@ -17,6 +17,9 @@ local debugFileTypeToCommand = {
 	py = function(fileName)
 		return { "python3", fileName }
 	end,
+	cs = function(fileName)
+		return { "dotnet", "run", fileName }
+	end,
 	js = function(fileName)
 		return { "node", fileName }
 	end,
