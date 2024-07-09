@@ -71,7 +71,6 @@ local function setup_telescope()
 		builtin.find_files({ find_command = find_include_gitignore_params })
 	end
 
-	vim.keymap.set("n", "<leader>f<Space>", builtin.resume, {})
 	vim.keymap.set("n", "<leader>fe", builtin.resume, {})
 	vim.keymap.set("n", "<leader>ft", '<cmd>lua require("telescope-tabs").list_tabs()<CR>', {})
 	vim.keymap.set("n", "<leader>ff", find_standard, {})
