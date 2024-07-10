@@ -48,11 +48,19 @@ local function open_terminal_buffer(bufId)
 
 	local tabpage = vim.api.nvim_get_current_tabpage()
 	local windows_in_tab = vim.api.nvim_tabpage_list_wins(tabpage)
+	local currentBuf = vim.api.nvim_get_current_buf()
 
 	--If the current buffer is any other terminal in the tab, then replace the current buffer with the terminal
 	for _, window in pairs(windows_in_tab) do
 		local currWinBuf = vim.api.nvim_win_get_buf(window)
-		if vim.api.nvim_buf_get_option(currWinBuf, "buftype") == "terminal" then
+		local bufIsTerminal = vim.api.nvim_buf_get_option(currWinBuf, "buftype") == "terminal"
+		if bufIsTerminal then
+			--If the current buffer is the terminal buffer, then we actually want to close the terminal
+			if currWinBuf == currentBuf then
+				local keys = vim.api.nvim_replace_termcodes("a<C-\\><C-n><C-w>c", true, false, true)
+				vim.api.nvim_feedkeys(keys, "n", true)
+				return
+			end
 			vim.api.nvim_set_current_win(window)
 			return open_term_buf(bufId)
 		end
