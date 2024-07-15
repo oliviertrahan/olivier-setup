@@ -134,12 +134,6 @@ local function setup_lsp()
 		})
 	end
 
-	if lsp_config.swi then
-		lsp_config.volar.setup({
-			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
-		})
-	end
-
 	vim.diagnostic.config({
 		virtual_text = true,
 	})

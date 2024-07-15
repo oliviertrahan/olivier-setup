@@ -5,7 +5,7 @@ local validColorSchemes = {
 	-- "tokyonight-moon",
 	-- "dracula",
 	"sonokai",
-	"oxocarbon",
+	-- "oxocarbon",
 	-- "nord",
 	"nightfly",
 	-- "gruvbox-baby",
