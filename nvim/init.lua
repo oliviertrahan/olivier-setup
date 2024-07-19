@@ -8,6 +8,7 @@ require("setup.lazy")
 require("setup.snippets")
 require("setup.print_snippets")
 require("setup.buf_write_pre")
+require("setup.buf_read_pre")
 local autocmd = vim.api.nvim_create_autocmd
 
 function R(name)

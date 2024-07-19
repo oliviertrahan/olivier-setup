@@ -72,24 +72,6 @@ mvFromTo() {
 }
 alias mvDl="mvFromTo ~/Downloads $PWD"
 
-#dotnet aliases
-alias dtf="dotnet test --filter"
-# alias dtfs="dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf | sed 's/^[ \t]*//' | sed 's/\"/\\\"/g' | xargs -0 -I {} dotnet test --filter \"FullyQualifiedName={}\""
-alias dtfsD="dotnet test -t --no-build NUnit.DisplayName=FullName | fzf | sed 's/\s*$//' | sed 's/^[ \t]*//' | sed 's/"/\\"/g' | xargs -0 -I {} echo 'dotnet test --filter \"FullyQualifiedName={}\"'"
-alias dema="dotnet ef migrations add"
-alias dedu="dotnet ef database update"
-alias db="dotnet build"
-
-dtff() {
-    # fullyqualifiedname won't work when there are quotes, figure out how to make it work later
-    # dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf | sed 's/\s*$//' | sed 's/^[ \t]*//' | sed 's/\"/\\\"/g' | tee yo.txt | xargs -I {} dotnet test --filter "FullyQualifiedName={}"
-    # dotnet test -t --no-build -- | fzf |  xargs -I {} dotnet test --filter "{}"
-    dotnet test -t --no-build -- NUnit.DisplayName=FullName | fzf |  xargs -I {} dotnet test --filter "FullyQualifiedName={}"
-}
-
-autoload -Uz dtff
-
-
 # git configs
  
 setupgitpersonal() {
