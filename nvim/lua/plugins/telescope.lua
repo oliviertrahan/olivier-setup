@@ -10,6 +10,18 @@ local function setup_telescope()
 	local telescope = require("telescope")
 	local actions = require("telescope.actions")
 
+	local selections_to_skip = 10
+	local scroll_many_results_previous = function(prompt_bufnr)
+		for i = 1, selections_to_skip, 1 do
+			actions.move_selection_previous(prompt_bufnr)
+		end
+	end
+	local scroll_many_results_next = function(prompt_bufnr)
+		for i = 1, selections_to_skip, 1 do
+			actions.move_selection_next(prompt_bufnr)
+		end
+	end
+
 	telescope.setup({
 		defaults = {
 			initial_mode = "insert",
@@ -22,8 +34,8 @@ local function setup_telescope()
 				n = {
 					["<C-k>"] = actions.move_selection_previous,
 					["<C-j>"] = actions.move_selection_next,
-					["H"] = actions.results_scrolling_up,
-					["L"] = actions.results_scrolling_down,
+					["H"] = scroll_many_results_previous,
+					["L"] = scroll_many_results_next,
 					["<C-c>"] = actions.close,
 				},
 			},
