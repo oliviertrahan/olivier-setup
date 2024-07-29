@@ -5,6 +5,7 @@ return {
 		"nvim-treesitter/nvim-treesitter-context",
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		"nvim-treesitter/playground",
+		"andymass/vim-matchup",
 	},
 	build = function()
 		local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
@@ -16,6 +17,9 @@ return {
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = false,
+			},
+			matchup = {
+				enable = true,
 			},
 			textobjects = {
 				swap = {
