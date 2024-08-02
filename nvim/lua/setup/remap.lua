@@ -18,7 +18,7 @@ local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup("HighlightYank", {})
 
 vim.keymap.set("n", "y", "mpy", { noremap = true }) -- set mark before yanking
-vim.keymap.set("n", "Y", "mpY", { noremap = true }) -- set mark before yanking
+vim.keymap.set("n", "Y", "mpv$hy", { noremap = true }) -- set mark before yanking
 -- Highlight yanked text
 autocmd("TextYankPost", {
 	group = yank_group,

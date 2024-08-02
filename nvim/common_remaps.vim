@@ -8,7 +8,7 @@ set showmode!
 set wrap
 set hlsearch! " ! means setting to false
 set incsearch
-set ignorecase!
+set ignorecase& " & means settings to default
 
 " better movement experience
 nnoremap J miJ`i
@@ -18,25 +18,30 @@ nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
-nnoremap yA mpgg0VG$y`p
-nnoremap =A mpgg0VG$=`p
 nnoremap Q @q
 vnoremap Q :norm @q<CR>
 nnoremap x "_dl
 nnoremap gb <C-6>
+nmap dI d^
+nmap cI c^
+nmap yI y^
+nmap dA D
+nmap cA C
+nnoremap yA mpgg0VG$y`p
+nnoremap =A mpgg0VG$=`p
 
 " <Ctrl-i> is the same as <Tab> on most terminals
 nnoremap <C-m> <C-i>
 
 " better search editing experience
-nnoremap d/ d/\c
-nnoremap d? d?\c
-nnoremap c/ c/\c
-nnoremap c? c?\c
-nnoremap y/ y/\c
-nnoremap y? y?\c
-nnoremap / /\c
-nnoremap ? ?\c
+nmap d/ d/\c
+nmap d? d?\c
+nmap c/ c/\c
+nmap c? c?\c
+nmap y/ y/\c
+nmap y? y?\c
+nmap / /\c
+nmap ? ?\c
 
 " create new line without going into insert mode
 " using <leader> won't work for some reason
