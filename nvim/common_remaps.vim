@@ -62,9 +62,9 @@ vnoremap < <gv
 vnoremap y ygv<Esc>
 vnoremap Y "+ygv<Esc>
 vnoremap D "+dgv<Esc>
-vnoremap d "0d'
-vnoremap p "0p'
-vnoremap P "+p'
+vnoremap d "0d
+vnoremap p "0p
+vnoremap P "+p
 vnoremap iL <Esc>^v$h
 vnoremap il <Esc>^v$h
 
