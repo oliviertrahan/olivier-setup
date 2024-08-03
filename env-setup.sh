@@ -68,11 +68,16 @@ mac_install() {
     brew list iterm2 || brew install iterm2
     brew tap homebrew/cask-fonts
     brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
-    #Then go in iTerm2 Preferences > Profiles > Text -> Change font to "Hack Nerd Font"
     which fzf || brew install fzf && $(brew --prefix)/opt/fzf/install
     which nvim || brew install neovim
     which zoxide || brew install zoxide
-
+    which ollama || brew install ollama
+    
+    # if [ ! -d ~/open-webui ]; then
+    #     cd ~/
+    #     git clone https://github.com/open-webui/open-webui.git
+    # fi
+    
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
 		export PATH="/opt/homebrew/opt/ruby/bin:$PATH" 
@@ -118,6 +123,7 @@ linux_install() {
     which colorls || sudo gem install colorls
     which nvim || sudo apt install neovim
     which zoxide || sudo apt install zoxide
+    which ollama || sudo apt install ollama
 }
 
 bash_version=$(bash --version)
