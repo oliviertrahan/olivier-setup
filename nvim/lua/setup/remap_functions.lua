@@ -117,18 +117,10 @@ function exports.set_print_snippet(kwargs)
 	vim.keymap.set(keymap_mode, keymap, remap_str, opts)
 end
 
----@diagnostic disable-next-line: duplicate-set-field
-function table.shallow_copy(t)
-	local t2 = {}
-	for k, v in pairs(t) do
-		t2[k] = v
-	end
-	return t2
-end
-
-function run_external_command_and_print_output(command)
+local function run_external_command_and_print_output(command)
 	-- Clear the buffer
 	local line_count = vim.api.nvim_buf_line_count(debugOutBuf)
+    -- local current_line_count = 0
 	vim.api.nvim_buf_set_lines(debugOutBuf, 0, line_count, false, {})
 
 	vim.fn.jobstart(command, {
@@ -144,6 +136,24 @@ function run_external_command_and_print_output(command)
 			end
 		end,
 	})
+end
+
+
+function exports.run_command_in_debug_terminal()
+    local debugFile = vim.fn.expand("%:p") -- full path from root
+    local debugFileType = vim.fn.expand("%:e")
+    local commandFunc = debugFileTypeToCommand[debugFileType]
+    if commandFunc == nil then
+        return
+    end
+    exports.open_terminal(10)
+    local command = commandFunc(debugFile)
+    -- vim.api.nvim_feedkeys("a", "n", true)
+    for _, cmd in ipairs(command) do
+        vim.api.nvim_feedkeys(cmd .. " ", "n", true)
+    end
+    local enterKey = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
+    vim.api.nvim_feedkeys(enterKey, "n", true)
 end
 
 function exports.create_debug_buffer()

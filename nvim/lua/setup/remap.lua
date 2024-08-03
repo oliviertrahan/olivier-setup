@@ -5,6 +5,7 @@ local remap_funcs = require("setup.remap_functions")
 local open_project_terminal = remap_funcs.open_project_terminal
 local open_terminal = remap_funcs.open_terminal
 local create_debug_buffer = remap_funcs.create_debug_buffer
+local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 
 vim.keymap.set("n", "<leader>pp", function()
 	local path = vim.fn.expand("%")
@@ -41,6 +42,8 @@ vim.keymap.set("n", "<leader>cli", "<cmd>LspInfo<CR>") -- embarassing to have to
 vim.keymap.set("n", "<leader>ss", 'yiw:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("v", "<leader>ss", 'y:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("n", "<leader>dd", create_debug_buffer)
+vim.keymap.set("n", "<leader>dtt", run_command_in_debug_terminal)
+vim.keymap.set("n", "<leader>dts", function() open_terminal(10) end)
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
 
