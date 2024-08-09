@@ -43,7 +43,7 @@ autocmd("BufEnter", {
 
 autocmd("BufEnter", {
 	group = snippet_group,
-	pattern = { "*.js", "*.mjs", "*.cjs", "*.vue" },
+	pattern = { "*.ts", "*.js", "*.mjs", "*.cjs", "*.vue" },
 	callback = function(ev)
 		set_print_snippet({
 			is_visual = true,
