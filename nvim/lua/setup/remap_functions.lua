@@ -71,12 +71,15 @@ local function open_terminal_buffer(bufId)
 	return open_term_buf(bufId)
 end
 
+-- return true if the terminal just opened
 function exports.open_terminal(termId)
 	if extraTermMap[termId] then
 		open_terminal_buffer(extraTermMap[termId])
+        return false
 	else
 		local bufId = open_terminal_buffer(nil)
 		extraTermMap[termId] = bufId
+        return true
 	end
 end
 
@@ -146,14 +149,22 @@ function exports.run_command_in_debug_terminal()
     if commandFunc == nil then
         return
     end
-    exports.open_terminal(10)
+    local terminal_new = exports.open_terminal(10)
+    if terminal_new then
+        vim.api.nvim_feedkeys("a", "n", true)
+    end
     local command = commandFunc(debugFile)
-    -- vim.api.nvim_feedkeys("a", "n", true)
     for _, cmd in ipairs(command) do
         vim.api.nvim_feedkeys(cmd .. " ", "n", true)
     end
     local enterKey = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
     vim.api.nvim_feedkeys(enterKey, "n", true)
+end
+
+function exports.cancel_debug_buffer()
+    debugOutBuf = nil
+    vim.api.nvim_del_augroup_by_name("DebugBuffer")
+    vim.print("Debug buffer cleared")
 end
 
 function exports.create_debug_buffer()

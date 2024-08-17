@@ -133,6 +133,11 @@ local function setup_lsp()
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
 		})
 	end
+    
+	if lsp_config.pyright then
+		lsp_config.pyright.setup({})
+	end
+
 
 	vim.diagnostic.config({
 		virtual_text = true,
