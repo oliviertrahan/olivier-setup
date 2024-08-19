@@ -29,6 +29,7 @@ nmap dA D
 nmap cA C
 nnoremap yA mpgg0VG$y`p
 nnoremap =A mpgg0VG$=`p
+nnoremap ZZ :wqa<CR>
 
 " <Ctrl-i> is the same as <Tab> on most terminals
 nnoremap <C-m> <C-i>

@@ -8,10 +8,15 @@ return {
 				if ev.match ~= "tabpage" then
 					return
 				end
+                local curr_tabpage = get_active_tabpage_for_buffer(ev.buf)
 				local curr_dir_name = vim.api.nvim_call_function("fnamemodify", { ev.file, ":t" })
+                if curr_tabpage == nil then
+                    print(string.format("No tabpage found for buffer %d. Unexpected error.", ev.buf))
+                    return
+                end
 				local tab_names = vim.g.tab_names
 				vim.cmd(string.format("silent! TabooRename %s", curr_dir_name))
-				tab_names[vim.api.nvim_get_current_tabpage()] = curr_dir_name
+				tab_names[tostring(curr_tabpage)] = curr_dir_name
 				vim.g.tab_names = tab_names
 			end,
 		})

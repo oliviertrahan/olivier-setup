@@ -51,9 +51,24 @@ function shallow_copy(t)
 	return t2
 end
 
+function get_active_tabpage_for_buffer(buffer_id)
+    for _, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
+        local windows = vim.api.nvim_tabpage_list_wins(tabpage)
+        for _, window in ipairs(windows) do
+            local win_buf = vim.api.nvim_win_get_buf(window)
+            vim.print("win_buf: " .. win_buf)
+            if win_buf == buffer_id then
+                return tabpage
+            end
+        end
+    end
+    return nil
+end
+
 getmetatable("").shallow_copy = shallow_copy
 getmetatable("").dump = dump
 getmetatable("").standardize_url = standardize_url
 getmetatable("").interp = interp
 getmetatable("").insertAtCursor = insertAtCursor
 getmetatable("").uuid = uuid
+getmetatable("").get_active_tabpage_for_buffer = get_active_tabpage_for_buffer
