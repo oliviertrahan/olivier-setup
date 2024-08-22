@@ -58,7 +58,7 @@ local function setup_telescope()
 	})
 	telescope.load_extension("telescope-tabs")
 	local tab_display = function(tab_id, _, _, _, is_current)
-		local tab_name = vim.g.tab_names[tab_id] or ""
+		local tab_name = vim.g.tab_names[tostring(tab_id)] or ""
 		local current_str = is_current and "<" or ""
 		local tab_str = string.format("%s: %s %s", tab_id, tab_name, current_str)
 		return tostring(tab_str)

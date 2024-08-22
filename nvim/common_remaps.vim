@@ -44,6 +44,11 @@ nmap y? y?\c
 nmap / /\c
 nmap ? ?\c
 
+" useful new motion
+nnoremap ci; Bct;
+nnoremap di; Bdt;
+nnoremap yi; Bdt;
+
 " create new line without going into insert mode
 " using <leader> won't work for some reason
 nnoremap <Space>O Oi<Esc>"_dl
