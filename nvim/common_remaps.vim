@@ -44,10 +44,18 @@ nmap y? y?\c
 nmap / /\c
 nmap ? ?\c
 
-" useful new motion
+" useful new motions
 nnoremap ci; Bct;
 nnoremap di; Bdt;
 nnoremap yi; Bdt;
+
+nnoremap ci: Bct:
+nnoremap di: Bdt:
+nnoremap yi: Bdt:
+
+nnoremap ci, Bct,
+nnoremap di, Bdt,
+nnoremap yi, Bdt,
 
 " create new line without going into insert mode
 " using <leader> won't work for some reason
