@@ -57,6 +57,7 @@ export VSCODE_DEBUG='1'
 # Helpful aliases
 alias zshreload="exec zsh"
 alias killNvim="ps -a | grep nvim | grep -v grep | awk '{print $1}' | xargs kill -9"
+alias fopen="nvim -c \"Telescope find_files\""
 
 mvFromTo() {
     cwd=$(pwd)
