@@ -39,14 +39,11 @@ return {
 
 					keymaps = {
 						-- You can use the capture groups defined in textobjects.scm
-						["a="] = { query = "@assignment.outer", desc = "Select outer part of the assignment" },
-						["i="] = { query = "@assignment.inner", desc = "Select inner part of the assignment" },
+						["a="] = { query = "@assignment.rhs", desc = "Select right hand assignment expression" },
+						["i="] = { query = "@assignment.lhs", desc = "Select left hand assignment expression" },
 
 						["af"] = { query = "@function.outer", desc = "Select outer part of the function" },
 						["if"] = { query = "@function.inner", desc = "Select inner part of the function" },
-
-						["aa"] = { query = "@assignment.rhs", desc = "Select right hand assignment expression" },
-						["ia"] = { query = "@assignment.lhs", desc = "Select left hand assignment expression" },
 
 						["ac"] = { query = "@class.outer", desc = "Select the outer part of the class" },
 						["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },

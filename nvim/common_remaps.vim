@@ -27,8 +27,9 @@ nmap cI c^
 nmap yI y^
 nmap dA D
 nmap cA C
-nnoremap yA mpgg0VG$y`p
-nnoremap =A mpgg0VG$=`p
+nnoremap yaa mpgg0VG$y`pzz
+nmap yA Y
+nnoremap =aa mpgg0VG$=`pzz
 nnoremap ZZ :xa!<CR>
 
 " <Ctrl-i> is the same as <Tab> on most terminals
@@ -53,10 +54,6 @@ nnoremap ci: Bct:
 nnoremap di: Bdt:
 nnoremap yi: Bdt:
 
-nnoremap ci, Bct,
-nnoremap di, Bdt,
-nnoremap yi, Bdt,
-
 " create new line without going into insert mode
 " using <leader> won't work for some reason
 nnoremap <Space>O Oi<Esc>"_dl
@@ -66,7 +63,10 @@ nnoremap <Space>o oi<Esc>"_dl
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap x <Esc>
-vnoremap A mpgg0oG$
+" for some reason, mapping to aa doesn't work
+vnoremap aa gg0oG$
+vnoremap A $h
+vnoremap I ^
 vnoremap H <C-u>zz
 vnoremap L <C-d>zz
 vnoremap <C-d> <C-d>zz
@@ -95,3 +95,4 @@ inoremap <Tab> <C-V><Tab>
 
 " make quickfix enter key open at location
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
