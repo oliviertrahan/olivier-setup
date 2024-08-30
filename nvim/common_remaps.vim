@@ -99,7 +99,6 @@ inoremap <C-d> <C-o>diw
 inoremap <C-c> <Esc>
 inoremap jj <Esc>
 inoremap jk <Esc>
-inoremap kj <Esc>
 " inoremap <Tab> <C-V><Tab>
 
 " make quickfix enter key open at location
