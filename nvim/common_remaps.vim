@@ -18,6 +18,8 @@ nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
+nnoremap gb <C-6>
+nnoremap ZZ :xa!<CR>
 
 " don't go into insert mode when using I
 nnoremap I ^
@@ -51,9 +53,6 @@ vnoremap Q :norm @q<CR>
 
 " dont change the register when deleting a single character
 nnoremap x "_dl
-nnoremap gb <C-6>
-
-nnoremap ZZ :xa!<CR>
 
 " dont want indentation as operators, just apply it on the line
 nnoremap < <<
