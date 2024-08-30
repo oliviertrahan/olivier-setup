@@ -19,21 +19,40 @@ nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" start macro which goes to the beginning of the line
-nnoremap <Space>qq qq^
-nnoremap Q @q
-" execute macro on all lines
-vnoremap Q :norm @q<CR>
-nnoremap x "_dl
-nnoremap gb <C-6>
+" don't go into insert mode when using I
+nnoremap I ^
+vnoremap I ^
+" don't go into insert mode when using A
+nnoremap A $
+vnoremap A $h
+
+" motions related to this
 nmap dI d^
 nmap cI c^
 nmap yI y^
 nmap dA D
 nmap cA C
-nnoremap yaa mpgg0VG$y`pzz
 nmap yA Y
+
+" select whole file with aa "text object"
+nnoremap yaa mpgg0VG$y`pzz
 nnoremap =aa mpgg0VG$=`pzz
+vnoremap aa gg0oG$
+
+" line selector
+vnoremap iL <Esc>^v$h
+vnoremap il <Esc>^v$h
+
+" start macro which goes to the beginning of the line
+nnoremap <Space>qq qq^
+nnoremap Q @q
+" execute macro on all lines
+vnoremap Q :norm @q<CR>
+
+" dont change the register when deleting a single character
+nnoremap x "_dl
+nnoremap gb <C-6>
+
 nnoremap ZZ :xa!<CR>
 
 " dont want indentation as operators, just apply it on the line
@@ -78,10 +97,6 @@ nnoremap <Space>o oi<Esc>"_dl
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap x <Esc>
-" for some reason, mapping to aa doesn't work
-vnoremap aa gg0oG$
-vnoremap A $h
-vnoremap I ^
 vnoremap H <C-u>zz
 vnoremap L <C-d>zz
 vnoremap <C-d> <C-d>zz
@@ -92,8 +107,6 @@ vnoremap D "+dgv<Esc>
 vnoremap d "0d
 vnoremap p "0p
 vnoremap P "+p
-vnoremap iL <Esc>^v$h
-vnoremap il <Esc>^v$h
 
 " better insert experience
 inoremap <C-h> <C-o>h
