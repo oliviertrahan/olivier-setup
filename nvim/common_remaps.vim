@@ -100,7 +100,7 @@ inoremap <C-c> <Esc>
 inoremap jj <Esc>
 inoremap jk <Esc>
 inoremap kj <Esc>
-inoremap <Tab> <C-V><Tab>
+" inoremap <Tab> <C-V><Tab>
 
 " make quickfix enter key open at location
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
