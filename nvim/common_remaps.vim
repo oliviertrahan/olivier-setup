@@ -18,6 +18,7 @@ nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
+
 " start macro which goes to the beginning of the line
 nnoremap <Space>qq qq^
 nnoremap Q @q
@@ -34,6 +35,13 @@ nnoremap yaa mpgg0VG$y`pzz
 nmap yA Y
 nnoremap =aa mpgg0VG$=`pzz
 nnoremap ZZ :xa!<CR>
+
+" dont want indentation as operators, just apply it on the line
+nnoremap < <<
+nnoremap > >>
+" for visual mode, keep the selection after indenting for further indenting
+vnoremap > >gv
+vnoremap < <gv
 
 " easy common substitution logic
 nnoremap <Space>ss yiw:s/\V<C-r>"//g<Left><Left>
@@ -78,8 +86,6 @@ vnoremap H <C-u>zz
 vnoremap L <C-d>zz
 vnoremap <C-d> <C-d>zz
 vnoremap <C-u> <C-u>zz
-vnoremap > >gv
-vnoremap < <gv
 vnoremap y ygv<Esc>
 vnoremap Y "+ygv<Esc>
 vnoremap D "+dgv<Esc>
