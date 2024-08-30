@@ -18,7 +18,10 @@ nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
+" start macro which goes to the beginning of the line
+nnoremap <Space>qq qq^
 nnoremap Q @q
+" execute macro on all lines
 vnoremap Q :norm @q<CR>
 nnoremap x "_dl
 nnoremap gb <C-6>
@@ -31,6 +34,10 @@ nnoremap yaa mpgg0VG$y`pzz
 nmap yA Y
 nnoremap =aa mpgg0VG$=`pzz
 nnoremap ZZ :xa!<CR>
+
+" easy common substitution logic
+nnoremap <Space>ss yiw:s/\V<C-r>"//g<Left><Left>
+vnoremap <Space>ss :s/\V<C-r>"//g<Left><Left>
 
 " <Ctrl-i> is the same as <Tab> on most terminals
 nnoremap <C-m> <C-i>

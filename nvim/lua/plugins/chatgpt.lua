@@ -10,7 +10,7 @@ return {
         if not os.getenv("OPENAI_API_KEY") then
             return
         end
-        require("chatgpt").setup()
+        require("chatgpt").setup({})
         vim.keymap.set("n", "<leader>cc", "<cmd>ChatGPT<CR>")
         vim.keymap.set("v", "<leader>cc", "y<cmd>ChatGPT<CR>p")
         vim.keymap.set({ "n", "v" }, "<leader>ce", "<cmd>ChatGPTEditWithInstructions<CR>")

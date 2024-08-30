@@ -37,11 +37,9 @@ autocmd("TextYankPost", {
 	end,
 })
 
-vim.keymap.set("n", "<leader>clr", "<cmd>LspRestart<CR>") -- embarassing to have to restart the LSP so often that I want a mapping
-vim.keymap.set("n", "<leader>cli", "<cmd>LspInfo<CR>") -- embarassing to have to restart the LSP so often that I want a mapping
+vim.keymap.set("n", "<leader>clr", "<cmd>LspRestart<cr>") -- embarassing to have to restart the lsp so often that i want a mapping
+vim.keymap.set("n", "<leader>cli", "<cmd>LspInfo<cr>") -- embarassing to have to restart the lsp so often that i want a mapping
 
-vim.keymap.set("n", "<leader>ss", 'yiw:%s/<C-r>"//g<Left><Left>') -- go back to last file
-vim.keymap.set("v", "<leader>ss", 'y:%s/<C-r>"//g<Left><Left>') -- go back to last file
 vim.keymap.set("n", "<leader>ddo", create_debug_buffer)
 vim.keymap.set("n", "<leader>ddc", cancel_debug_buffer)
 vim.keymap.set("n", "<leader>dtt", run_command_in_debug_terminal)
