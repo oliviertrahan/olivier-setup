@@ -53,11 +53,16 @@ export MANPAGER="nvim +Man!"
 export VSCODE_DEBUG='1'
 #export LOCAL_IP=$(ipconfig getifaddr en0)
 
+kill_program_by_name() {
+    ps -a | grep $1 | grep -v grep | awk '{print $1}' | xargs kill -9
+}
+
+autoload -Uz kill_program_by_name 
 
 # Helpful aliases
 alias zshreload="exec zsh"
-alias killNvim="ps -a | grep nvim | grep -v grep | awk '{print $1}' | xargs kill -9"
-alias fopen="nvim -c \"Telescope find_files\""
+alias killNvim="kill_program_by_name('nvim')"
+alias fopen="nvim -c \"lua require('telescope.builtin').find_files({ find_command={ 'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' } })\""
 
 mvFromTo() {
     cwd=$(pwd)
@@ -74,7 +79,6 @@ mvFromTo() {
 alias mvDl="mvFromTo ~/Downloads $PWD"
 
 # git configs
- 
 setupgitpersonal() {
     if [ $# -eq 1 ]; then
         echo "Setting up global git config"
