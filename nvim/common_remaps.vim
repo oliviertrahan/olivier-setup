@@ -81,11 +81,11 @@ nmap ? ?\c
 " useful new motions
 nnoremap ci; Bct;
 nnoremap di; Bdt;
-nnoremap yi; Bdt;
+nnoremap yi; Byt;
 
 nnoremap ci: Bct:
 nnoremap di: Bdt:
-nnoremap yi: Bdt:
+nnoremap yi: Byt:
 
 " create new line without going into insert mode
 " using <leader> won't work for some reason
