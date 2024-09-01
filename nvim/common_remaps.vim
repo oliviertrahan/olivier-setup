@@ -21,14 +21,7 @@ nnoremap N Nzzzv
 nnoremap gb <C-6>
 nnoremap ZZ :xa!<CR>
 
-" don't go into insert mode when using I
-nnoremap I ^
-vnoremap I ^
-" don't go into insert mode when using A
-nnoremap A $
-vnoremap A $h
-
-" motions related to this
+" motions related to I and A
 nmap dI d^
 nmap cI c^
 nmap yI y^
@@ -82,10 +75,12 @@ nmap ? ?\c
 nnoremap ci; Bct;
 nnoremap di; Bdt;
 nnoremap yi; Byt;
+vnoremap i; Bot;
 
 nnoremap ci: Bct:
 nnoremap di: Bdt:
 nnoremap yi: Byt:
+vnoremap i: Bot:
 
 " create new line without going into insert mode
 " using <leader> won't work for some reason
