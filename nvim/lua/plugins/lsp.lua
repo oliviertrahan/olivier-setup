@@ -4,10 +4,11 @@ local function setup_lsp()
 	lsp.preset("recommended")
 
 	lsp.ensure_installed({
-		-- 'tsserver',
 		-- 'rust_analyzer',
-		-- 'csharp_ls',
-		-- 'volar',
+		"csharp_ls",
+		"volar",
+		"pyright",
+		"tsserver",
 		"yamlls",
 		"eslint",
 		"bashls",
@@ -122,11 +123,11 @@ local function setup_lsp()
 		})
 	end
 
-	if lsp_config.tsserver then
-		lsp_config.tsserver.setup({
-			filetypes = { "typescript", "javascript" },
-		})
-	end
+	-- if lsp_config.tsserver then
+	-- 	lsp_config.tsserver.setup({
+	-- 		filetypes = { "typescript", "javascript" },
+	-- 	})
+	-- end
 
 	if lsp_config.volar then
 		lsp_config.volar.setup({

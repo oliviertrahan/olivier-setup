@@ -1,10 +1,10 @@
 vim.cmd("source ~/.config/nvim/common_remaps.vim")
 vim.g.tab_names = {}
 
+require("setup.lazy")
 require("setup.lua_extensions")
 require("setup.set")
 require("setup.remap")
-require("setup.lazy")
 require("setup.snippets")
 require("setup.print_snippets")
 require("setup.buf_write_pre")
