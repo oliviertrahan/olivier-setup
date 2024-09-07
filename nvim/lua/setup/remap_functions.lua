@@ -3,7 +3,8 @@ vim.g.print_remap_func = {}
 local exports = {}
 local projectTermMap = {}
 local extraTermMap = {}
-local debugOutBuf = nil
+local debugTerminalMap = {}
+local debugOutputMap = {}
 local debugFileTypeToCommand = {
 	go = function(fileName)
 		return { "go", "run", fileName }
@@ -83,6 +84,18 @@ function exports.open_terminal(termId)
 	end
 end
 
+function exports.open_debug_terminal()
+    local debugFile = vim.fn.expand("%:p") -- full path from root
+	if debugTerminalMap[debugFile] then
+		open_terminal_buffer(debugTerminalMap[debugFile])
+        return false
+	else
+		local bufId = open_terminal_buffer(nil)
+		debugTerminalMap[debugFile] = bufId
+        return true
+	end
+end
+
 function exports.open_project_terminal()
 	local current_directory = vim.api.nvim_call_function("getcwd", {})
 	local current_directory_name = vim.api.nvim_call_function("fnamemodify", { current_directory, ":t" })
@@ -94,6 +107,7 @@ function exports.open_project_terminal()
 		projectTermMap[current_directory_name] = bufId
 	end
 end
+
 
 function exports.set_print_snippet(kwargs)
 	local is_visual = kwargs.is_visual
@@ -120,7 +134,11 @@ function exports.set_print_snippet(kwargs)
 	vim.keymap.set(keymap_mode, keymap, remap_str, opts)
 end
 
-local function run_external_command_and_print_output(command)
+local function run_external_command_and_print_output(command, debugFile)
+    local debugOutBuf = debugOutputMap[debugFile]
+    if not debugOutBuf then
+        error("debugOutBuf cannot be nil")
+    end
 	-- Clear the buffer
 	local line_count = vim.api.nvim_buf_line_count(debugOutBuf)
     -- local current_line_count = 0
@@ -141,7 +159,6 @@ local function run_external_command_and_print_output(command)
 	})
 end
 
-
 function exports.run_command_in_debug_terminal()
     local debugFile = vim.fn.expand("%:p") -- full path from root
     local debugFileType = vim.fn.expand("%:e")
@@ -149,10 +166,22 @@ function exports.run_command_in_debug_terminal()
     if commandFunc == nil then
         return
     end
-    local terminal_new = exports.open_terminal(10)
-    if terminal_new then
-        vim.api.nvim_feedkeys("a", "n", true)
+
+    --If we had a regular debug buffer, then we remove it
+    local debugOutBuf = debugOutputMap[debugFile]
+    if debugOutBuf then
+        exports.cancel_debug_buffer()
     end
+
+    -- enter debug terminal whether old or new
+    local terminalId = debugTerminalMap[debugFile]
+    local isNewTerminal = terminalId == nil
+    vim.print("isNewTerminal: " .. tostring(isNewTerminal))
+    terminalId = open_terminal_buffer(terminalId)
+    debugTerminalMap[debugFile] = terminalId
+    -- if isNewTerminal then
+    --     vim.api.nvim_feedkeys("a", "n", true)
+    -- end
     local command = commandFunc(debugFile)
     for _, cmd in ipairs(command) do
         vim.api.nvim_feedkeys(cmd .. " ", "n", true)
@@ -162,7 +191,8 @@ function exports.run_command_in_debug_terminal()
 end
 
 function exports.cancel_debug_buffer()
-    debugOutBuf = nil
+	local debugFile = vim.fn.expand("%:p") -- full path from root
+    debugOutputMap[debugFile] = nil
     vim.api.nvim_del_augroup_by_name("DebugBuffer")
     vim.print("Debug buffer cleared")
 end
@@ -172,7 +202,7 @@ function exports.create_debug_buffer()
 	local debugFilePattern = vim.fn.expand("%") -- path relative to working directory
 	local currentWin = vim.api.nvim_get_current_win()
 	vim.cmd("rightb new")
-	debugOutBuf = vim.api.nvim_get_current_buf()
+    debugOutputMap[debugFile] = vim.api.nvim_get_current_buf()
 	vim.api.nvim_set_current_win(currentWin)
 
 	vim.api.nvim_create_autocmd("BufWritePost", {
@@ -185,7 +215,7 @@ function exports.create_debug_buffer()
 				return
 			end
 			local command = commandFunc(debugFile)
-			run_external_command_and_print_output(command)
+			run_external_command_and_print_output(command, debugFile)
 		end,
 	})
 end
