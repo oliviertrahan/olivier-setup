@@ -82,6 +82,12 @@ nnoremap di: Bdt:
 nnoremap yi: Byt:
 vnoremap i: Bot:
 
+nnoremap ci/ T/ct/
+nnoremap di/ T/ct/
+nnoremap yi/ T/ct/
+vnoremap i/ T/ot/
+
+
 " create new line without going into insert mode
 " using <leader> won't work for some reason
 nnoremap <Space>O Oi<Esc>"_dl
