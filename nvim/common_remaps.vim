@@ -83,8 +83,8 @@ nnoremap yi: Byt:
 vnoremap i: Bot:
 
 nnoremap ci/ T/ct/
-nnoremap di/ T/ct/
-nnoremap yi/ T/ct/
+nnoremap di/ T/dt/
+nnoremap yi/ T/yt/
 vnoremap i/ T/ot/
 
 
