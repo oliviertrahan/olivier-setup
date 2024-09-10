@@ -165,6 +165,7 @@ alias gcleanall="git clean -fd"
 git config --global core.editor $(which nvim)
 git config --global core.pager "nvim +Man!"
 git config --global difftool.prompt false
+git config --global push.autoSetupRemote true
 
 # End settings
 

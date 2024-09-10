@@ -72,11 +72,7 @@ mac_install() {
     which nvim || brew install neovim
     which zoxide || brew install zoxide
     which ollama || brew install ollama
-    
-    # if [ ! -d ~/open-webui ]; then
-    #     cd ~/
-    #     git clone https://github.com/open-webui/open-webui.git
-    # fi
+    which bun || brew install bun
     
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
@@ -124,6 +120,7 @@ linux_install() {
     which nvim || sudo apt install neovim
     which zoxide || sudo apt install zoxide
     which ollama || sudo apt install ollama
+    which bun || sudo apt install bun
 }
 
 bash_version=$(bash --version)
