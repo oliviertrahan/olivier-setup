@@ -114,20 +114,21 @@ alias nvimW="nvim -S ~/.config/nvim/lua/not_pushed/work_startup.lua"
 ### commands to run on opening a file from certain directories
 
 Put a lua file in `lua/not_pushed/buf_read_pre_config.lua` with the following content of format like this
+Example to hide a problematic directory from telescope live grep
 
 ```
-local buf_read_pre_config_list = {}
-local set_tabstop_system_tests = function()
-	vim.bo.tabstop = 3
+local set_telescope_mapping = function()
+    local buf = vim.api.nvim_get_current_buf()
+    local builtin = require("telescope.builtin")
+    vim.keymap.set("n", "<leader>fg", function() builtin.live_grep { glob_pattern = "!vendor/*" } end, { buffer = buf, noremap = true, silent = true, })
 end
 
-table.insert(buf_read_pre_config_list, {
-	command = set_tabstop_system_tests,
-	filetypes = { "cs" },
-	dir_path = "~/workspace/automated-system-tests",
-})
 
-return buf_read_pre_config_list
+table.insert(buf_read_pre_config_list, {
+	command = set_telescope_mapping,
+	filetypes = { "vue", "js", "mjs", "cjs" },
+	dir_path = "~/workspace/rvezy-web-client-v3",
+})
 ```
 
 ### Neoformat/commands to run on save config from certain directories

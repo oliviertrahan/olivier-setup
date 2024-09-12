@@ -123,19 +123,19 @@ local function setup_lsp()
 		})
 	end
 
-	-- if lsp_config.tsserver then
-	-- 	lsp_config.tsserver.setup({
-	-- 		filetypes = { "typescript", "javascript" },
-	-- 	})
-	-- end
+	if lsp_config.tsserver and lsp_config.tsserver.setup then
+		lsp_config.tsserver.setup({
+			filetypes = { "typescript", "javascript" },
+		})
+	end
 
-	if lsp_config.volar then
+	if lsp_config.volar and lsp_config.volar.setup then
 		lsp_config.volar.setup({
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
 		})
 	end
     
-	if lsp_config.pyright then
+	if lsp_config.pyright and lsp_config.pyright.setup then
 		lsp_config.pyright.setup({})
 	end
 
