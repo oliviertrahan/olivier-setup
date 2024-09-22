@@ -28,6 +28,8 @@ nmap yI y^
 nmap dA D
 nmap cA C
 nmap yA Y
+vmap A $h
+vmap I ^
 
 " select whole file with aa "text object"
 nnoremap yaa mpgg0VG$y`pzz
@@ -72,6 +74,7 @@ nmap / /\c
 nmap ? ?\c
 
 " useful new motions
+" i; i: are for the word before the character
 nnoremap ci; Bct;
 nnoremap di; Bdt;
 nnoremap yi; Byt;
@@ -82,11 +85,21 @@ nnoremap di: Bdt:
 nnoremap yi: Byt:
 vnoremap i: Bot:
 
+" i character motions which are between 2 of the character
 nnoremap ci/ T/ct/
 nnoremap di/ T/dt/
 nnoremap yi/ T/yt/
 vnoremap i/ T/ot/
 
+nnoremap ci. T.ct.
+nnoremap di. T.dt.
+nnoremap yi. T.yt.
+vnoremap i. T.ot.
+
+nnoremap ci, T,ct,
+nnoremap di, T,dt,
+nnoremap yi, T,yt,
+vnoremap i, T,ot,
 
 " create new line without going into insert mode
 " using <leader> won't work for some reason
