@@ -23,9 +23,13 @@ end
 local parseConfig = function(execution_config)
 	local fileTypesToConfigs = {}
 	for _, formatter_config in ipairs(execution_config) do
-		for _, fileType in ipairs(formatter_config.filetypes) do
-			addFileTypeToDict(fileTypesToConfigs, fileType, formatter_config)
-		end
+        if #formatter_config.filetypes > 0 then
+            for _, fileType in ipairs(formatter_config.filetypes) do
+                addFileTypeToDict(fileTypesToConfigs, fileType, formatter_config)
+            end
+        else
+            addFileTypeToDict(fileTypesToConfigs, "*", formatter_config)
+        end
 	end
 
 	local allValidFileTypes = {}
@@ -33,11 +37,18 @@ local parseConfig = function(execution_config)
 		table.insert(allValidFileTypes, "*." .. fileType)
 	end
 
+    if #allValidFileTypes == 0 then
+        table.insert(allValidFileTypes, "*")
+    end
+
 	local executeCallback = function()
 		local fileType = vim.fn.expand("<afile>:e")
 		local configsForFileType = fileTypesToConfigs[fileType]
 		if not configsForFileType then
-			return
+            configsForFileType = fileTypesToConfigs["*"]
+            if not configsForFileType then
+                return
+            end
 		end
 		for _, config in ipairs(configsForFileType) do
 			local configPath = vim.fn.expand(config.dir_path)
@@ -50,7 +61,7 @@ local parseConfig = function(execution_config)
 	end
 
 	return {
-		fileTypesToConfigs = fileTypesToConfigs,
+		allValidFileTypes = allValidFileTypes,
 		executeCallback = executeCallback,
 	}
 end

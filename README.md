@@ -117,18 +117,21 @@ Put a lua file in `lua/not_pushed/buf_read_pre_config.lua` with the following co
 Example to hide a problematic directory from telescope live grep
 
 ```
-local set_telescope_mapping = function()
+local buf_read_pre_config_list = {}
+
+local set_telescope_web_v3_mapping = function()
     local buf = vim.api.nvim_get_current_buf()
     local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "<leader>fg", function() builtin.live_grep { glob_pattern = "!vendor/*" } end, { buffer = buf, noremap = true, silent = true, })
+    vim.keymap.set("n", "<leader>fg", function() builtin.live_grep { glob_pattern = "!{vendor}/**" } end, { buffer = buf, noremap = true, silent = true })
 end
 
-
 table.insert(buf_read_pre_config_list, {
-	command = set_telescope_mapping,
+	command = set_telescope_web_v3_mapping,
 	filetypes = { "vue", "js", "mjs", "cjs" },
 	dir_path = "~/workspace/rvezy-web-client-v3",
 })
+
+return buf_read_pre_config_list
 ```
 
 ### Neoformat/commands to run on save config from certain directories
