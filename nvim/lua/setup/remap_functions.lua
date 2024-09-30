@@ -35,6 +35,15 @@ local debugFileTypeToCommand = {
 	end,
 }
 
+local function open_review_branch()
+    local branch = vim.fn.input("Branch name: ")
+    if branch == "" then
+        return
+    end
+    vim.fn.system("git worktree add -b " .. branch .. " ../" .. branch)
+    local current_branch = vim.fn.system("git branch --show-current")
+end
+
 local function open_terminal_buffer(bufId)
 	local open_term_buf = function(id)
 		if bufId == nil then

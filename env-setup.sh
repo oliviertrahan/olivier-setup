@@ -73,6 +73,7 @@ mac_install() {
     which zoxide || brew install zoxide
     which ollama || brew install ollama
     which bun || brew install bun
+    which sshpass || brew tap hudochenkov/sshpass && brew install sshpass
     
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
@@ -121,6 +122,7 @@ linux_install() {
     which zoxide || sudo apt install zoxide
     which ollama || sudo apt install ollama
     which bun || sudo apt install bun
+    which sshpass || sudo apt install sshpass
 }
 
 bash_version=$(bash --version)
