@@ -5,7 +5,7 @@ set nu
 set relativenumber
 set autoread
 set showmode!
-set wrap
+set wrap!
 set hlsearch! " ! means setting to false
 set incsearch
 set ignorecase& " & means settings to default
