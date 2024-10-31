@@ -3,22 +3,26 @@ source ~/.commonvimrc
 set idea.config.path
 
 " fix the lack of <cmd> support in IdeaVim
-map <Space>wo :vsplit<CR><C-w>l
-map <Space>ws :split<CR><C-w>j
+nmap <Space>wo :vsplit<CR><C-w>l
+nmap <Space>ws :split<CR><C-w>j
 
-map <Space>to :tabnew<CR>
-map <Space>tc :tabclose<CR>
-map <Space>tp :tabonly<CR>
-map <Space>tl :tabnext<CR>
-map <Space>th :tabprevious<CR>
-map <Space>tn :+tabmove<CR>
-map <Space>tN :-tabmove<CR>
+nmap <Space>to :tabnew<CR>
+nmap <Space>tc :tabclose<CR>
+nmap <Space>tp :tabonly<CR>
+nmap <Space>tl :tabnext<CR>
+nmap <Space>th :tabprevious<CR>
+nmap <Space>tn :+tabmove<CR>
+nmap <Space>tN :-tabmove<CR>
 
-map <Space>fg <Action>(FindInPath)
-map <Space>fc <Action>(GotoClass)
-map <Space>ff <Action>(GotoFile)
-map <Space>db <Action>(ToggleLineBreakpoint)
-map gi <Action>(ReSharperGotoImplementation)
-map gr <Action>(FindUsages)
+nmap <Space>fg <Action>(FindInPath)
+nmap <Space>fc <Action>(GotoClass)
+nmap <Space>ff <Action>(GotoFile)
+nmap <Space>fa <Action>(GotoAction)
+nmap <Space>fr <Action>(RecentFiles)
+nmap <Space>vrn <Action>(RenameElement)
+nmap <Space>vca <Action>(GotoAction)
+nmap gi <Action>(ReSharperGotoImplementation)
+nmap gr <Action>(FindUsages)
+nmap <Space>db <Action>(ToggleLineBreakpoint)
 
-map <Space>so :source ~/.ideavimrc<CR>
+nmap <Space>so :source ~/.ideavimrc<CR>
