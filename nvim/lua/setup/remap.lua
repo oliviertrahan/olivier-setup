@@ -48,26 +48,6 @@ vim.keymap.set("n", "<leader>dts", open_debug_terminal)
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
 
--- better window management
-vim.keymap.set("n", "<leader>wo", "<cmd>vsplit<CR><C-w>l")
-vim.keymap.set("n", "<leader>ws", "<cmd>split<CR><C-w>j")
-vim.keymap.set("n", "<leader>wc", "<C-w>c")
-vim.keymap.set("n", "<leader>wl", "<C-w>l")
-vim.keymap.set("n", "<leader>wh", "<C-w>h")
-vim.keymap.set("n", "<leader>wj", "<C-w>j")
-vim.keymap.set("n", "<leader>wk", "<C-w>k")
-
---better tab management
-vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>")
-vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>")
-vim.keymap.set("n", "<leader>tp", "<cmd>tabonly<CR>")
-vim.keymap.set("n", "<leader>tl", "<cmd>+tabnext<CR>")
-vim.keymap.set("n", "<leader>th", "<cmd>-tabnext<CR>")
-vim.keymap.set("n", "<Tab>", "<cmd>+tabnext<CR>")
-vim.keymap.set("n", "<S-Tab>", "<cmd>-tabnext<CR>")
-vim.keymap.set("n", "<leader>tn", "<cmd>+tabmove<CR>")
-vim.keymap.set("n", "<leader>tN", "<cmd>-tabmove<CR>")
-
 --Terminal mode improvement
 vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")

@@ -1,0 +1,24 @@
+source ~/.commonvimrc
+
+set idea.config.path
+
+" fix the lack of <cmd> support in IdeaVim
+map <Space>wo :vsplit<CR><C-w>l
+map <Space>ws :split<CR><C-w>j
+
+map <Space>to :tabnew<CR>
+map <Space>tc :tabclose<CR>
+map <Space>tp :tabonly<CR>
+map <Space>tl :tabnext<CR>
+map <Space>th :tabprevious<CR>
+map <Space>tn :+tabmove<CR>
+map <Space>tN :-tabmove<CR>
+
+map <Space>fg <Action>(FindInPath)
+map <Space>fc <Action>(GotoClass)
+map <Space>ff <Action>(GotoFile)
+map <Space>db <Action>(ToggleLineBreakpoint)
+map gi <Action>(ReSharperGotoImplementation)
+map gr <Action>(FindUsages)
+
+map <Space>so :source ~/.ideavimrc<CR>

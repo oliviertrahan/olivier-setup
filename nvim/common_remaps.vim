@@ -41,7 +41,7 @@ vnoremap iL <Esc>^v$h
 vnoremap il <Esc>^v$h
 
 " start macro which goes to the beginning of the line
-nnoremap <Space>qq qq^
+nnoremap <Space>qq qq_
 nnoremap Q @q
 " execute macro on all lines
 vnoremap Q :norm @q<CR>
@@ -132,6 +132,34 @@ inoremap <C-f> <C-r>"
 inoremap <C-c> <Esc>
 inoremap jj <Esc>
 inoremap jk j<Esc>
+
+" better window management
+nnoremap <Space>wo <cmd>vsplit<CR><C-w>l
+nnoremap <Space>ws <cmd>split<CR><C-w>j
+nnoremap <Space>wc <C-w>c
+nnoremap <Space>wl <C-w>l
+nnoremap <Space>wh <C-w>h
+nnoremap <Space>wj <C-w>j
+nnoremap <Space>wk <C-w>k
+
+" better tab management
+nnoremap <Space>to <cmd>tabnew<CR>
+nnoremap <Space>tc <cmd>tabclose<CR>
+nnoremap <Space>tp <cmd>tabonly<CR>
+nnoremap <Space>tl <cmd>tabnext<CR>
+nnoremap <Space>th <cmd>tabprevious<CR>
+nnoremap <Space>tn <cmd>+tabmove<CR>
+nnoremap <Space>tN <cmd>-tabmove<CR>
+
+" better tab management
+nnoremap <Space>to <cmd>tabnew<CR>
+nnoremap <Space>tc <cmd>tabclose<CR>
+nnoremap <Space>tp <cmd>tabonly<CR>
+nnoremap <Space>tl <cmd>+tabnext<CR>
+nnoremap <Space>th <cmd>-tabnext<CR>
+nnoremap <Space>tn <cmd>+tabmove<CR>
+nnoremap <Space>tN <cmd>-tabmove<CR>
+
 
 " make quickfix enter key open at location
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>

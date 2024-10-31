@@ -206,7 +206,7 @@ fi
 # other vim extensions setup
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.commonvimrc
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vrapperrc
-replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.ideavimrc
+replace_file_and_link "$(pwd)/.ideavimrc" ~/.ideavimrc
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vimrc
 replace_file_and_link "$(pwd)/.obsidian.vimrc" ~/.obsidian.vimrc
 
