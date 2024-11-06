@@ -15,14 +15,22 @@ nmap <Space>tn :+tabmove<CR>
 nmap <Space>tN :-tabmove<CR>
 
 nmap <Space>fg <Action>(FindInPath)
+vmap <Space>fg <Action>(FindInPath)
 nmap <Space>fc <Action>(GotoClass)
+vmap <Space>fc <Action>(GotoClass)
 nmap <Space>ff <Action>(GotoFile)
+vmap <Space>ff <Action>(GotoFile)
 nmap <Space>fa <Action>(GotoAction)
 nmap <Space>fr <Action>(RecentFiles)
 nmap <Space>vrn <Action>(RenameElement)
+vmap <Space>vrn <Action>(RenameElement)
 nmap <Space>vca <Action>(GotoAction)
 nmap gi <Action>(ReSharperGotoImplementation)
 nmap gr <Action>(FindUsages)
 nmap <Space>db <Action>(ToggleLineBreakpoint)
 
 nmap <Space>so :source ~/.ideavimrc<CR>
+
+Plug 'justinmk/vim-sneak'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'

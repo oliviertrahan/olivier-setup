@@ -63,6 +63,9 @@ vnoremap <Space>ss :s/\V<C-r>"//g<Left><Left>
 " <Ctrl-i> is the same as <Tab> on most terminals
 nnoremap <C-m> <C-i>
 
+" better marks, we never want mark to go to the beggining of the line
+nnoremap ' `
+
 " better search editing experience
 nmap d/ d/\c
 nmap d? d?\c
