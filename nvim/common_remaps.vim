@@ -20,6 +20,8 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap gb <C-6>
 nnoremap ZZ :xa!<CR>
+nnoremap <C-j> }
+nnoremap <C-k> {
 
 " motions related to I and A
 nmap dI d^
