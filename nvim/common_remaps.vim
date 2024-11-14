@@ -118,6 +118,8 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap x <Esc>
 vnoremap H <C-u>zz
 vnoremap L <C-d>zz
+vnoremap <Space>h {zz
+vnoremap <Space>l }zz
 vnoremap <C-d> <C-d>zz
 vnoremap <C-u> <C-u>zz
 vnoremap y ygv<Esc>
