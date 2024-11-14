@@ -20,8 +20,8 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap gb <C-6>
 nnoremap ZZ :xa!<CR>
-nnoremap <C-j> }
-nnoremap <C-k> {
+nnoremap <Space>h {zz
+nnoremap <Space>l }zz
 
 " motions related to I and A
 nmap dI d^
@@ -42,8 +42,9 @@ vnoremap aa gg0oG$
 vnoremap iL <Esc>^v$h
 vnoremap il <Esc>^v$h
 
-" start macro which goes to the beginning of the line
-nnoremap <Space>qq qq_
+" start macro on register q which goes to the beginning of the line
+nnoremap <Space>qq :let @q = '^'<cr>^qQ
+" execute macro q
 nnoremap Q @q
 " execute macro on all lines
 vnoremap Q :norm @q<CR>
