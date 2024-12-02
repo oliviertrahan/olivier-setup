@@ -1,0 +1,15 @@
+source ~/.commonvimrc
+
+" fix the lack of <cmd> support in VsCodeVim
+nmap <Space>wo :vsplit<CR><C-w>l
+nmap <Space>ws :split<CR><C-w>j
+
+nmap <Space>to :tabnew<CR>
+nmap <Space>tc :tabclose<CR>
+nmap <Space>tp :tabonly<CR>
+nmap <Space>tl :tabnext<CR>
+nmap <Space>th :tabprevious<CR>
+nmap <Space>tn :+tabmove<CR>
+nmap <Space>tN :-tabmove<CR>
+
+nmap <Space>so :source ~/.vscodevimrc<CR>

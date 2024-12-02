@@ -2,6 +2,83 @@
     "vim.vimrc.enable": true,
     "vim.visualModeKeyBindingsNonRecursive": [
         {
+            "before": ["<Space>", "t", "c"],
+            "commands": [":tabclose<CR>"]
+        },
+        {
+            "before": ["<Space>", "t", "o"],
+            "commands": [":tabnew<CR>"]
+        },
+        {
+            "before": ["<Space>", ":"],
+            "commands": [
+                "workbench.action.showCommands",
+            ],
+            "silent": true
+        },
+        {
+            "before": ["<Space>", "t", "c"],
+            "commands": [":tabclose<CR>"]
+        },
+        {
+            "before": ["<Space>", "t", "p"],
+            "commands": [":tabonly<CR>"]
+        },
+        {
+            "before": ["<Space>", "t", "l"],
+            "commands": [":tabnext<CR>"]
+        },
+        {
+            "before": ["<Space>", "t", "h"],
+            "commands": [":tabprevious<CR>"]
+        },
+        {
+            "before": ["<Space>", "t", "n"],
+            "commands": [":+tabmove<CR>"]
+        },
+        {
+            "before": ["<Space>", "t", "N"],
+            "commands": [":-tabmove<CR>"]
+        },
+        {
+            "before": ["<Space>", "f", "g"],
+            "commands": ["<Action>(FindInPath)"]
+        },
+        {
+            "before": ["<Space>", "f", "f"],
+            "commands": ["<Action>(GotoFile)"]
+        },
+        {
+            "before": ["<Space>", "f", "a"],
+            "commands": ["<Action>(GotoAction)"]
+        },
+        {
+            "before": ["<Space>", "f", "r"],
+            "commands": ["<Action>(RecentFiles)"]
+        },
+        {
+            "before": ["<Space>", "v", "r", "n"],
+            "commands": ["<Action>(RenameElement)"]
+        },
+        {
+            "before": ["<Space>", "v", "c", "a"],
+            "commands": ["<Action>(GotoAction)"]
+        },
+        {
+            "before": ["g", "i"],
+            "commands": ["<Action>(ReSharperGotoImplementation)"]
+        },
+        {
+            "before": ["g", "r"],
+            "commands": ["<Action>(FindUsages)"]
+        },
+        {
+            "before": ["<Space>", "d", "b"],
+            "commands": ["<Action>(ToggleLineBreakpoint)"]
+        },
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
             "before": ["J"],
             "commands": ["editor.action.moveLinesDownAction"]
         }, 
@@ -9,5 +86,20 @@
             "before": ["K"],
             "commands": ["editor.action.moveLinesUpAction"]
         } 
+        {
+            "before": ["<Space>fg"],
+            "commands": ["<Action>(FindInPath)"]
+        },
+        {
+            "before": ["<Space>fc"],
+            "commands": ["<Action>(GotoClass)"]
+        },
+        {
+            "before": ["<Space>ff"],
+            "commands": ["<Action>(GotoFile)"]
+        },
     ],
 }
+
+
+

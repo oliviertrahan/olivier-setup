@@ -208,19 +208,21 @@ replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.commonvimrc
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vrapperrc
 replace_file_and_link "$(pwd)/.ideavimrc" ~/.ideavimrc
 replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vimrc
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vscodevimrc
 replace_file_and_link "$(pwd)/.obsidian.vimrc" ~/.obsidian.vimrc
 
-
-replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vimrc
-
-# vscode local settings setup
-# file locations according to: https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
+# vscode/cursor local settings setup
+# file locations for visual studio according to: https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
+# file locations are assumed for Cursor based on MacOS experience
 if [[ "$machine" == "Mac" ]]; then
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+    replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
 elif [[ "$machine" == "Linux" ]]; then
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Code/User/settings.json"
+    replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Cursor/User/settings.json"
 else #Windows
     replace_file_and_link "$(pwd)/vscodesettings.json" "%APPDATA%\Code\User\settings.json"
+    replace_file_and_link "$(pwd)/vscodesettings.json" "%APPDATA%\Cursor\User\settings.json"
 fi
 
 # zsh setup
