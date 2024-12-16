@@ -115,6 +115,12 @@ git_select_from_oldest_branch() {
     git --no-pager branch -l --sort=committerdate | fzf
 }
 
+add_review_branch() {
+    git_select_from_latest_origin_branch | sed -e 's/^[ 	]*origin\///' | xargs -I {} git worktree add -f ../$(basename "$PWD")-review {}
+}
+
+autoload -Uz add_review_branch
+
 alias gsfs="fuzzy_find_staged_files"
 alias gmfs="fuzzy_find_modified_files"
 alias gaf="fuzzy_find_modified_files | xargs git add"
@@ -129,6 +135,8 @@ alias gdtf="fuzzy_find_modified_files | xargs git difftool"
 alias gcbf="git_select_from_latest_branch | xargs git checkout"
 alias gmf="git_select_from_latest_branch | xargs git merge"
 alias gmof="git_select_from_latest_origin_branch | xargs git merge"
+alias grbf="git_select_from_latest_branch | xargs git rebase"
+alias grbof="git_select_from_latest_origin_branch | xargs git rebase"
 alias gcbof="git_select_from_latest_origin_branch | sed -e 's/^[ 	]*origin\///' | xargs git checkout"
 alias gcleanf="git ls-files --others --exclude-standard | fzf | xargs git clean -fd"
 alias gbDf="git_select_from_oldest_branch | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt"

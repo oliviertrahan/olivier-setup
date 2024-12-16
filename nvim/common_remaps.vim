@@ -137,6 +137,7 @@ inoremap <C-l> <C-o>a
 inoremap <C-a> <C-o>A
 inoremap <C-d> <C-o>diw
 inoremap <C-f> <C-r>"
+inoremap <C-p> <C-r>"
 inoremap <C-c> <Esc>
 inoremap jj <Esc>
 inoremap jk j<Esc>

@@ -42,15 +42,11 @@
         },
         {
             "before": ["<Space>", "f", "g"],
-            "commands": ["<Action>(FindInPath)"]
+            "commands": ["workbench.action.findInFiles"]
         },
         {
             "before": ["<Space>", "f", "f"],
-            "commands": ["<Action>(GotoFile)"]
-        },
-        {
-            "before": ["<Space>", "f", "a"],
-            "commands": ["<Action>(GotoAction)"]
+            "commands": ["workbench.action.FindInPath"]
         },
         {
             "before": ["<Space>", "f", "r"],
@@ -58,7 +54,7 @@
         },
         {
             "before": ["<Space>", "v", "r", "n"],
-            "commands": ["<Action>(RenameElement)"]
+            "commands": ["editor.action.rename"]
         },
         {
             "before": ["<Space>", "v", "c", "a"],
@@ -66,15 +62,15 @@
         },
         {
             "before": ["g", "i"],
-            "commands": ["<Action>(ReSharperGotoImplementation)"]
+            "commands": ["references-view.findImplementations"]
         },
         {
             "before": ["g", "r"],
-            "commands": ["<Action>(FindUsages)"]
+            "commands": ["editor.action.goToReferences"]
         },
         {
             "before": ["<Space>", "d", "b"],
-            "commands": ["<Action>(ToggleLineBreakpoint)"]
+            "commands": ["editor.debug.action.toggleBreakpoint"]
         },
     ],
     "vim.visualModeKeyBindingsNonRecursive": [

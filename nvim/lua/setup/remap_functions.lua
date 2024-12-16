@@ -35,13 +35,42 @@ local debugFileTypeToCommand = {
 	end,
 }
 
-local function open_review_branch()
-    local branch = vim.fn.input("Branch name: ")
-    if branch == "" then
+local function send_keys(keys_to_send)
+    local keys = vim.api.nvim_replace_termcodes(keys_to_send, true, false, true)
+    vim.api.nvim_feedkeys(keys, "n", true)
+end
+
+local function checkout_branch(branch)
+    if not branch or #branch == 0 then
         return
     end
-    vim.fn.system("git worktree add -b " .. branch .. " ../" .. branch)
-    local current_branch = vim.fn.system("git branch --show-current")
+    branch = branch[1]
+    local branch_local_name = branch:gsub("^[%s]*origin/", "")
+    local curr_dir_full_path = vim.fn.getcwd()
+    local current_directory_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+    local review_directory_name = string.format("%s-review", current_directory_name)
+    local git_worktree_path = string.format("../%s", review_directory_name)
+    local git_worktree_remove_command = string.format("git worktree remove %s", git_worktree_path)
+    local git_worktree_command = string.format("git worktree add -f %s %s", git_worktree_path, branch_local_name)
+    vim.fn.system(git_worktree_remove_command)
+    vim.fn.system(git_worktree_command)
+    local tcd_path = string.format("%s/%s", curr_dir_full_path, git_worktree_path)
+    vim.cmd("tabnew")
+    vim.cmd(string.format("tcd %s", tcd_path))
+end
+
+local fzf = require('fzf-lua')
+function SetupReviewBranch()
+  local results = vim.fn.systemlist("git --no-pager branch -lr --sort=-committerdate")
+  fzf.fzf_exec(results, {
+    prompt = 'Select Branch> ',
+    cwd = vim.fn.getcwd(), -- Set current working directory
+    previewer = true,      -- Enable previewer
+    actions = {
+      -- What to do with the selected item
+      ['default'] = checkout_branch
+    },
+  })
 end
 
 local function open_terminal_buffer(bufId)
@@ -67,8 +96,7 @@ local function open_terminal_buffer(bufId)
 		if bufIsTerminal then
 			--If the current buffer is the terminal buffer, then we actually want to close the terminal
 			if currWinBuf == currentBuf then
-				local keys = vim.api.nvim_replace_termcodes("a<C-\\><C-n><C-w>c", true, false, true)
-				vim.api.nvim_feedkeys(keys, "n", true)
+                send_keys("a<C-\\><C-n><C-w>c")
 				return
 			end
 			vim.api.nvim_set_current_win(window)
@@ -184,19 +212,13 @@ function exports.run_command_in_debug_terminal()
 
     -- enter debug terminal whether old or new
     local terminalId = debugTerminalMap[debugFile]
-    local isNewTerminal = terminalId == nil
-    vim.print("isNewTerminal: " .. tostring(isNewTerminal))
     terminalId = open_terminal_buffer(terminalId)
     debugTerminalMap[debugFile] = terminalId
-    -- if isNewTerminal then
-    --     vim.api.nvim_feedkeys("a", "n", true)
-    -- end
     local command = commandFunc(debugFile)
     for _, cmd in ipairs(command) do
         vim.api.nvim_feedkeys(cmd .. " ", "n", true)
     end
-    local enterKey = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
-    vim.api.nvim_feedkeys(enterKey, "n", true)
+    send_keys("<CR>")
 end
 
 function exports.cancel_debug_buffer()
