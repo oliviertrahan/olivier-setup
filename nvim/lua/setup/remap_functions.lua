@@ -40,6 +40,17 @@ local function send_keys(keys_to_send)
     vim.api.nvim_feedkeys(keys, "n", true)
 end
 
+local function delete_project_terminal_if_exists(directory_name)
+    local bufId = projectTermMap[directory_name]
+    if not bufId then
+        --Nothing to delete
+        return
+    end
+
+    projectTermMap[directory_name] = nil
+    vim.api.nvim_buf_delete(bufId, { force = true })
+end
+
 local function checkout_branch(branch)
     if not branch or #branch == 0 then
         return
@@ -54,6 +65,8 @@ local function checkout_branch(branch)
     local git_worktree_command = string.format("git worktree add -f %s %s", git_worktree_path, branch_local_name)
     vim.fn.system(git_worktree_remove_command)
     vim.fn.system(git_worktree_command)
+    --terminal will be in a bad state if we don't delete the project terminal
+    delete_project_terminal_if_exists(current_directory_name)
     local tcd_path = string.format("%s/%s", curr_dir_full_path, git_worktree_path)
     vim.cmd("tabnew")
     vim.cmd(string.format("tcd %s", tcd_path))
@@ -61,11 +74,12 @@ end
 
 local fzf = require('fzf-lua')
 function SetupReviewBranch()
+  --Get git branches that includes origin remote, sorted by earliest
   local results = vim.fn.systemlist("git --no-pager branch -lr --sort=-committerdate")
   fzf.fzf_exec(results, {
     prompt = 'Select Branch> ',
     cwd = vim.fn.getcwd(), -- Set current working directory
-    previewer = true,      -- Enable previewer
+    previewer = false,      -- Enable previewer
     actions = {
       -- What to do with the selected item
       ['default'] = checkout_branch

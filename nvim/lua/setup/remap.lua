@@ -45,6 +45,8 @@ vim.keymap.set("n", "<leader>ddo", create_debug_buffer)
 vim.keymap.set("n", "<leader>ddc", cancel_debug_buffer)
 vim.keymap.set("n", "<leader>dtt", run_command_in_debug_terminal)
 vim.keymap.set("n", "<leader>dts", open_debug_terminal)
+vim.keymap.set("n", "<leader>qj", "<cmd>cnext<CR>") -- Next entry in quickfix list
+vim.keymap.set("n", "<leader>qk", "<cmd>cnext<CR>") -- Previous entry in quickfix list
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
 

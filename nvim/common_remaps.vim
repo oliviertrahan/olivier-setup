@@ -169,6 +169,14 @@ nnoremap <Space>th <cmd>-tabnext<CR>
 nnoremap <Space>tn <cmd>+tabmove<CR>
 nnoremap <Space>tN <cmd>-tabmove<CR>
 
+" better quickfix list management
+nnoremap <Space>qj <cmd>cnext<CR>
+nnoremap <M-j> <cmd>cnext<CR> " alt-j
+nnoremap <Space>qk <cmd>cprev<CR>
+nnoremap <M-k> <cmd>cprev<CR> " alt-k
+nnoremap <Space>qh <cmd>colder<CR>
+nnoremap <Space>ql <cmd>cnewer<CR>
+
 
 " make quickfix enter key open at location
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
