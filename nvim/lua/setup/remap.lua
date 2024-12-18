@@ -1,7 +1,12 @@
 -- the file has extra remaps that are neovim specific
 -- common remaps are at common_remaps.vim
 
+
 local remap_funcs = require("setup.remap_functions")
+-- Setup custom commands
+vim.api.nvim_create_user_command("SetupReviewBranch", remap_funcs.setup_review_branch, {})
+
+-- remap functions
 local open_project_terminal = remap_funcs.open_project_terminal
 local open_debug_terminal = remap_funcs.open_debug_terminal
 local open_terminal = remap_funcs.open_terminal

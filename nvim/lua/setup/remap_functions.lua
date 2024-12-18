@@ -66,18 +66,18 @@ local function checkout_branch(branch)
     vim.fn.system(git_worktree_remove_command)
     vim.fn.system(git_worktree_command)
     --terminal will be in a bad state if we don't delete the project terminal
-    delete_project_terminal_if_exists(current_directory_name)
+    delete_project_terminal_if_exists(review_directory_name)
     local tcd_path = string.format("%s/%s", curr_dir_full_path, git_worktree_path)
     vim.cmd("tabnew")
     vim.cmd(string.format("tcd %s", tcd_path))
 end
 
 local fzf = require('fzf-lua')
-function SetupReviewBranch()
+function exports.setup_review_branch()
   --Get git branches that includes origin remote, sorted by earliest
   local results = vim.fn.systemlist("git --no-pager branch -lr --sort=-committerdate")
   fzf.fzf_exec(results, {
-    prompt = 'Select Branch> ',
+    prompt = 'Select Branch > ',
     cwd = vim.fn.getcwd(), -- Set current working directory
     previewer = false,      -- Enable previewer
     actions = {
