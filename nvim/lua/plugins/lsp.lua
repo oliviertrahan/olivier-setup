@@ -8,7 +8,7 @@ local function setup_lsp()
 		"csharp_ls",
 		"volar",
 		"pyright",
-		"tsserver",
+		"ts_ls",
 		"yamlls",
 		"eslint",
 		"bashls",
@@ -32,18 +32,23 @@ local function setup_lsp()
     --TODO: cmp section coupled to LSP, figure out how to separate out the cmp
 	local cmp = require("cmp")
 	local cmp_select = { behavior = cmp.SelectBehavior.Select }
-	local cmp_mappings = lsp.defaults.cmp_mappings({
+    local custom_cmp_mappings = {
 		["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
 		["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<CR>"] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true
+        },
 		["<C-Space>"] = cmp.mapping.complete(),
-	})
+	}
+	local cmp_mappings = lsp.defaults.cmp_mappings(custom_cmp_mappings)
 
 	cmp_mappings["<Tab>"] = nil
 	cmp_mappings["<S-Tab>"] = nil
 
     cmp.setup.cmdline('/', {
       mapping = cmp.mapping.preset.cmdline(),
+      -- mapping = custom_cmp_mappings,
       sources = {
         { name = 'buffer' }
       }
@@ -51,6 +56,7 @@ local function setup_lsp()
     
     cmp.setup.cmdline(':', {
       mapping = cmp.mapping.preset.cmdline(),
+      -- mapping = custom_cmp_mappings,
       sources = cmp.config.sources(
       {
         { name = 'path' }
@@ -94,7 +100,8 @@ local function setup_lsp()
 			local telescope = require("telescope.builtin")
 			if telescope then
 				definitions = telescope.lsp_definitions
-				references = '<cmd>lua require("telescope.builtin").lsp_references()<CR><ESC>'
+				-- references = '<cmd>lua require("telescope.builtin").lsp_references()<CR><ESC>'
+				references = telescope.lsp_references
 				implementations = telescope.lsp_implementations
 				workspace_symbols = telescope.lsp_workspace_symbols
 				document_symbols = telescope.lsp_document_symbols
@@ -160,7 +167,6 @@ local function setup_lsp()
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
 		})
 	end
-    
 	if lsp_config.pyright and lsp_config.pyright.setup then
 		lsp_config.pyright.setup({})
 	end

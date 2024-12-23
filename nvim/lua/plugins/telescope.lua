@@ -12,12 +12,12 @@ local function setup_telescope()
 
 	local selections_to_skip = 10
 	local scroll_many_results_previous = function(prompt_bufnr)
-		for i = 1, selections_to_skip, 1 do
+		for _ = 1, selections_to_skip, 1 do
 			actions.move_selection_previous(prompt_bufnr)
 		end
 	end
 	local scroll_many_results_next = function(prompt_bufnr)
-		for i = 1, selections_to_skip, 1 do
+		for _ = 1, selections_to_skip, 1 do
 			actions.move_selection_next(prompt_bufnr)
 		end
 	end
@@ -92,7 +92,7 @@ local function setup_telescope()
 	vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<CR><C-c>", {})
 	vim.keymap.set("n", "<leader>fcc", builtin.commands, {})
 	vim.keymap.set("n", "<leader>fd", builtin.help_tags, {})
-	vim.keymap.set("v", "<leader>fd", 'y<cmd>Telescope help_tags<CR><C-r>"', {})
+	vim.keymap.set("v", "<leader>fd", 'y<cmd>Telescope help_tags<CR><C-r>"<C-c>', {})
 	vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
     vim.keymap.set("n", "<leader>fhg", function() builtin.live_grep{ search_dirs = { '%.*/%..*' }, } end, {})
 	vim.keymap.set("v", "<leader>fg", function()
@@ -103,6 +103,17 @@ local function setup_telescope()
 	end, {})
 	vim.keymap.set("n", "<leader>fcg", "<cmd>Telescope current_buffer_fuzzy_find<CR>", {})
 	vim.keymap.set("v", "<leader>fcg", 'y<cmd>Telescope current_buffer_fuzzy_find<CR><C-r>"<ESC>', {})
+	vim.keymap.set("n", "<leader>flf", function()
+        builtin.find_files {
+            cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
+        }
+    end, {})
+	vim.keymap.set("n", "<leader>flg", function()
+        builtin.live_grep {
+            cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
+        }
+    end, {})
+
 
 	local function get_working_directories()
 		local tabpages = vim.api.nvim_list_tabpages()

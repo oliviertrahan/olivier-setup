@@ -35,11 +35,6 @@ local debugFileTypeToCommand = {
 	end,
 }
 
-local function send_keys(keys_to_send)
-    local keys = vim.api.nvim_replace_termcodes(keys_to_send, true, false, true)
-    vim.api.nvim_feedkeys(keys, "n", true)
-end
-
 local function delete_project_terminal_if_exists(directory_name)
     local bufId = projectTermMap[directory_name]
     if not bufId then

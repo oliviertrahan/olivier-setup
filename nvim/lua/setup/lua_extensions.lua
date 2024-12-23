@@ -64,6 +64,11 @@ function get_active_tabpage_for_buffer(buffer_id)
 	return nil
 end
 
+function send_keys(keys_to_send)
+    local keys = vim.api.nvim_replace_termcodes(keys_to_send, true, false, true)
+    vim.api.nvim_feedkeys(keys, "n", true)
+end
+
 getmetatable("").shallow_copy = shallow_copy
 getmetatable("").dump = dump
 getmetatable("").standardize_url = standardize_url
@@ -71,3 +76,4 @@ getmetatable("").interp = interp
 getmetatable("").insertAtCursor = insertAtCursor
 getmetatable("").uuid = uuid
 getmetatable("").get_active_tabpage_for_buffer = get_active_tabpage_for_buffer
+getmetatable("").send_keys = send_keys
