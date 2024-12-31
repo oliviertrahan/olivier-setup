@@ -8,7 +8,7 @@ vim.api.nvim_create_user_command("SetupReviewBranch", remap_funcs.setup_review_b
 
 -- remap functions
 local open_project_terminal = remap_funcs.open_project_terminal
-local open_debug_terminal = remap_funcs.open_debug_terminal
+local open_debug_terminal_for_current_file = remap_funcs.open_debug_terminal_for_current_file
 local open_terminal = remap_funcs.open_terminal
 local create_debug_buffer = remap_funcs.create_debug_buffer
 local cancel_debug_buffer = remap_funcs.cancel_debug_buffer
@@ -49,7 +49,7 @@ vim.keymap.set("n", "<leader>cli", "<cmd>LspInfo<cr>") -- embarassing to have to
 vim.keymap.set("n", "<leader>ddo", create_debug_buffer)
 vim.keymap.set("n", "<leader>ddc", cancel_debug_buffer)
 vim.keymap.set("n", "<leader>dtt", run_command_in_debug_terminal)
-vim.keymap.set("n", "<leader>dts", open_debug_terminal)
+vim.keymap.set("n", "<leader>dts", open_debug_terminal_for_current_file)
 vim.keymap.set("n", "<leader>qj", "<cmd>cnext<CR>") -- Next entry in quickfix list
 vim.keymap.set("n", "<leader>qk", "<cmd>cnext<CR>") -- Previous entry in quickfix list
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list

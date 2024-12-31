@@ -1,9 +1,8 @@
 vim.g.print_remap_func = {}
 
-local exports = {}
-local projectTermMap = {}
-local extraTermMap = {}
-local debugTerminalMap = {}
+local M = {}
+local terminal_functions = require('setup.terminal_functions')
+local delete_project_terminal_if_exists = terminal_functions.delete_project_terminal_if_exists
 local debugOutputMap = {}
 local debugFileTypeToCommand = {
 	go = function(fileName)
@@ -35,17 +34,6 @@ local debugFileTypeToCommand = {
 	end,
 }
 
-local function delete_project_terminal_if_exists(directory_name)
-    local bufId = projectTermMap[directory_name]
-    if not bufId then
-        --Nothing to delete
-        return
-    end
-
-    projectTermMap[directory_name] = nil
-    vim.api.nvim_buf_delete(bufId, { force = true })
-end
-
 local function checkout_branch(branch)
     if not branch or #branch == 0 then
         return
@@ -68,7 +56,7 @@ local function checkout_branch(branch)
 end
 
 local fzf = require('fzf-lua')
-function exports.setup_review_branch()
+function M.setup_review_branch()
   --Get git branches that includes origin remote, sorted by earliest
   local results = vim.fn.systemlist("git --no-pager branch -lr --sort=-committerdate")
   fzf.fzf_exec(results, {
@@ -82,80 +70,7 @@ function exports.setup_review_branch()
   })
 end
 
-local function open_terminal_buffer(bufId)
-	local open_term_buf = function(id)
-		if bufId == nil then
-			vim.cmd("terminal")
-		else
-			vim.cmd("b " .. id)
-		end
-
-		vim.cmd("norm a")
-		return vim.api.nvim_get_current_buf()
-	end
-
-	local tabpage = vim.api.nvim_get_current_tabpage()
-	local windows_in_tab = vim.api.nvim_tabpage_list_wins(tabpage)
-	local currentBuf = vim.api.nvim_get_current_buf()
-
-	--If the current buffer is any other terminal in the tab, then replace the current buffer with the terminal
-	for _, window in pairs(windows_in_tab) do
-		local currWinBuf = vim.api.nvim_win_get_buf(window)
-		local bufIsTerminal = vim.api.nvim_buf_get_option(currWinBuf, "buftype") == "terminal"
-		if bufIsTerminal then
-			--If the current buffer is the terminal buffer, then we actually want to close the terminal
-			if currWinBuf == currentBuf then
-                send_keys("a<C-\\><C-n><C-w>c")
-				return
-			end
-			vim.api.nvim_set_current_win(window)
-			return open_term_buf(bufId)
-		end
-	end
-
-	--Or else create a new split pane and go into terminal mode
-	vim.cmd("rightb new")
-	return open_term_buf(bufId)
-end
-
--- return true if the terminal just opened
-function exports.open_terminal(termId)
-	if extraTermMap[termId] then
-		open_terminal_buffer(extraTermMap[termId])
-        return false
-	else
-		local bufId = open_terminal_buffer(nil)
-		extraTermMap[termId] = bufId
-        return true
-	end
-end
-
-function exports.open_debug_terminal()
-    local debugFile = vim.fn.expand("%:p") -- full path from root
-	if debugTerminalMap[debugFile] then
-		open_terminal_buffer(debugTerminalMap[debugFile])
-        return false
-	else
-		local bufId = open_terminal_buffer(nil)
-		debugTerminalMap[debugFile] = bufId
-        return true
-	end
-end
-
-function exports.open_project_terminal()
-	local current_directory = vim.api.nvim_call_function("getcwd", {})
-	local current_directory_name = vim.api.nvim_call_function("fnamemodify", { current_directory, ":t" })
-
-	if projectTermMap[current_directory_name] then
-		open_terminal_buffer(projectTermMap[current_directory_name])
-	else
-		local bufId = open_terminal_buffer(nil)
-		projectTermMap[current_directory_name] = bufId
-	end
-end
-
-
-function exports.set_print_snippet(kwargs)
+function M.set_print_snippet(kwargs)
 	local is_visual = kwargs.is_visual
 	local is_json = kwargs.is_json
 	local format = kwargs.format
@@ -178,6 +93,13 @@ function exports.set_print_snippet(kwargs)
 		opts.buffer = buffer
 	end
 	vim.keymap.set(keymap_mode, keymap, remap_str, opts)
+end
+
+function M.cancel_debug_buffer()
+	local debugFile = vim.fn.expand("%:p") -- full path from root
+    debugOutputMap[debugFile] = nil
+    vim.api.nvim_del_augroup_by_name("DebugBuffer")
+    vim.print("Debug buffer cleared")
 end
 
 local function run_external_command_and_print_output(command, debugFile)
@@ -205,39 +127,8 @@ local function run_external_command_and_print_output(command, debugFile)
 	})
 end
 
-function exports.run_command_in_debug_terminal()
-    local debugFile = vim.fn.expand("%:p") -- full path from root
-    local debugFileType = vim.fn.expand("%:e")
-    local commandFunc = debugFileTypeToCommand[debugFileType]
-    if commandFunc == nil then
-        return
-    end
 
-    --If we had a regular debug buffer, then we remove it
-    local debugOutBuf = debugOutputMap[debugFile]
-    if debugOutBuf then
-        exports.cancel_debug_buffer()
-    end
-
-    -- enter debug terminal whether old or new
-    local terminalId = debugTerminalMap[debugFile]
-    terminalId = open_terminal_buffer(terminalId)
-    debugTerminalMap[debugFile] = terminalId
-    local command = commandFunc(debugFile)
-    for _, cmd in ipairs(command) do
-        vim.api.nvim_feedkeys(cmd .. " ", "n", true)
-    end
-    send_keys("<CR>")
-end
-
-function exports.cancel_debug_buffer()
-	local debugFile = vim.fn.expand("%:p") -- full path from root
-    debugOutputMap[debugFile] = nil
-    vim.api.nvim_del_augroup_by_name("DebugBuffer")
-    vim.print("Debug buffer cleared")
-end
-
-function exports.create_debug_buffer()
+function M.create_debug_buffer()
 	local debugFile = vim.fn.expand("%:p") -- full path from root
 	local debugFilePattern = vim.fn.expand("%") -- path relative to working directory
 	local currentWin = vim.api.nvim_get_current_win()
@@ -260,4 +151,31 @@ function exports.create_debug_buffer()
 	})
 end
 
-return exports
+function M.run_command_in_debug_terminal()
+    local debugFile = vim.fn.expand("%:p") -- full path from root
+    local debugFileType = vim.fn.expand("%:e")
+    local commandFunc = debugFileTypeToCommand[debugFileType]
+    if commandFunc == nil then
+        return
+    end
+
+    --If we had a regular debug buffer, then we remove it
+    local debugOutBuf = debugOutputMap[debugFile]
+    if debugOutBuf then
+        M.cancel_debug_buffer()
+    end
+
+    -- enter debug terminal whether old or new
+    terminal_functions.open_debug_terminal_for_current_file()
+    local command = commandFunc(debugFile)
+    for _, cmd in ipairs(command) do
+        vim.api.nvim_feedkeys(cmd .. " ", "n", true)
+    end
+    send_keys("<CR>")
+end
+
+M.open_terminal = terminal_functions.open_terminal
+M.open_debug_terminal_for_current_file = terminal_functions.open_debug_terminal_for_current_file
+M.open_project_terminal = terminal_functions.open_project_terminal
+
+return M
