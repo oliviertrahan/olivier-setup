@@ -123,6 +123,7 @@ linux_install() {
     which ollama || sudo apt install ollama
     which bun || sudo apt install bun
     which sshpass || sudo apt install sshpass
+    which sshfs || sudo apt install sshfs
 }
 
 bash_version=$(bash --version)

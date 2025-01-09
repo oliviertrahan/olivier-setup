@@ -14,11 +14,14 @@ local create_debug_buffer = remap_funcs.create_debug_buffer
 local cancel_debug_buffer = remap_funcs.cancel_debug_buffer
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 
-vim.keymap.set("n", "<leader>pp", function()
+local copy_file_path_relative = function()
 	local path = vim.fn.expand("%")
 	vim.fn.setreg("+", path)
 	vim.notify('Copied "' .. path .. '" to the clipboard!')
-end)
+end
+
+vim.keymap.set("n", "<leader>pp", copy_file_path_relative)
+vim.api.nvim_create_user_command("CopyFilePathRelative", copy_file_path_relative, {})
 
 --better yanking experience
 local augroup = vim.api.nvim_create_augroup

@@ -1,8 +1,9 @@
 vim.g.print_remap_func = {}
 
-local M = {}
 local terminal_functions = require('setup.terminal_functions')
 local delete_project_terminal_if_exists = terminal_functions.delete_project_terminal_if_exists
+
+local M = {}
 local debugOutputMap = {}
 local debugFileTypeToCommand = {
 	go = function(fileName)
@@ -126,7 +127,6 @@ local function run_external_command_and_print_output(command, debugFile)
 		end,
 	})
 end
-
 
 function M.create_debug_buffer()
 	local debugFile = vim.fn.expand("%:p") -- full path from root

@@ -30,8 +30,6 @@ nmap yI y^
 nmap dA D
 nmap cA C
 nmap yA Y
-vmap A $h
-vmap I ^
 
 " select whole file with aa "text object"
 nnoremap yaa mpgg0VG$y`pzz
