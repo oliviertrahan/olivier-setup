@@ -142,12 +142,22 @@ alias gcleanf="git ls-files --others --exclude-standard | fzf | xargs git clean 
 alias gbDf="git_select_from_oldest_branch | tee ~/branch.txt | xargs git branch -D; cat ~/branch.txt | xargs git push origin --delete; rm ~/branch.txt"
 alias gstaf="fuzzy_find_modified_files | xargs git stash push"
 
+gp() {
+    if [ $# -ne 1 ]; then
+        echo "Usage: gp <commit_message>"
+        return
+    fi
+
+    git add --all
+    git commit -m "$1"
+    git push
+}
+
 alias gs="git status"
 alias ga="git add"
 alias gf="git fetch"
 alias gm="git merge"
 alias grb="git rebase"
-alias gp="git push"
 alias gpf="git push --force-with-lease"
 alias gP="git pull"
 alias gup="git pull"

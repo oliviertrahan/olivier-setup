@@ -41,7 +41,7 @@ vnoremap iL <Esc>^v$h
 vnoremap il <Esc>^v$h
 
 " start macro on register q which goes to the beginning of the line
-nnoremap <Space>qq :let @q = '^'<cr>^qQ
+nnoremap <Space>qq :let @q = '^'<cr>qq^
 " execute macro q
 nnoremap Q @q
 " execute macro on all lines
@@ -174,7 +174,6 @@ nnoremap <Space>qk <cmd>cprev<CR>
 nnoremap <M-k> <cmd>cprev<CR> " alt-k
 nnoremap <Space>qh <cmd>colder<CR>
 nnoremap <Space>ql <cmd>cnewer<CR>
-
 
 " make quickfix enter key open at location
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
