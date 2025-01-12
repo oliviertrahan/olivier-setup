@@ -153,6 +153,19 @@ gp() {
     git push
 }
 
+notify() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: notify <commands>"
+        return
+    fi
+
+    task_name=$1 
+    # This executes the program
+    $@
+
+    say "task $task_name completed"
+}
+
 alias gs="git status"
 alias ga="git add"
 alias gf="git fetch"
