@@ -160,10 +160,17 @@ notify() {
     fi
 
     task_name=$1 
+    
     # This executes the program
     $@
-
-    say "task $task_name completed"
+    
+    if which terminal-notifier > /dev/null; then
+        terminal-notifier -title "Terminal task completed" -message "command \"${*}\" completed"
+    fi
+    
+    if which say > /dev/null; then
+        say "task $task_name completed"
+    fi
 }
 
 alias gs="git status"

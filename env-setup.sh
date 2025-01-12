@@ -74,6 +74,7 @@ mac_install() {
     which ollama || brew install ollama
     which bun || brew install bun
     which sshpass || brew tap hudochenkov/sshpass && brew install sshpass
+    which terminal-notifier || brew install terminal-notifier
     
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
