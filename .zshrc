@@ -143,13 +143,12 @@ alias gbDf="git_select_from_oldest_branch | tee ~/branch.txt | xargs git branch 
 alias gstaf="fuzzy_find_modified_files | xargs git stash push"
 
 gp() {
-    if [ $# -ne 1 ]; then
-        echo "Usage: gp <commit_message>"
+    if [ $# -gt 0 ]; then
+        git add --all
+        git commit -m "$1"
         return
     fi
 
-    git add --all
-    git commit -m "$1"
     git push
 }
 
