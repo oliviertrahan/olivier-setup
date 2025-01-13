@@ -146,7 +146,6 @@ gp() {
     if [ $# -gt 0 ]; then
         git add --all
         git commit -m "$1"
-        return
     fi
 
     git push
