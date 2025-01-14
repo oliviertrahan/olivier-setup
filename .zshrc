@@ -151,9 +151,18 @@ gp() {
     git push
 }
 
+
+fail() {
+    $(exit 1)
+}
+
+success() {
+    $(exit 0)
+}
+
 notify() {
     if [ $# -eq 0 ]; then
-        echo "Usage: notify <commands>"
+        echo "Usage: notify <commands>. Will execute the command you provide after this as if you didn't type notify, then notify you when it's done"
         return
     fi
 
@@ -161,13 +170,18 @@ notify() {
     
     # This executes the program
     $@
+    if [ $? -eq 0 ]; then
+        str_append="successful"
+    else
+        str_append="failed"
+    fi
     
     if which terminal-notifier > /dev/null; then
-        terminal-notifier -title "Terminal task completed" -message "command \"${*}\" completed"
+        terminal-notifier -title "Terminal task completed" -message "command \"${*}\" $str_append"
     fi
     
     if which say > /dev/null; then
-        say "task $task_name completed"
+        say "task $task_name $str_append"
     fi
 }
 
