@@ -1,16 +1,28 @@
 local validColorSchemes = {
 	"kanagawa",
 	"rose-pine-moon",
-	-- "catppuccin-mocha",
-	-- "tokyonight-moon",
-	-- "dracula",
+	"catppuccin-mocha",
+	"tokyonight-moon",
+	"dracula-soft",
 	"sonokai",
-	-- "oxocarbon",
+	"oxocarbon",
 	-- "nord",
 	"nightfly",
 	-- "gruvbox-baby",
-	-- "everforest",
+	"everforest",
 }
+
+function PickSelectedColor(colorscheme)
+    vim.print(string.format("chosen colorscheme: %s", colorscheme))
+	vim.cmd(string.format("colorscheme %s", colorscheme))
+end
+
+function PickSelectedColorFzf(colorscheme)
+    if not colorscheme or #colorscheme == 0 then
+        return
+    end
+    PickSelectedColor(colorscheme[1])
+end
 
 function NewColor()
 	local colorscheme = vim.g.colors_name
@@ -19,8 +31,7 @@ function NewColor()
 		local choice = math.random(#validColorSchemes)
 		colorscheme = validColorSchemes[choice]
 	end
-	vim.cmd(string.format("colorscheme %s", colorscheme))
-	print(string.format("chosen colorscheme: %s", colorscheme))
+    PickSelectedColor(colorscheme)
 end
 
 function ListColors()
@@ -32,6 +43,20 @@ function ListColors()
 		end
 	end
 	print(colorStr)
+end
+
+
+function SelectColor()
+  --Get git branches that includes origin remote, sorted by earliest
+  require('fzf-lua').fzf_exec(validColorSchemes, {
+    prompt = 'Select ColorScheme > ',
+    cwd = vim.fn.getcwd(), -- Set current working directory
+    previewer = false,      -- Enable previewer
+    actions = {
+      -- What to do with the selected item
+      ['default'] = PickSelectedColorFzf
+    },
+  })
 end
 
 local function setup_color_schemes()
@@ -71,6 +96,9 @@ local function setup_color_schemes()
 	})
 
 	NewColor()
+    vim.api.nvim_create_user_command("ColorNew", NewColor, {})
+    vim.api.nvim_create_user_command("ColorList", ListColors, {})
+    vim.api.nvim_create_user_command("ColorSelect", SelectColor, {})
 end
 
 return {
@@ -88,6 +116,7 @@ return {
 			"sainnhe/sonokai",
 			"loctvl842/monokai-pro.nvim",
 			"nordtheme/vim",
+            "ibhagwan/fzf-lua"
 		},
 		config = setup_color_schemes,
 	},

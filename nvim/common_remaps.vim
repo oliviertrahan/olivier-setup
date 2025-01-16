@@ -24,6 +24,7 @@ nnoremap <Space>h {zz
 nnoremap <Space>l }zz
 
 " motions related to I and A
+" don't do it with visual mode because you need I and A for multi cursor insert
 nmap dI d^
 nmap cI c^
 nmap yI y^
