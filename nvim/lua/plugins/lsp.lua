@@ -156,8 +156,8 @@ local function setup_lsp()
 		})
 	end
 
-	if lsp_config.tsserver and lsp_config.tsserver.setup then
-		lsp_config.tsserver.setup({
+	if lsp_config.ts_ls and lsp_config.ts_ls.setup then
+		lsp_config.ts_ls.setup({
 			filetypes = { "typescript", "javascript" },
 		})
 	end

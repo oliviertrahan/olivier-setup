@@ -69,6 +69,13 @@ function send_keys(keys_to_send)
     vim.api.nvim_feedkeys(keys, "n", true)
 end
 
+function get_visual_selection()
+    -- Yank current visual selection into the 'v' register
+    -- Note that this makes no effort to preserve this register
+    vim.cmd('noau normal! "vy')
+    return vim.fn.getreg('v')
+end
+
 getmetatable("").shallow_copy = shallow_copy
 getmetatable("").dump = dump
 getmetatable("").standardize_url = standardize_url
@@ -77,3 +84,4 @@ getmetatable("").insertAtCursor = insertAtCursor
 getmetatable("").uuid = uuid
 getmetatable("").get_active_tabpage_for_buffer = get_active_tabpage_for_buffer
 getmetatable("").send_keys = send_keys
+getmetatable("").get_visual_selection = get_visual_selection

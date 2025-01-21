@@ -13,6 +13,7 @@ local open_terminal = remap_funcs.open_terminal
 local create_debug_buffer = remap_funcs.create_debug_buffer
 local cancel_debug_buffer = remap_funcs.cancel_debug_buffer
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
+local send_visual_selection_to_last_opened_terminal = remap_funcs.send_visual_selection_to_last_opened_terminal
 
 local copy_file_path_relative = function()
 	local path = vim.fn.expand("%")
@@ -59,6 +60,16 @@ vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
 
 --Terminal mode improvement
+autocmd('TermOpen', {
+    group = vim.api.nvim_create_augroup('term-open', { clear = true }),
+    pattern = '*',
+    callback = function()
+        vim.opt.number = false
+        vim.opt.relativenumber = false
+    end,
+})
+
+vim.keymap.set("v", "<leader>st", send_visual_selection_to_last_opened_terminal)
 vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
 vim.keymap.set("t", "<C-a>", "<C-\\><C-n>")

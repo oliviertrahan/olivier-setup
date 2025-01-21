@@ -177,5 +177,6 @@ end
 M.open_terminal = terminal_functions.open_terminal
 M.open_debug_terminal_for_current_file = terminal_functions.open_debug_terminal_for_current_file
 M.open_project_terminal = terminal_functions.open_project_terminal
+M.send_visual_selection_to_last_opened_terminal = terminal_functions.send_visual_selection_to_last_opened_terminal
 
 return M

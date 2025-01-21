@@ -2,6 +2,8 @@ local M = {}
 local projectTermMap = {}
 local extraTermMap = {}
 local debugTerminalMap = {}
+local terminalJobIdMap = {}
+local lastOpenedTermBuf = nil
 
 local function open_terminal_buffer(bufId)
 	local open_term_buf = function(id)
@@ -12,7 +14,9 @@ local function open_terminal_buffer(bufId)
 		end
 
 		vim.cmd("norm a")
-		return vim.api.nvim_get_current_buf()
+        lastOpenedTermBuf = vim.api.nvim_get_current_buf()
+        terminalJobIdMap[lastOpenedTermBuf] = vim.bo.channel
+		return lastOpenedTermBuf
 	end
 
 	local tabpage = vim.api.nvim_get_current_tabpage()
@@ -34,8 +38,9 @@ local function open_terminal_buffer(bufId)
 		end
 	end
 
-	--Or else create a new split pane and go into terminal mode
+	--Or else create a new split pane with a small height and go into terminal mode
 	vim.cmd("rightb new")
+	vim.api.nvim_win_set_height(0, 20)
 	return open_term_buf(bufId)
 end
 
@@ -81,6 +86,31 @@ function M.delete_project_terminal_if_exists(directory_name)
 
     projectTermMap[directory_name] = nil
     vim.api.nvim_buf_delete(bufId, { force = true })
+end
+
+function M.send_visual_selection_to_last_opened_terminal()
+    local mode = vim.fn.mode()
+    if mode ~= 'v' and mode ~= 'V' and mode ~= '' then
+        return nil, "Not in visual mode"
+    end
+    
+    if not lastOpenedTermBuf then
+        return
+    end
+
+    local termJobId = terminalJobIdMap[lastOpenedTermBuf]
+    if not termJobId then
+        error("No terminal job id found for last opened terminal")
+    end
+    local text = get_visual_selection()
+
+    --Copy to register b 
+    -- send_keys('y<ESC>')
+    -- local text = vim.fn.getreg('"')
+    -- 
+    vim.print("text: " .. text)
+    vim.fn.chansend(termJobId, text)
+    open_terminal_buffer(lastOpenedTermBuf)
 end
 
 return M
