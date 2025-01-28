@@ -103,11 +103,6 @@ function M.send_visual_selection_to_last_opened_terminal()
         error("No terminal job id found for last opened terminal")
     end
     local text = get_visual_selection()
-
-    --Copy to register b 
-    -- send_keys('y<ESC>')
-    -- local text = vim.fn.getreg('"')
-    -- 
     vim.print("text: " .. text)
     vim.fn.chansend(termJobId, text)
     open_terminal_buffer(lastOpenedTermBuf)

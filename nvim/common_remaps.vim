@@ -178,4 +178,6 @@ nnoremap <Space>ql <cmd>cnewer<CR>
 
 " make quickfix enter key open at location
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+autocmd BufReadPost quickfix set nonumber
+autocmd BufReadPost quickfix set norelativenumber
 

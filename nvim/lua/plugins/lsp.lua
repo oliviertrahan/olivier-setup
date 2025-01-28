@@ -46,6 +46,14 @@ local function setup_lsp()
 	cmp_mappings["<Tab>"] = nil
 	cmp_mappings["<S-Tab>"] = nil
 
+    --Default settings
+    cmp.setup({
+        sources = {
+            { name = 'path' },
+        },
+        mapping = cmp_mappings
+    })
+
     cmp.setup.cmdline('/', {
       mapping = cmp.mapping.preset.cmdline(),
       -- mapping = custom_cmp_mappings,
@@ -143,6 +151,7 @@ local function setup_lsp()
 
 	if lsp_config.csharp_ls then
 		lsp_config.csharp_ls.setup({
+            filetypes = { "csharp" },
 			root_dir = function(startpath)
 				local cwd = vim.fn.getcwd()
 				return lsp_config.util.root_pattern("*.sln")(cwd)

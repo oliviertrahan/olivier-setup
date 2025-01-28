@@ -35,25 +35,35 @@ local debugFileTypeToCommand = {
 	end,
 }
 
+local function open_review_branch_and_checkout(branch_local_name)
+    local curr_dir_full_path = vim.fn.getcwd()
+    local current_directory_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+    local review_directory_name = string.format("%s-review", current_directory_name)
+    local review_directory_path = string.format("../%s", review_directory_name)
+    if branch_local_name then
+        local git_worktree_remove_command = string.format("git worktree remove %s", review_directory_path)
+        local git_worktree_command = string.format("git worktree add -f %s %s", review_directory_path, branch_local_name)
+        vim.fn.system(git_worktree_remove_command)
+        vim.fn.system(git_worktree_command)
+    end
+    --terminal will be in a bad state if we don't delete the project terminal
+    delete_project_terminal_if_exists(review_directory_name)
+    local tcd_path = string.format("%s/%s", curr_dir_full_path, review_directory_path)
+    vim.cmd("tabnew")
+    vim.cmd(string.format("tcd %s", tcd_path))
+end
+
+function M.open_review_branch()
+    open_review_branch_and_checkout(nil)
+end
+
 local function checkout_branch(branch)
     if not branch or #branch == 0 then
         return
     end
     branch = branch[1]
     local branch_local_name = branch:gsub("^[%s]*origin/", "")
-    local curr_dir_full_path = vim.fn.getcwd()
-    local current_directory_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-    local review_directory_name = string.format("%s-review", current_directory_name)
-    local git_worktree_path = string.format("../%s", review_directory_name)
-    local git_worktree_remove_command = string.format("git worktree remove %s", git_worktree_path)
-    local git_worktree_command = string.format("git worktree add -f %s %s", git_worktree_path, branch_local_name)
-    vim.fn.system(git_worktree_remove_command)
-    vim.fn.system(git_worktree_command)
-    --terminal will be in a bad state if we don't delete the project terminal
-    delete_project_terminal_if_exists(review_directory_name)
-    local tcd_path = string.format("%s/%s", curr_dir_full_path, git_worktree_path)
-    vim.cmd("tabnew")
-    vim.cmd(string.format("tcd %s", tcd_path))
+    open_review_branch_and_checkout(branch_local_name)
 end
 
 local fzf = require('fzf-lua')
