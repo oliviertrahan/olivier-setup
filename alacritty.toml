@@ -10,7 +10,7 @@ TERM = "xterm-256color"
 
 [window]
 opacity = 0.9
-blur = false
+blur = true
 decorations = "Full"
 option_as_alt = "Both"
 

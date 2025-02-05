@@ -6,6 +6,7 @@ local remap_funcs = require("setup.remap_functions")
 -- Setup custom commands
 vim.api.nvim_create_user_command("SetupReviewBranch", remap_funcs.setup_review_branch, {})
 vim.api.nvim_create_user_command("OpenReviewBranch", remap_funcs.open_review_branch, {})
+vim.api.nvim_create_user_command("DeleteTabCwd", remap_funcs.delete_tab_cwd, {})
 
 -- remap functions
 local open_project_terminal = remap_funcs.open_project_terminal

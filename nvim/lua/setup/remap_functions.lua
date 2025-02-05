@@ -35,26 +35,76 @@ local debugFileTypeToCommand = {
 	end,
 }
 
+local function git_worktree_remove_command(directory_path)
+    vim.fn.system(string.format("git worktree remove %s", directory_path))
+end
+
+function M.delete_tab_cwd()
+    local current_directory = vim.fn.getcwd()
+    if not current_directory then
+        print("Current directory not present. Delete.")
+        return
+    end
+
+    local answer = vim.fn.input(string.format("Delete tab cwd \"%s\"? (y/n): ", current_directory))
+    if answer == "y" then
+        vim.fn.system(string.format("rm -rf %s", current_directory))
+        git_worktree_remove_command(current_directory)
+        vim.cmd("tabclose")
+    end
+end
+
+local function get_review_directory_name(curr_dir_full_path)
+    if not curr_dir_full_path then
+        curr_dir_full_path = vim.fn.getcwd()
+    end
+    local current_directory_name = vim.fn.fnamemodify(curr_dir_full_path, ":t")
+    return string.format("%s-review", current_directory_name)
+end
+
+local function get_relative_review_directory_path(review_directory_name)
+    if not review_directory_name then
+        review_directory_name = get_review_directory_name()
+    end
+    return string.format("../%s", review_directory_name)
+end
+
+local function get_absolute_review_directory_path(curr_dir_full_path, review_directory_path)
+    if not curr_dir_full_path then
+        curr_dir_full_path = vim.fn.getcwd()
+    end
+    if not review_directory_path then
+        review_directory_path = get_relative_review_directory_path()
+    end
+    return string.format("%s/%s", curr_dir_full_path, review_directory_path)
+end
+
 local function open_review_branch_and_checkout(branch_local_name)
     local curr_dir_full_path = vim.fn.getcwd()
-    local current_directory_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-    local review_directory_name = string.format("%s-review", current_directory_name)
-    local review_directory_path = string.format("../%s", review_directory_name)
+    local review_directory_name = get_review_directory_name(curr_dir_full_path)
+    local review_directory_path = get_relative_review_directory_path(review_directory_name)
     if branch_local_name then
-        local git_worktree_remove_command = string.format("git worktree remove %s", review_directory_path)
         local git_worktree_command = string.format("git worktree add -f %s %s", review_directory_path, branch_local_name)
-        vim.fn.system(git_worktree_remove_command)
+        git_worktree_remove_command(review_directory_path)
         vim.fn.system(git_worktree_command)
     end
     --terminal will be in a bad state if we don't delete the project terminal
     delete_project_terminal_if_exists(review_directory_name)
-    local tcd_path = string.format("%s/%s", curr_dir_full_path, review_directory_path)
+    local tcd_path = get_absolute_review_directory_path(curr_dir_full_path, review_directory_path)
     vim.cmd("tabnew")
     vim.cmd(string.format("tcd %s", tcd_path))
 end
 
 function M.open_review_branch()
     open_review_branch_and_checkout(nil)
+end
+
+function M.delete_review_branch()
+    local curr_dir_full_path = vim.fn.getcwd()
+    local review_directory_name = get_review_directory_name(curr_dir_full_path)
+    local review_directory_path = get_relative_review_directory_path(review_directory_name)
+    git_worktree_remove_command(review_directory_path)
+    delete_project_terminal_if_exists(review_directory_name)
 end
 
 local function checkout_branch(branch)
