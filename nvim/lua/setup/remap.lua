@@ -17,14 +17,29 @@ local cancel_debug_buffer = remap_funcs.cancel_debug_buffer
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 local send_visual_selection_to_last_opened_terminal = remap_funcs.send_visual_selection_to_last_opened_terminal
 
+local cleanup_if_oil_path = function(path)
+    if path:match("^oil://") then
+        path = path:sub(7)
+    end
+    return path
+end
+
 local copy_file_path_relative = function()
 	local path = vim.fn.expand("%")
+    path = cleanup_if_oil_path(path)
 	vim.fn.setreg("+", path)
 	vim.notify('Copied "' .. path .. '" to the clipboard!')
 end
 
 vim.keymap.set("n", "<leader>pp", copy_file_path_relative)
 vim.api.nvim_create_user_command("CopyFilePathRelative", copy_file_path_relative, {})
+
+--overrides the <Space>fo mapping from common_remaps.vim
+vim.keymap.set("n", "<leader>fo", function()
+	local directory_of_current_file = vim.fn.expand("%:p:h")
+    directory_of_current_file = cleanup_if_oil_path(directory_of_current_file)
+    vim.cmd(string.format("!open %s", directory_of_current_file))
+end)
 
 --better yanking experience
 local augroup = vim.api.nvim_create_augroup
@@ -60,15 +75,6 @@ vim.keymap.set("n", "<leader>qj", "<cmd>cnext<CR>") -- Next entry in quickfix li
 vim.keymap.set("n", "<leader>qk", "<cmd>cnext<CR>") -- Previous entry in quickfix list
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
-
---overrides the <Space>fo mapping from common_remaps.vim
-vim.keymap.set("n", "<leader>fo", function()
-	local directory_of_current_file = vim.fn.expand("%:p:h")
-    if directory_of_current_file:match("^oil://") then
-        directory_of_current_file = directory_of_current_file:sub(7)
-    end
-    vim.cmd(string.format("!open %s", directory_of_current_file))
-end)
 
 --Terminal mode improvement
 autocmd('TermOpen', {
