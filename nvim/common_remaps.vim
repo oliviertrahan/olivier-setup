@@ -154,15 +154,6 @@ nnoremap <Space>wk <C-w>k
 nnoremap <Space>to <cmd>tabnew<CR>
 nnoremap <Space>tc <cmd>tabclose<CR>
 nnoremap <Space>tp <cmd>tabonly<CR>
-nnoremap <Space>tl <cmd>tabnext<CR>
-nnoremap <Space>th <cmd>tabprevious<CR>
-nnoremap <Space>tn <cmd>+tabmove<CR>
-nnoremap <Space>tN <cmd>-tabmove<CR>
-
-" better tab management
-nnoremap <Space>to <cmd>tabnew<CR>
-nnoremap <Space>tc <cmd>tabclose<CR>
-nnoremap <Space>tp <cmd>tabonly<CR>
 nnoremap <Space>tl <cmd>+tabnext<CR>
 nnoremap <Space>th <cmd>-tabnext<CR>
 nnoremap <Space>tn <cmd>+tabmove<CR>
@@ -175,6 +166,11 @@ nnoremap <Space>qk <cmd>cprev<CR>
 nnoremap <M-k> <cmd>cprev<CR> " alt-k
 nnoremap <Space>qh <cmd>colder<CR>
 nnoremap <Space>ql <cmd>cnewer<CR>
+
+" better miscellaneous mappings
+" open the directory of the current file
+" gets overridden in the <leader>fo mapping from remap.lua
+nnoremap <Space>fo :!open %:p:h<CR>
 
 " make quickfix enter key open at location
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>

@@ -61,6 +61,15 @@ vim.keymap.set("n", "<leader>qk", "<cmd>cnext<CR>") -- Previous entry in quickfi
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
 
+--overrides the <Space>fo mapping from common_remaps.vim
+vim.keymap.set("n", "<leader>fo", function()
+	local directory_of_current_file = vim.fn.expand("%:p:h")
+    if directory_of_current_file:match("^oil://") then
+        directory_of_current_file = directory_of_current_file:sub(7)
+    end
+    vim.cmd(string.format("!open %s", directory_of_current_file))
+end)
+
 --Terminal mode improvement
 autocmd('TermOpen', {
     group = vim.api.nvim_create_augroup('term-open', { clear = true }),
