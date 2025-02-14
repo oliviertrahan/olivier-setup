@@ -75,6 +75,8 @@ mac_install() {
     which bun || brew install bun
     which sshpass || brew tap hudochenkov/sshpass && brew install sshpass
     which terminal-notifier || brew install terminal-notifier
+    which luarocks || brew install luarocks
+    which cmake || brew install cmake
     
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
@@ -125,6 +127,8 @@ linux_install() {
     which bun || sudo apt install bun
     which sshpass || sudo apt install sshpass
     which sshfs || sudo apt install sshfs
+    which luarocks || sudo apt install luarocks
+    which cmake || sudo apt install cmake
 }
 
 bash_version=$(bash --version)

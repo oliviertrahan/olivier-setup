@@ -94,12 +94,25 @@ local function setup_telescope()
 	vim.keymap.set("n", "<leader>fd", builtin.help_tags, {})
 	vim.keymap.set("v", "<leader>fd", 'y<cmd>Telescope help_tags<CR><C-r>"<C-c>', {})
 	vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-    vim.keymap.set("n", "<leader>fhg", function() builtin.live_grep{ search_dirs = { '%.*/%..*' }, } end, {})
 	vim.keymap.set("v", "<leader>fg", function()
 		vim.cmd("norm! y")
 		builtin.grep_string({ search = vim.fn.getreg('"') })
         send_keys("<C-c>")
 	end, {})
+    
+    vim.keymap.set("n", "<leader>fhg", function() builtin.live_grep{
+        additional_args = function(_) return {"--hidden"} end
+    } end, {})
+    
+    vim.keymap.set("v", "<leader>fhg", function()
+		vim.cmd("norm! y")
+        builtin.grep_string{
+            search = vim.fn.getreg('"'),
+            additional_args = function(_) return {"--hidden"} end
+        }
+        send_keys("<C-c>")
+        end, {}
+    )
 	vim.keymap.set("n", "<leader>fcg", "<cmd>Telescope current_buffer_fuzzy_find<CR>", {})
 	vim.keymap.set("v", "<leader>fcg", 'y<cmd>Telescope current_buffer_fuzzy_find<CR><C-r>"<ESC>', {})
 	vim.keymap.set("n", "<leader>flf", function()
@@ -111,6 +124,14 @@ local function setup_telescope()
         builtin.live_grep {
             cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
         }
+    end, {})
+	vim.keymap.set("v", "<leader>flg", function()
+		vim.cmd("norm! y")
+        builtin.grep_string {
+            search = vim.fn.getreg('"'),
+            cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
+        }
+        send_keys("<C-c>")
     end, {})
 
 
