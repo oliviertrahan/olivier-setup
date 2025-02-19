@@ -194,6 +194,7 @@ if [ ! -e ~/.config ]; then
     mkdir ~/.config
 fi
 replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
+replace_directory_and_link "$(pwd)/zellij" ~/.config/zellij
 
 # alacritty setup
 if [ ! -e ~/.config/alacritty ]; then
