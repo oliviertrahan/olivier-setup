@@ -39,12 +39,20 @@ return {
     },
   },
   config = function()
-    require("avante").setup{
-       provider = "openai",
-       auto_suggestions_provider = "openai",
-       behaviour = {
-        auto_suggestions = true,
-       }
-    }
+
+    local success, avante_config = pcall(function()
+        return require("not_pushed.avante_config")
+    end)
+    if not success then
+        --default to openai if no config is found
+        avante_config = {
+           provider = "openai",
+           auto_suggestions_provider = "openai",
+           behaviour = {
+            auto_suggestions = true,
+           }
+        }
+    end
+    require("avante").setup(avante_config)
   end,
 }

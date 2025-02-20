@@ -214,6 +214,7 @@ alias gstc="git stash clear"
 alias gstd="git stash drop"
 alias gstl="git stash list"
 alias gstp="git stash pop"
+alias grbc="git rebase --continue"
 alias gcleanall="git clean -fd"
 
 
