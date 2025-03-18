@@ -121,6 +121,8 @@ add_review_branch() {
 
 autoload -Uz add_review_branch
 
+alias killf="ps aux | fzf | awk '{print $2}' | xargs kill -9"
+
 alias gsfs="fuzzy_find_staged_files"
 alias gmfs="fuzzy_find_modified_files"
 alias gaf="fuzzy_find_modified_files | xargs git add"

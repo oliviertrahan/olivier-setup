@@ -76,6 +76,8 @@ function get_visual_selection()
     return vim.fn.getreg('v')
 end
 
+-- _G.dump = dump
+
 getmetatable("").shallow_copy = shallow_copy
 getmetatable("").dump = dump
 getmetatable("").standardize_url = standardize_url
