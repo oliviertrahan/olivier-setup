@@ -223,6 +223,7 @@ alias gcleanall="git clean -fd"
 git config --global core.editor $(which nvim)
 git config --global core.pager "nvim +Man!"
 git config --global difftool.prompt false
+git config --global diff.tool nvimdiff
 git config --global push.autoSetupRemote true
 
 # End settings
@@ -246,3 +247,10 @@ if [ -e ~/extra_zshrc.zsh ]; then
     source ~/extra_zshrc.zsh
 fi
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# bun completions
+[ -s "/Users/oliviertrahan/.bun/_bun" ] && source "/Users/oliviertrahan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

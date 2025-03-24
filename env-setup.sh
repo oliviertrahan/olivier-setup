@@ -65,10 +65,9 @@ mac_install() {
     which npm || brew install npm
     #which nvm || brew install nvm
     which thefuck || brew install thefuck
-    brew list iterm2 || brew install iterm2
     brew tap homebrew/cask-fonts
     brew list font-hack-nerd-font || brew install --cask font-hack-nerd-font
-    which fzf || brew install fzf && $(brew --prefix)/opt/fzf/install
+    which fzf || $(brew install fzf && $(brew --prefix)/opt/fzf/install)
     which nvim || brew install neovim
     which zoxide || brew install zoxide
     which ollama || brew install ollama
@@ -77,6 +76,8 @@ mac_install() {
     which terminal-notifier || brew install terminal-notifier
     which luarocks || brew install luarocks
     which cmake || brew install cmake
+    which bun || curl -fsSL https://bun.sh/install | bash
+
     
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
         brew install ruby
@@ -129,6 +130,7 @@ linux_install() {
     which sshfs || sudo apt install sshfs
     which luarocks || sudo apt install luarocks
     which cmake || sudo apt install cmake
+    which bun || curl -fsSL https://bun.sh/install | bash
 }
 
 bash_version=$(bash --version)

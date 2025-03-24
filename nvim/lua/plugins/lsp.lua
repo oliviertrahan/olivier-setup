@@ -60,7 +60,6 @@ local function setup_all_lsps()
 
     -- TODO: cmp section coupled to LSP, figure out how to separate out the cmp
     local cmp = require("cmp")
-    local cmp_select = {behavior = cmp.SelectBehavior.Select}
 
     -- Default settings
     cmp.setup({
@@ -79,7 +78,7 @@ local function setup_all_lsps()
             ["<C-n>"] = cmp.mapping.select_next_item(),
             ["<C-p>"] = cmp.mapping.select_prev_item(),
             ["<CR>"] = cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Replace,
+                behavior = cmp.ConfirmBehavior.Select,
                 select = true
             }),
             ["<C-Space>"] = cmp.mapping.complete()

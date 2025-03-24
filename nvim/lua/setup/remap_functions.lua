@@ -12,9 +12,10 @@ local debugFileTypeToCommand = {
     zsh = function(fileName) return {"zsh", fileName} end,
     py = function(fileName) return {"python3", fileName} end,
     cs = function(fileName) return {"dotnet", "run", fileName} end,
-    js = function(fileName) return {"node", fileName} end,
-    mjs = function(fileName) return {"node", fileName} end,
-    cjs = function(fileName) return {"node", fileName} end,
+    js = function(fileName) return {"bun", "run", fileName} end, -- switched from node 
+    ts = function(fileName) return {"bun", "run", fileName} end,
+    mjs = function(fileName) return {"bun", "run", fileName} end,
+    cjs = function(fileName) return {"bun", "run", fileName} end,
     lua = function(fileName)
         return {"nvim", "--headless", "-c", "source " .. fileName .. " | qa!"}
     end
