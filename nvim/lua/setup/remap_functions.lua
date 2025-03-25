@@ -21,6 +21,79 @@ local debugFileTypeToCommand = {
     end
 }
 
+function M.macro_edit()
+    local macro_reg = vim.fn.input("Enter macro reg to edit: ")
+    vim.print("macro_reg: " .. macro_reg)
+    if not macro_reg or #macro_reg ~= 1 then
+        print("Invalid macro register. Needs to be 1 letter.")
+        return
+    end
+    local macro_content = vim.fn.getreg(macro_reg)
+    if not macro_content or #macro_content == 0 then
+        print("Macro register is empty.")
+        return
+    end
+    macro_content = vim.fn.keytrans(macro_content)
+    local macro_reg = vim.fn.input("replace macro", macro_content)
+    updated_macro = vim.api.nvim_replace_termcodes(updated_macro, true, false,
+                                                   true)
+    vim.fn.setreg(macro_reg, updated_macro)
+    vim.print(string.format("Macro reg \"%s\" updated to \"%s\"", macro_reg,
+                            updated_macro))
+end
+
+function M.macro_paste()
+    local macro_reg = vim.fn.input("Enter macro reg to paste: ")
+    vim.print("macro_reg: " .. macro_reg)
+    if not macro_reg or #macro_reg ~= 1 then
+        print("Invalid macro register. Needs to be 1 letter.")
+        return
+    end
+
+    local macro_content = vim.fn.getreg(macro_reg)
+    macro_content = vim.fn.keytrans(macro_content)
+    vim.fn.setreg("v", macro_content)
+    send_keys(string.format("\"vp", macro_reg)) -- paste macro
+end
+
+function M.macro_update()
+    local new_macro_content = get_visual_selection()
+
+    local macro_reg = vim.fn.input("Enter macro reg to update: ")
+    vim.print("macro_reg: " .. macro_reg)
+    if not macro_reg or #macro_reg ~= 1 then
+        print("Invalid macro register. Needs to be 1 letter.")
+        return
+    end
+
+    new_macro_content = vim.api.nvim_replace_termcodes(new_macro_content, true,
+                                                       false, true)
+    vim.fn.setreg(macro_reg, new_macro_content)
+    vim.print(string.format("Macro reg \"%s\" updated to \"%s\"", macro_reg,
+                            new_macro_content))
+end
+
+function replace_visual_selection(replace_func)
+    local visual_selection = get_visual_selection()
+    send_keys("gv")
+    replaced_str = replace_func(visual_selection)
+    vim.fn.setreg("v", replaced_str)
+    send_keys("\"vp")
+end
+
+function M.replace_visual_selection_term_codes_to_macro()
+    replace_visual_selection(function(visual_selection)
+        return vim.api.nvim_replace_termcodes(visual_selection, true, false,
+                                              true)
+    end)
+end
+
+function M.replace_visual_selection_macro_to_term_codes()
+    replace_visual_selection(function(visual_selection)
+        return vim.fn.keytrans(visual_selection)
+    end)
+end
+
 local function git_worktree_remove_command(directory_path)
     vim.fn.system(string.format("git worktree remove %s", directory_path))
 end
