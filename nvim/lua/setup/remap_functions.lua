@@ -21,16 +21,19 @@ local debugFileTypeToCommand = {
     end
 }
 
-function M.macro_edit()
-    local macro_reg = vim.fn.input("Enter macro reg to edit: ")
-    vim.print("macro_reg: " .. macro_reg)
+function get_macro_register(input_prompt)
+    local macro_reg = vim.fn.input(input_prompt)
     if not macro_reg or #macro_reg ~= 1 then
-        print("Invalid macro register. Needs to be 1 letter.")
-        return
+        error("Invalid macro register. Needs to be 1 letter.")
     end
+    return macro_reg
+end
+
+function M.macro_edit()
+    local macro_reg = get_macro_register("Enter macro reg to edit: ")
     local macro_content = vim.fn.getreg(macro_reg)
     if not macro_content or #macro_content == 0 then
-        print("Macro register is empty.")
+        error("Macro register is empty.")
         return
     end
     macro_content = vim.fn.keytrans(macro_content)
@@ -43,34 +46,22 @@ function M.macro_edit()
 end
 
 function M.macro_paste()
-    local macro_reg = vim.fn.input("Enter macro reg to paste: ")
-    vim.print("macro_reg: " .. macro_reg)
-    if not macro_reg or #macro_reg ~= 1 then
-        print("Invalid macro register. Needs to be 1 letter.")
-        return
-    end
-
+    local macro_reg = get_macro_register("Enter macro reg to paste: ")
     local macro_content = vim.fn.getreg(macro_reg)
     macro_content = vim.fn.keytrans(macro_content)
     vim.fn.setreg("v", macro_content)
-    send_keys(string.format("\"vp", macro_reg)) -- paste macro
+    send_keys("\"vp") -- paste macro
 end
 
 function M.macro_update()
+    local macro_reg = get_macro_register("Enter macro reg to update: ")
     local new_macro_content = get_visual_selection()
-
-    local macro_reg = vim.fn.input("Enter macro reg to update: ")
-    vim.print("macro_reg: " .. macro_reg)
-    if not macro_reg or #macro_reg ~= 1 then
-        print("Invalid macro register. Needs to be 1 letter.")
-        return
-    end
-
+    send_keys("gvd") -- delete visual selection
     new_macro_content = vim.api.nvim_replace_termcodes(new_macro_content, true,
                                                        false, true)
     vim.fn.setreg(macro_reg, new_macro_content)
-    vim.print(string.format("Macro reg \"%s\" updated to \"%s\"", macro_reg,
-                            new_macro_content))
+    vim.print(string.format("Macro reg '%s' updated to '%s'", macro_reg,
+                            vim.inspect(new_macro_content)))
 end
 
 function replace_visual_selection(replace_func)
