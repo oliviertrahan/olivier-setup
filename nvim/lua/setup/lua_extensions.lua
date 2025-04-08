@@ -59,6 +59,23 @@ function send_keys(keys_to_send)
     vim.api.nvim_feedkeys(keys, "n", true)
 end
 
+function merge_tables(target, source)
+    for key, value in pairs(source) do
+        if type(value) == "table" then
+            -- If the target already contains a table at this key, merge the nested tables.
+            if type(target[key]) == "table" then
+                merge_table(target[key], value)
+            else
+                -- Otherwise, copy the entire table from source.
+                target[key] = value
+            end
+        else
+            -- For non-table values, simply copy the value from source to target.
+            target[key] = value
+        end
+    end
+end
+
 function get_visual_selection()
     -- Yank current visual selection into the 'v' register
     -- Note that this makes no effort to preserve this register
@@ -77,3 +94,4 @@ getmetatable("").uuid = uuid
 getmetatable("").get_active_tabpage_for_buffer = get_active_tabpage_for_buffer
 getmetatable("").send_keys = send_keys
 getmetatable("").get_visual_selection = get_visual_selection
+getmetatable("").merge_tables = merge_tables
