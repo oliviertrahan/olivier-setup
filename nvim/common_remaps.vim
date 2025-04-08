@@ -2,7 +2,9 @@ let mapleader="\<Space>"
 
 " set options
 set nu
-set relativenumber
+"set relativenumber
+set number
+set norelativenumber
 set autoread
 set showmode!
 set wrap!
@@ -61,6 +63,7 @@ vnoremap < <gv
 " easy common substitution logic
 nnoremap <Space>ss yiw:s/\V<C-r>"//g<Left><Left>
 vnoremap <Space>ss :s/\V<C-r>"//g<Left><Left>
+nnoremap <Space>sq :cdo s/\V<C-r>"//g<Left><Left>
 
 " <Ctrl-i> is the same as <Tab> on most terminals
 nnoremap <C-m> <C-i>
