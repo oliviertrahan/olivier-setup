@@ -59,5 +59,6 @@ return {
         -- Merge the default settings with the user settings
         merge_tables(setup, avante_config)
         require("avante").setup(setup)
+        -- require("avante").setup()
     end
 }

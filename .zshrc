@@ -57,6 +57,19 @@ kill_program_by_name() {
     ps -a | grep $1 | grep -v grep | awk '{print $1}' | xargs kill -9
 }
 
+auto_python_venv() {
+    if [ -f "venv/bin/activate" ]; then
+        # Only activate if not already active
+        if [[ "$VIRTUAL_ENV" != "$(pwd)/venv" ]]; then
+            echo "Activating venv in $(pwd)/venv"
+            source venv/bin/activate
+        fi
+    fi
+}
+
+add-zsh-hook chpwd auto_python_venv
+auto_python_venv  # also run once on startup
+
 autoload -Uz kill_program_by_name 
 
 # Helpful aliases
@@ -77,6 +90,7 @@ mvFromTo() {
     mv $selection $destination
 }
 alias mvDl="mvFromTo ~/Downloads $PWD"
+
 
 # git configs
 setupgitpersonal() {
@@ -242,10 +256,11 @@ if [ -e ~/.fzf.zsh ]; then
   which fzf > /dev/null && source ~/.fzf.zsh
 fi
 
-#always keep this at end of file
-if [ -e ~/extra_zshrc.zsh ]; then
-    source ~/extra_zshrc.zsh
+# openai's codex, autocompletions
+if which codex > /dev/null; then
+  eval "$(codex completion zsh)"
 fi
+
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # bun completions
@@ -254,3 +269,8 @@ fi
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+#always keep this at end of file
+if [ -e ~/extra_zshrc.zsh ]; then
+    source ~/extra_zshrc.zsh
+fi

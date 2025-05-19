@@ -56,13 +56,13 @@ end)
 -- better yanking experience
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup("HighlightYank", {})
+local remap_group = augroup("RemapGroup", {})
 
 vim.keymap.set("n", "y", "mpy", {noremap = true}) -- set mark before yanking
 vim.keymap.set("n", "Y", "mpv$hy", {noremap = true}) -- set mark before yanking
 -- Highlight yanked text
 autocmd("TextYankPost", {
-    group = yank_group,
+    group = remap_group,
     pattern = "*",
     callback = function()
         vim.highlight.on_yank({higroup = "IncSearch", timeout = 40})
@@ -72,6 +72,25 @@ autocmd("TextYankPost", {
         end
     end
 })
+
+-- Close all unnamed buffers on exit
+autocmd("ExitPre", {
+    group = remap_group,
+    pattern = "*",
+    callback = function()
+        -- Iterate over all buffers. If buffer is valid and has no name, delete it so that we can save and quit
+        for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_valid(bufnr) then
+                local bufname = vim.api.nvim_buf_get_name(bufnr)
+                if bufname == "" then
+                    vim.api.nvim_buf_delete(bufnr, {force = true})
+                end
+            end
+        end
+
+    end
+})
+
 vim.keymap.set("n", "<leader>me", macro_edit)
 vim.keymap.set("n", "<leader>mp", macro_paste)
 vim.keymap.set("v", "<leader>mu", macro_update)

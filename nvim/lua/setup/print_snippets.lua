@@ -4,7 +4,7 @@ local set_print_snippet = remap_funcs.set_print_snippet
 -- print snippets in multiple languages
 set_print_snippet({
     is_json = false,
-    format = 'vim.print("${copy}: " .. ${copy})'
+    format = 'vim.print("${copy}: " .. tostring(${copy}))'
 })
 set_print_snippet({
     is_json = true,

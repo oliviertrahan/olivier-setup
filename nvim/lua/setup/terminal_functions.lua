@@ -121,7 +121,6 @@ function stop_all_running_terminal_jobs()
     end
 end
 
--- Highlight yanked text
 autocmd("ExitPre", {
     group = terminal_group,
     pattern = "*",
