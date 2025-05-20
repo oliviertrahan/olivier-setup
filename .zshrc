@@ -256,19 +256,14 @@ if [ -e ~/.fzf.zsh ]; then
   which fzf > /dev/null && source ~/.fzf.zsh
 fi
 
-# openai's codex, autocompletions
-if which codex > /dev/null; then
-  eval "$(codex completion zsh)"
-fi
-
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# bun completions
-[ -s "/Users/oliviertrahan/.bun/_bun" ] && source "/Users/oliviertrahan/.bun/_bun"
-
 # bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+if [ -e "$HOME/.bun/bin/bun" ]; then
+    export BUN_INSTALL="$HOME/.bun"
+    export PATH="$BUN_INSTALL/bin:$PATH"
+    [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+fi
 
 #always keep this at end of file
 if [ -e ~/extra_zshrc.zsh ]; then
