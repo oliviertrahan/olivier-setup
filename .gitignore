@@ -1,5 +1,7 @@
 extra_zshrc.zsh
+extra_bashrc.zsh
 output_zshrc.zsh
+output_bashrc.zsh
 extra-setup.zsh
 nvim/plugin/packer_compiled.lua
 nvim/lua/not_pushed

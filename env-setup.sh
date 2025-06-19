@@ -35,17 +35,24 @@ replace_directory_and_link() {
 }
 
 machine=
+environment=
 unameOut="$(uname -s)"
 case "${unameOut}" in
     Linux*)     machine=Linux;;
-    Darwin*)    machine=Mac;;
-    *)          machine=
+    Darwin*)    machine=Mac; environment=Mac;;
+    MINGW64*)   machine=Windows; environment=Windows;;
+    *)          machine=; environment=;
 esac
 
 if [ -z "$machine" ]; then
     echo "The system with uname value is not supported: $unameOut"
     return
 fi
+
+windows_install() {
+    which luarocks || winget install luarocks
+    which nvim || winget install nvim
+}
 
 mac_install() {
     defaults write com.apple.finder AppleShowAllFiles TRUE
@@ -133,17 +140,7 @@ linux_install() {
     which bun || curl -fsSL https://bun.sh/install | bash
 }
 
-bash_version=$(bash --version)
-current_pwd=$(pwd)
-
-if [[ $update_only_links == 0 ]]; then
-
-    if [[ "$machine" == "Mac" ]]; then
-        mac_install
-    else 
-        linux_install
-    fi
-
+zsh_install() {
     #zsh plugins
     if [ -d ~/.oh-my-zsh ]; then
         echo "oh-my-zsh already installed"
@@ -171,13 +168,29 @@ if [[ $update_only_links == 0 ]]; then
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
             ${ZSH_CUSTOM}/themes/powerlevel10k
     fi
+}
+
+bash_version=$(bash --version)
+current_pwd=$(pwd)
+
+if [[ $update_only_links == 0 ]]; then
+
+    if [[ "$machine" == "Mac" ]]; then
+        mac_install
+        zsh_install
+    elif [[ "$machine" == "Windows" ]]; then
+        windows_install
+    else 
+        linux_install
+        zsh_install
+    fi
 fi
 
-    #Tmux setup
-    if [ ! -e  ~/.tmux/plugins/tpm ]; then
-        git clone https://github.com/tmux-plugins/tpm \
-            ~/.tmux/plugins/tpm
-    fi
+#Tmux setup
+if [ ! -e  ~/.tmux/plugins/tpm ]; then
+    git clone https://github.com/tmux-plugins/tpm \
+        ~/.tmux/plugins/tpm
+fi
 
 
 if [ -e ./extra_zshrc.zsh ]; then
@@ -187,7 +200,16 @@ else
     echo "No extra_zshrc.zsh found"
 fi
 
+if [ -e ./extra_bashrc.sh ]; then
+    echo "Found extra_bashrc.sh."
+    replace_file_and_link "$(pwd)/extra_bashrc.sh" ~/extra_bashrc.sh
+else
+    echo "No extra_bashrc.sh found"
+fi
+
 #link zsh setup
+replace_file_and_link "$(pwd)/.bash_profile" ~/.bash_profile
+replace_file_and_link "$(pwd)/.bashrc" ~/.bashrc
 replace_file_and_link "$(pwd)/.zshrc" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
 replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
@@ -242,4 +264,8 @@ replace_file_and_link "$(pwd)/catppuccin_mocha-zsh-syntax-highlighting.zsh" ~/.z
 
 [ -f ./extra-env-setup.sh ] && chmod +x ./extra-env-setup.sh && ./extra-env-setup.sh
 
-exec zsh
+if [[ "$machine" == "Windows" ]]; then
+    exec bash
+else
+    exec zsh
+fi
