@@ -1,5 +1,7 @@
 sshConfigUsed=
 
+alias dotnet_ef='dotnet ef --project CADdetails.Data --startup-project CADdetailsAPI --context CADdetailsContext'
+
 setupgitwork() {
     if [ $# -eq 1 ]; then
         echo "Setting up global git config"
@@ -57,6 +59,8 @@ elif [ -n "$ZSH_VERSION" ]; then
     autoload -Uz add-zsh-hook
     add-zsh-hook chpwd switchSshBasedOnDir
 fi
+
+alias nvimW="nvim -S ~/.config/nvim/lua/not_pushed/work_startup.lua"
 
 # Run once on startup
 switchSshBasedOnDir

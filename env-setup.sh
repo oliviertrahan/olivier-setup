@@ -209,6 +209,7 @@ fi
 
 #link zsh setup
 replace_file_and_link "$(pwd)/.bash_profile" ~/.bash_profile
+replace_file_and_link "$(pwd)/common_bashrc.sh" ~/common_bashrc.sh
 replace_file_and_link "$(pwd)/.bashrc" ~/.bashrc
 replace_file_and_link "$(pwd)/.zshrc" ~/.zshrc
 replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
@@ -217,7 +218,13 @@ replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
 if [ ! -e ~/.config ]; then
     mkdir ~/.config
 fi
-replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
+
+if [[ "$machine" == "Windows" ]]; then
+    replace_directory_and_link "$(pwd)/nvim" ~/AppData/Local/nvim
+else 
+    replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
+fi
+
 replace_directory_and_link "$(pwd)/zellij" ~/.config/zellij
 
 # alacritty setup
@@ -252,8 +259,8 @@ elif [[ "$machine" == "Linux" ]]; then
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Code/User/settings.json"
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Cursor/User/settings.json"
 else #Windows
-    replace_file_and_link "$(pwd)/vscodesettings.json" "%APPDATA%\Code\User\settings.json"
-    replace_file_and_link "$(pwd)/vscodesettings.json" "%APPDATA%\Cursor\User\settings.json"
+    replace_file_and_link "$(pwd)/vscodesettings.json" "~/AppData/Roaming/Code/User/settings.json"
+    replace_file_and_link "$(pwd)/vscodesettings.json" "~/AppData/Roaming/Cursor/User/settings.json"
 fi
 
 # zsh setup
