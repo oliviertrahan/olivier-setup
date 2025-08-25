@@ -195,7 +195,7 @@ end
 return {
     {
         "neovim/nvim-lspconfig",
-        branch = "v1.x",
+        branch = "master",
         dependencies = {
             -- LSP Support
             {"williamboman/mason.nvim"}, {"williamboman/mason-lspconfig.nvim"}, -- Autocompletion

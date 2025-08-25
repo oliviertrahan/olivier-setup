@@ -33,6 +33,9 @@ return {
     },
     config = function()
 
+        if is_windows() then
+            return
+        end
         local success, avante_config = pcall(function()
             return require("not_pushed.avante_config")
         end)

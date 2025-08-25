@@ -38,13 +38,25 @@ end
 local copy_file_path_relative = function()
     local path = vim.fn.expand("%")
     path = cleanup_if_oil_path(path)
+
+    -- Only modify path if on Windows, for git bash
+    if is_windows() then
+      print("yo")
+      -- Convert Windows-style backslashes to forward slashes
+      path = path:gsub("\\", "/")
+      -- Convert drive letter (e.g., C:/) to /c/
+      path = path:gsub("^([A-Za-z]):", function(drive)
+        return "/" .. drive:lower()
+      end)
+    end
+    
     vim.fn.setreg("+", path)
     vim.notify('Copied "' .. path .. '" to the clipboard!')
 end
 
 vim.keymap.set("n", "<leader>pp", copy_file_path_relative)
 vim.api.nvim_create_user_command("CopyFilePathRelative",
-                                 copy_file_path_relative, {})
+                             copy_file_path_relative, {})
 
 -- overrides the <Space>fo mapping from common_remaps.vim
 vim.keymap.set("n", "<leader>fo", function()

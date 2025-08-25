@@ -219,11 +219,12 @@ if [ ! -e ~/.config ]; then
     mkdir ~/.config
 fi
 
+nvim_folder="~/.config/nvim"
 if [[ "$machine" == "Windows" ]]; then
-    replace_directory_and_link "$(pwd)/nvim" ~/AppData/Local/nvim
-else 
-    replace_directory_and_link "$(pwd)/nvim" ~/.config/nvim
+    nvim_folder="~/AppData/Local/nvim"
 fi
+replace_directory_and_link "$(pwd)/nvim" "$nvim_folder"
+replace_file_and_link "$(pwd)/lazy-lock.json" "$nvim_folder/lazy-lock.json"
 
 replace_directory_and_link "$(pwd)/zellij" ~/.config/zellij
 

@@ -76,6 +76,10 @@ function merge_tables(target, source)
     end
 end
 
+function is_windows()
+    return vim.loop.os_uname().sysname == "Windows_NT"
+end
+
 function get_visual_selection()
     -- Yank current visual selection into the 'v' register
     -- Note that this makes no effort to preserve this register
@@ -95,3 +99,4 @@ getmetatable("").get_active_tabpage_for_buffer = get_active_tabpage_for_buffer
 getmetatable("").send_keys = send_keys
 getmetatable("").get_visual_selection = get_visual_selection
 getmetatable("").merge_tables = merge_tables
+getmetatable("").is_windows = is_windows
