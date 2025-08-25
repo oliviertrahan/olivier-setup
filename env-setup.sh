@@ -52,6 +52,8 @@ fi
 windows_install() {
     which luarocks || winget install luarocks
     which nvim || winget install nvim
+    which make || choco install make
+    which rg || choco install ripgrep
 }
 
 mac_install() {

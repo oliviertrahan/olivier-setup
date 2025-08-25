@@ -195,7 +195,7 @@ end
 return {
     {
         "neovim/nvim-lspconfig",
-        branch = "master",
+        version = false, -- set this if you want to always pull the latest change
         dependencies = {
             -- LSP Support
             {"williamboman/mason.nvim"}, {"williamboman/mason-lspconfig.nvim"}, -- Autocompletion
