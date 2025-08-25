@@ -3,7 +3,13 @@ return {
     event = "VeryLazy",
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
-    build = "make",
+    build = function()
+      if is_windows() then
+          return
+      end
+      return "make"
+    end
+    enabled = function() !is_windows() end
     dependencies = {
         "stevearc/dressing.nvim", "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim", --- The below dependencies are optional,
@@ -32,7 +38,6 @@ return {
         }
     },
     config = function()
-
         if is_windows() then
             return
         end

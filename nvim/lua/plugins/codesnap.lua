@@ -1,21 +1,16 @@
 return {
   "mistricky/codesnap.nvim",
-  build = "make",
-  event = "VeryLazy",
-  lazy = false,
-  version = false, -- set this if you want to always pull the latest change
-  event = "VeryLazy",
-  config = function()
+  build = function()
+      print(is_windows())
       if is_windows() then
           return
       end
-      
-      local codesnap = require('codesnap')
-      codesnap.setup{
-        save_path = "~/CodeSnap",
-        has_breadcrumbs = true,
-        bg_theme = "grape",
-      }
-
+      return "make"
   end
+  opts = {
+    save_path = "~/CodeSnap",
+    has_breadcrumbs = true,
+    bg_theme = "grape",
+  },
+  enabled = function() !is_windows() end
 }
