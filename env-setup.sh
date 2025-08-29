@@ -54,6 +54,7 @@ windows_install() {
     which nvim || winget install nvim
     which make || choco install make
     which rg || choco install ripgrep
+    which gcc || choco install mingw
 }
 
 mac_install() {
@@ -221,9 +222,9 @@ if [ ! -e ~/.config ]; then
     mkdir ~/.config
 fi
 
-nvim_folder="~/.config/nvim"
+nvim_folder="$HOME/.config/nvim"
 if [[ "$machine" == "Windows" ]]; then
-    nvim_folder="~/AppData/Local/nvim"
+    nvim_folder="$HOME/AppData/Local/nvim"
 fi
 replace_directory_and_link "$(pwd)/nvim" "$nvim_folder"
 replace_file_and_link "$(pwd)/lazy-lock.json" "$nvim_folder/lazy-lock.json"

@@ -99,6 +99,9 @@ return {
         image_support = false
     },
     config = function(_, opts)
+        if is_windows() then
+            return
+        end
         if opts.arg == leet_arg then
             local leetcode = require("leetcode")
             leetcode.setup(opts)

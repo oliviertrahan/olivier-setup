@@ -8,8 +8,10 @@ return {
           return
       end
       return "make"
-    end
-    enabled = function() !is_windows() end
+    end,
+    enabled = function() 
+        return !is_windows() 
+    end,
     dependencies = {
         "stevearc/dressing.nvim", "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim", --- The below dependencies are optional,
