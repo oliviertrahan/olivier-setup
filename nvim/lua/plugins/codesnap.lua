@@ -11,7 +11,9 @@ return {
     has_breadcrumbs = true,
     bg_theme = "grape",
   },
-  enabled = function() !is_windows() end,
+  enabled = function() 
+      return not is_windows() 
+  end,
   config = function()
       if is_windows() then
           return

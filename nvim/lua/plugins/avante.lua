@@ -10,7 +10,7 @@ return {
       return "make"
     end,
     enabled = function() 
-        return !is_windows() 
+        return not is_windows() 
     end,
     dependencies = {
         "stevearc/dressing.nvim", "nvim-lua/plenary.nvim",
@@ -32,7 +32,8 @@ return {
                     use_absolute_path = true
                 }
             }
-        }, {
+        }, 
+        {
             -- Make sure to set this up properly if you have lazy=true
             'MeanderingProgrammer/render-markdown.nvim',
             opts = {file_types = {"markdown", "Avante"}},
