@@ -1,4 +1,6 @@
-alias bashr="source ~/.bashrc"
+alias bashr="source $HOME/.bashrc"
+export MSYS="winsymlinks:nativestrict"
+
 
 #always keep this at the beggining of the file
 if [ -e ~/common_bashrc.sh ]; then

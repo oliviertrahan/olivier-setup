@@ -26,11 +26,28 @@ replace_file_and_link() {
 }
 
 replace_directory_and_link() {
-  [ ! -L "$2" ] && [ -d "$2" ] && mv "$2" "$2.bak" && echo "Backed up $2 to $2.bak"
+  if [ -z "$2" ] || [ "$2" == "/" ]; then
+      echo "woah! Don't delete everything there bucko. Check how you call replace_directory_and_link and try again"
+      return
+  fi
+
+  if [ ! -d "$1" ]; then
+      echo "$1 is not a directory. Will not link"
+      return
+  fi
+    
+  if [ ! -L "$2" ] && [ -d "$2" ]; then
+    echo "directory: $2.bak" 
+    rm -rf "$2.bak"
+    echo "removed"
+    mv "$2" "$2.bak"
+    echo "Backed up $2 to $2.bak"
+  fi
   if [ -L "$2" ]; then
     echo "$1 already linked to $2. Relinking"
     rm $2
   fi
+  echo "\$1: $1, \$2: $2"
   ln -sf "$1" "$2" && echo "Linked $1 to $2"
 }
 
@@ -227,7 +244,7 @@ if [[ "$machine" == "Windows" ]]; then
     nvim_folder="$HOME/AppData/Local/nvim"
 fi
 replace_directory_and_link "$(pwd)/nvim" "$nvim_folder"
-replace_file_and_link "$(pwd)/lazy-lock.json" "$nvim_folder/lazy-lock.json"
+# replace_file_and_link "$(pwd)/lazy-lock.json" "$nvim_folder/lazy-lock.json"
 
 replace_directory_and_link "$(pwd)/zellij" ~/.config/zellij
 
@@ -263,8 +280,8 @@ elif [[ "$machine" == "Linux" ]]; then
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Code/User/settings.json"
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Cursor/User/settings.json"
 else #Windows
-    replace_file_and_link "$(pwd)/vscodesettings.json" "~/AppData/Roaming/Code/User/settings.json"
-    replace_file_and_link "$(pwd)/vscodesettings.json" "~/AppData/Roaming/Cursor/User/settings.json"
+    replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/AppData/Roaming/Code/User/settings.json"
+    replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/AppData/Roaming/Cursor/User/settings.json"
 fi
 
 # zsh setup
