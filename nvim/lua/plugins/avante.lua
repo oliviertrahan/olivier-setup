@@ -2,16 +2,8 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
-    version = false, -- set this if you want to always pull the latest change
-    build = function()
-      if is_windows() then
-          return
-      end
-      return "make"
-    end,
-    enabled = function() 
-        return not is_windows() 
-    end,
+    -- version = false, -- set this if you want to always pull the latest change
+    build = "AvanteBuild",
     dependencies = {
         "stevearc/dressing.nvim", "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim", --- The below dependencies are optional,
@@ -41,9 +33,6 @@ return {
         }
     },
     config = function()
-        if is_windows() then
-            return
-        end
         local success, avante_config = pcall(function()
             return require("not_pushed.avante_config")
         end)
@@ -53,7 +42,10 @@ return {
                 provider = "openai",
                 auto_suggestions_provider = "openai",
                 behaviour = {auto_suggestions = true},
-                openai = {model = "o3-mini"}
+                openai = {
+                    model = "gpt-5",
+                    temperature = 1
+                },
             }
         end
         local setup = {

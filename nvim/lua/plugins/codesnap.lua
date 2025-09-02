@@ -14,9 +14,4 @@ return {
   enabled = function() 
       return not is_windows() 
   end,
-  config = function()
-      if is_windows() then
-          return
-      end
-  end
 }

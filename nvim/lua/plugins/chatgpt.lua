@@ -6,10 +6,10 @@ return {
         "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope.nvim"
     },
+    enabled = function()
+        return os.getenv("OPENAI_API_KEY")
+    end,
     config = function()
-        if not os.getenv("OPENAI_API_KEY") then
-            return
-        end
         require("chatgpt").setup({
             openai_params = {
                 model = "gpt-4-turbo",

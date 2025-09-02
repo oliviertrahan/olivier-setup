@@ -1,4 +1,6 @@
 alias bashr="source $HOME/.bashrc"
+
+# For windows git bash, need to make symlinks actually be symlinks like you would expect them to work on linux / macOS
 export MSYS="winsymlinks:nativestrict"
 
 
