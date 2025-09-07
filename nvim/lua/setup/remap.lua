@@ -23,12 +23,14 @@ local macro_paste = remap_funcs.macro_paste
 local macro_update = remap_funcs.macro_update
 local replace_visual_selection_macro_to_term_codes =
     remap_funcs.replace_visual_selection_macro_to_term_codes
+local open_workspace_tab = remap_funcs.open_workspace_tab
 
 local replace_visual_selection_term_codes_to_macro =
     remap_funcs.replace_visual_selection_term_codes_to_macro
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 local send_visual_selection_to_last_opened_terminal =
     remap_funcs.send_visual_selection_to_last_opened_terminal
+local close_and_reopen_nvim = remap_funcs.close_and_reopen_nvim
 
 local cleanup_if_oil_path = function(path)
     if path:match("^oil://") then path = path:sub(7) end
@@ -41,22 +43,20 @@ local copy_file_path_relative = function()
 
     -- Only modify path if on Windows, for git bash
     if is_windows() then
-      print("yo")
-      -- Convert Windows-style backslashes to forward slashes
-      path = path:gsub("\\", "/")
-      -- Convert drive letter (e.g., C:/) to /c/
-      path = path:gsub("^([A-Za-z]):", function(drive)
-        return "/" .. drive:lower()
-      end)
+        -- Convert Windows-style backslashes to forward slashes
+        path = path:gsub("\\", "/")
+        -- Convert drive letter (e.g., C:/) to /c/
+        path = path:gsub("^([A-Za-z]):",
+                         function(drive) return "/" .. drive:lower() end)
     end
-    
+
     vim.fn.setreg("+", path)
     vim.notify('Copied "' .. path .. '" to the clipboard!')
 end
 
 vim.keymap.set("n", "<leader>pp", copy_file_path_relative)
 vim.api.nvim_create_user_command("CopyFilePathRelative",
-                             copy_file_path_relative, {})
+                                 copy_file_path_relative, {})
 
 -- overrides the <Space>fo mapping from common_remaps.vim
 vim.keymap.set("n", "<leader>fo", function()
@@ -119,6 +119,8 @@ vim.keymap.set("n", "<leader>qj", "<cmd>cnext<CR>") -- Next entry in quickfix li
 vim.keymap.set("n", "<leader>qk", "<cmd>cnext<CR>") -- Previous entry in quickfix list
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
+vim.keymap.set("n", "<leader>two", open_workspace_tab) -- Next quickfix list
+vim.keymap.set("n", "ZR", close_and_reopen_nvim) -- close and reopen nvim with same workspace and current file opened
 
 -- Terminal mode improvement
 autocmd('TermOpen', {

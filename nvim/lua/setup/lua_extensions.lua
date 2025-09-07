@@ -76,9 +76,7 @@ function merge_tables(target, source)
     end
 end
 
-function is_windows()
-    return vim.loop.os_uname().sysname == "Windows_NT"
-end
+function is_windows() return vim.loop.os_uname().sysname == "Windows_NT" end
 
 function get_visual_selection()
     -- Yank current visual selection into the 'v' register
@@ -87,7 +85,20 @@ function get_visual_selection()
     return vim.fn.getreg('v')
 end
 
--- _G.dump = dump
+function get_working_directory_for_tab(tabpage)
+    local tabnum = vim.api.nvim_tabpage_get_number(tabpage)
+    return vim.api.nvim_call_function("getcwd", {-1, tabnum})
+end
+
+function get_working_directories()
+    local tabpages = vim.api.nvim_list_tabpages()
+    local working_directories = {}
+    for _, tabpage in pairs(tabpages) do
+        local current_directory = get_working_directory_for_tab(tabpage)
+        table.insert(working_directories, current_directory)
+    end
+    return working_directories
+end
 
 getmetatable("").shallow_copy = shallow_copy
 getmetatable("").dump = dump
@@ -100,3 +111,5 @@ getmetatable("").send_keys = send_keys
 getmetatable("").get_visual_selection = get_visual_selection
 getmetatable("").merge_tables = merge_tables
 getmetatable("").is_windows = is_windows
+getmetatable("").get_working_directory_for_tab = get_working_directory_for_tab
+getmetatable("").get_working_directories = get_working_directories

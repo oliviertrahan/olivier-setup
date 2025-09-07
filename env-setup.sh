@@ -26,7 +26,7 @@ replace_file_and_link() {
 }
 
 replace_directory_and_link() {
-  if [ -z "$2" ] || [ "$2" == "/" ]; then
+  if [ -z "$2" ] || [ "$2" -eq "/" ]; then
       echo "woah! Don't delete everything there bucko. Check how you call replace_directory_and_link and try again"
       return
   fi
@@ -243,10 +243,9 @@ nvim_folder="$HOME/.config/nvim"
 if [[ "$machine" == "Windows" ]]; then
     nvim_folder="$HOME/AppData/Local/nvim"
 fi
+replace_directory_and_link "$(pwd)/scripts" "$HOME/scripts"
 replace_directory_and_link "$(pwd)/nvim" "$nvim_folder"
-# replace_file_and_link "$(pwd)/lazy-lock.json" "$nvim_folder/lazy-lock.json"
-
-replace_directory_and_link "$(pwd)/zellij" ~/.config/zellij
+replace_directory_and_link "$(pwd)/zellij" $HOME/.config/zellij
 
 # alacritty setup
 if [ ! -e ~/.config/alacritty ]; then
@@ -263,12 +262,12 @@ else
 fi
 
 # other vim extensions setup
-replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.commonvimrc
-replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vrapperrc
-replace_file_and_link "$(pwd)/.ideavimrc" ~/.ideavimrc
-replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vimrc
-replace_file_and_link "$(pwd)/nvim/common_remaps.vim" ~/.vscodevimrc
-replace_file_and_link "$(pwd)/.obsidian.vimrc" ~/.obsidian.vimrc
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" $HOME/.commonvimrc
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" $HOME/.vrapperrc
+replace_file_and_link "$(pwd)/.ideavimrc" $HOME/.ideavimrc
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" $HOME/.vimrc
+replace_file_and_link "$(pwd)/nvim/common_remaps.vim" $HOME/.vscodevimrc
+replace_file_and_link "$(pwd)/.obsidian.vimrc" $HOME/.obsidian.vimrc
 
 # vscode/cursor local settings setup
 # file locations for visual studio according to: https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
@@ -285,8 +284,8 @@ else #Windows
 fi
 
 # zsh setup
-if [ ! -e ~/.zsh ]; then
-  mkdir ~/.zsh
+if [ ! -e $HOME/.zsh ]; then
+  mkdir $HOME/.zsh
 fi
 replace_file_and_link "$(pwd)/catppuccin_mocha-zsh-syntax-highlighting.zsh" ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 

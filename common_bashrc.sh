@@ -192,7 +192,8 @@ git config --global diff.tool nvimdiff
 git config --global push.autoSetupRemote true
 
 # End settings
-export PATH=/Users/oliviertrahan/.local/bin:$PATH
+export PATH="$HOME/scripts:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export HOMEBREW_NO_INSTALL_CLEANUP=
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 

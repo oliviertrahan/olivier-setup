@@ -158,27 +158,39 @@ function M.delete_review_branch()
     delete_project_terminal_if_exists(review_directory_name)
 end
 
-local function checkout_branch(branch)
-    if not branch or #branch == 0 then return end
-    branch = branch[1]
-    local branch_local_name = branch:gsub("^[%s]*origin/", "")
-    open_review_branch_and_checkout(branch_local_name)
-end
-
-local fzf = require('fzf-lua')
 function M.setup_review_branch()
     -- Get git branches that includes origin remote, sorted by earliest
     local results = vim.fn.systemlist(
                         "git --no-pager branch -lr --sort=-committerdate")
-    fzf.fzf_exec(results, {
-        prompt = 'Select Branch > ',
-        cwd = vim.fn.getcwd(), -- Set current working directory
-        previewer = false, -- Enable previewer
-        actions = {
-            -- What to do with the selected item
-            ['default'] = checkout_branch
-        }
-    })
+
+    vim.ui.select(results, {prompt = "Select Branch: "}, function(choice)
+        if not choice then return end
+        local branch_local_name = choice:gsub("^[%s]*origin/", "")
+        open_review_branch_and_checkout(branch_local_name)
+    end)
+end
+
+function M.open_workspace_tab()
+    -- Get git branches that includes origin remote, sorted by earliest
+    local results = vim.g.workspace_directories or {}
+
+    vim.ui.select(results, {prompt = "Select Workspace Directory: "},
+                  function(choice)
+        if not choice then return end
+        vim.cmd("tabnew")
+        vim.cmd("tcd " .. choice)
+    end)
+end
+
+function M.close_and_reopen_nvim()
+    local session_file = vim.fn.stdpath("data") .. "/restart_session.vim"
+
+    -- Save current session (buffers, tabs, layout)
+    vim.cmd("mksession! " .. vim.fn.fnameescape(session_file))
+
+    vim.fn.writefile({string.format("-S %s", session_file)},
+                     string.format("%s/.nvim-restart.flag", os.getenv("HOME")))
+    vim.cmd("qa!")
 end
 
 function M.set_print_snippet(kwargs)
