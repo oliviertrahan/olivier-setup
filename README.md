@@ -84,22 +84,26 @@ tmuxW() {
 
 ### Workspace
 
+create the workspace directories under
+`~/.config/nvim/lua/not_pushed/workspace_directories.lua`
+
+```
+vim.g.workspace_directories = {
+    "~/olivier-setup", 
+    "~/test_scripts", 
+    "~/workspace/<dir1>",
+    "~/workspace/<dir2>"
+}
+```
+
 put a startup script which starts all your working directories in `lua/not_pushed/work_startup.lua`
 the script will look something like 
 
 ```
-local directories = {
-    "~/olivier-setup/",
-    "~/workspace/project-1/",
-	"~/workspace/project-2/",
-    "~/workspace/project-3/",
-}
-
-for idx, directory in pairs(directories) do
-    if (idx > 1) then
-        vim.cmd("tabnew")
-    end
+for idx, directory in pairs(vim.g.workspace_directories) do
+    if (idx > 1) then vim.cmd("tabnew") end
     vim.cmd("tcd " .. directory)
+    if (idx > 4) then break end
 end
 vim.cmd("tabn 1")
 ```

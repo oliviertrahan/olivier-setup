@@ -1,5 +1,10 @@
 vim.cmd("source ~/.config/nvim/common_remaps.vim")
-vim.g.workspace_directories = {}
+
+-- Load the workspace directories
+local success = pcall(function()
+    return require("not_pushed.workspace_directories")
+end)
+if not success then vim.g.workspace_directories = {} end
 vim.g.tab_names = {}
 
 require("setup.lua_extensions")
