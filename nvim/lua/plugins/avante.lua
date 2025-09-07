@@ -39,13 +39,18 @@ return {
         if not success then
             -- default to openai if no config is found
             avante_config = {
+                providers = {
+                    openai = {
+                        endpoint = "https://api.openai.com/v1",
+                        model = "gpt-5",
+                        extra_request_body = {
+                            temperature = 1
+                        }
+                    }
+                },
                 provider = "openai",
                 auto_suggestions_provider = "openai",
                 behaviour = {auto_suggestions = true},
-                openai = {
-                    model = "gpt-5",
-                    temperature = 1
-                },
             }
         end
         local setup = {
