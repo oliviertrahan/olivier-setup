@@ -17,5 +17,3 @@ function R(name) require("plenary.reload").reload_module(name) end
 -- When we leave terminal mode or when we refocus neovim, then check files for changes
 autocmd({"FocusGained", "TermLeave"},
         {pattern = "*", callback = function() vim.cmd("checktime") end})
-
--- if we have session data, then restore it
