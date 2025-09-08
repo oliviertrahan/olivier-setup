@@ -1,3 +1,5 @@
+#!/bin/bash
+
 update_only_links=0
 OPTIND=1
 
@@ -72,6 +74,7 @@ windows_install() {
     which make || choco install make
     which rg || choco install ripgrep
     which gcc || choco install mingw
+    which cygwin || choco install cygwin
 }
 
 mac_install() {

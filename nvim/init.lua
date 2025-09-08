@@ -1,4 +1,4 @@
-vim.cmd("source ~/.config/nvim/common_remaps.vim")
+vim.cmd("source $HOME/.commonvimrc")
 
 -- Load the workspace directories
 local success = pcall(function()
