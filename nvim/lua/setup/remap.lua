@@ -30,7 +30,7 @@ local replace_visual_selection_term_codes_to_macro =
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 local send_visual_selection_to_last_opened_terminal =
     remap_funcs.send_visual_selection_to_last_opened_terminal
-local close_and_reopen_nvim = remap_funcs.close_and_reopen_nvim
+local wrap_with_function_name = remap_funcs.wrap_function_name
 
 local cleanup_if_oil_path = function(path)
     if path:match("^oil://") then path = path:sub(7) end
@@ -103,24 +103,32 @@ autocmd("ExitPre", {
     end
 })
 
+--miscellaenous
+vim.keymap.set("v", "<leader>S", wrap_with_function_name)
+
+--macro
 vim.keymap.set("n", "<leader>me", macro_edit)
 vim.keymap.set("n", "<leader>mp", macro_paste)
 vim.keymap.set("v", "<leader>mu", macro_update)
 vim.keymap.set("v", "<leader>rt", replace_visual_selection_macro_to_term_codes)
 vim.keymap.set("v", "<leader>rm", replace_visual_selection_term_codes_to_macro)
+
+--lsp
 vim.keymap.set("n", "<leader>clr", "<cmd>LspRestart<cr>") -- embarassing to have to restart the lsp so often that i want a mapping
 vim.keymap.set("n", "<leader>cli", "<cmd>LspInfo<cr>") -- embarassing to have to restart the lsp so often that i want a mapping
 
+--debugging
 vim.keymap.set("n", "<leader>ddo", create_debug_buffer)
 vim.keymap.set("n", "<leader>ddc", cancel_debug_buffer)
 vim.keymap.set("n", "<leader>dtt", run_command_in_debug_terminal)
 vim.keymap.set("n", "<leader>dts", open_debug_terminal_for_current_file)
+
+--quicklist
 vim.keymap.set("n", "<leader>qj", "<cmd>cnext<CR>") -- Next entry in quickfix list
 vim.keymap.set("n", "<leader>qk", "<cmd>cnext<CR>") -- Previous entry in quickfix list
 vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
 vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
 vim.keymap.set("n", "<leader>two", open_workspace_tab) -- Next quickfix list
-vim.keymap.set("n", "ZR", close_and_reopen_nvim) -- close and reopen nvim with same workspace and current file opened
 
 -- Terminal mode improvement
 autocmd('TermOpen', {

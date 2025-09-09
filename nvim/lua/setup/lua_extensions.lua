@@ -100,6 +100,13 @@ function get_working_directories()
     return working_directories
 end
 
+function resolve_path(path)
+    if vim.fn.has("win32unix") == 1 then
+      return vim.fn.system(string.format('cygpath -u "%s"', path) or ""):gsub("\n", "")
+    end
+    return path
+end
+
 getmetatable("").shallow_copy = shallow_copy
 getmetatable("").dump = dump
 getmetatable("").standardize_url = standardize_url
@@ -113,3 +120,4 @@ getmetatable("").merge_tables = merge_tables
 getmetatable("").is_windows = is_windows
 getmetatable("").get_working_directory_for_tab = get_working_directory_for_tab
 getmetatable("").get_working_directories = get_working_directories
+getmetatable("").resolve_path = resolve_path

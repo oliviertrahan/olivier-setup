@@ -28,7 +28,7 @@ replace_file_and_link() {
 }
 
 replace_directory_and_link() {
-  if [ -z "$2" ] || [ "$2" -eq "/" ]; then
+  if [ -z "$2" ] || [ "$2" = "/" ]; then
       echo "woah! Don't delete everything there bucko. Check how you call replace_directory_and_link and try again"
       return
   fi
@@ -54,13 +54,13 @@ replace_directory_and_link() {
 }
 
 machine=
-environment=
 unameOut="$(uname -s)"
 case "${unameOut}" in
     Linux*)     machine=Linux;;
-    Darwin*)    machine=Mac; environment=Mac;;
-    MINGW64*)   machine=Windows; environment=Windows;;
-    *)          machine=; environment=;
+    Darwin*)    machine=Mac;;
+    MINGW64*)   machine=Windows;;
+    CYGWIN_NT*) machine=Windows;;
+    *)          machine=;;
 esac
 
 if [ -z "$machine" ]; then

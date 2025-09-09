@@ -182,15 +182,11 @@ function M.open_workspace_tab()
     end)
 end
 
-function M.close_and_reopen_nvim()
-    local session_file = vim.fn.stdpath("data") .. "/restart_session.vim"
 
-    -- Save current session (buffers, tabs, layout)
-    vim.cmd("mksession! " .. vim.fn.fnameescape(session_file))
-
-    vim.fn.writefile({string.format("-S %s", session_file)},
-                     string.format("%s/.nvim-restart.flag", os.getenv("HOME")))
-    vim.cmd("qa!")
+function M.wrap_with_function_name()
+    local function_name = vim.fn.input("wrap with function name")
+    --replace with function_name(<text>)
+    send_keys(string.format("c%s(<C-r>\")", function_name))
 end
 
 function M.set_print_snippet(kwargs)
