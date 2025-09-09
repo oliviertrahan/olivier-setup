@@ -30,7 +30,7 @@ local replace_visual_selection_term_codes_to_macro =
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 local send_visual_selection_to_last_opened_terminal =
     remap_funcs.send_visual_selection_to_last_opened_terminal
-local wrap_with_function_name = remap_funcs.wrap_function_name
+local wrap_with_function_name = remap_funcs.wrap_with_function_name
 
 local cleanup_if_oil_path = function(path)
     if path:match("^oil://") then path = path:sub(7) end
