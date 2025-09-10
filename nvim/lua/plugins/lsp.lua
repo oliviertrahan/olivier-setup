@@ -187,6 +187,22 @@ local function setup_all_lsps()
         })
     end
 
+    if lsp_config.lua_ls and lsp_config.lua_ls.setup then
+        lsp_config.lua_ls.setup({
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    runtime = {version = 'LuaJIT'},
+                    diagnostics = {globals = {'vim'}},
+                    workspace = {
+                        library = vim.api.nvim_get_runtime_file("", true)
+                    },
+                    telemetry = {enable = false}
+                }
+            }
+        })
+    end
+
     vim.diagnostic.config({virtual_text = true})
 
     -- require("lsp-file-operations").setup()

@@ -5,9 +5,19 @@ local debugTerminalMap = {}
 local terminalJobIdMap = {}
 local lastOpenedTermBuf = nil
 
-local function open_terminal_buffer(bufId)
+local function open_terminal_buffer(bufId, change_cwd_to_current)
+    change_cwd_to_current = change_cwd_to_current or false
+
+    -- Get the directory to open the terminal in from current buffer
+    -- Won't matter if we are not opening a new terminal
+    local terminal_directory = vim.api.nvim_call_function("getcwd", {})
+    if change_cwd_to_current then
+        terminal_directory = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':h')
+    end
+
     local open_term_buf = function(id)
         if bufId == nil then
+            vim.cmd("lcd " .. terminal_directory)
             vim.cmd("terminal")
         else
             vim.cmd("b " .. id)
@@ -49,7 +59,7 @@ function M.open_terminal(termId)
     if extraTermMap[termId] then
         return open_terminal_buffer(extraTermMap[termId])
     else
-        local bufId = open_terminal_buffer(nil)
+        local bufId = open_terminal_buffer(nil, true)
         extraTermMap[termId] = bufId
         return bufId
     end
@@ -60,7 +70,7 @@ function M.open_debug_terminal_for_current_file()
     if debugTerminalMap[debugFile] then
         return open_terminal_buffer(debugTerminalMap[debugFile])
     else
-        local bufId = open_terminal_buffer(nil)
+        local bufId = open_terminal_buffer(nil, true)
         debugTerminalMap[debugFile] = bufId
         return bufId
     end
@@ -75,7 +85,7 @@ function M.open_project_terminal()
     if projectTermMap[current_directory_name] then
         open_terminal_buffer(projectTermMap[current_directory_name])
     else
-        local bufId = open_terminal_buffer(nil)
+        local bufId = open_terminal_buffer(nil, false)
         projectTermMap[current_directory_name] = bufId
     end
 end
@@ -113,7 +123,7 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local terminal_group = augroup("Terminal", {})
 
-function stop_all_running_terminal_jobs()
+local function stop_all_running_terminal_jobs()
     for buf, job_id in pairs(terminalJobIdMap) do
         if vim.fn.jobwait({job_id}, 0)[1] == -1 then -- Check if the job is still running
             vim.fn.jobstop(job_id)
