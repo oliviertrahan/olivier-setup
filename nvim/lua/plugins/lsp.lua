@@ -1,7 +1,11 @@
 local function setup_all_lsps()
 
-    require('mason').setup()
-    require('mason-lspconfig').setup()
+    local mason = require('mason')
+    local mason_lsp_config = require('mason-lspconfig')
+    mason.setup()
+    mason_lsp_config.setup{
+        automatic_installation = true
+    }
 
     local lsp_config = require("lspconfig")
 
@@ -151,9 +155,16 @@ local function setup_all_lsps()
             -- end
         end
     })
-    -- lsp.setup()
 
-    if lsp_config.csharp_ls then
+    function setup_default(lsp_config_name)
+        vim.print("lsp_config_name: " .. tostring(lsp_config_name))
+        local config = lsp_config[lsp_config_name]
+        if config and type(config) == "table" and config["setup"] then
+            config["setup"]()
+        end
+    end
+    
+    function setup_csharp_ls()
         lsp_config.csharp_ls.setup({
             filetypes = {"cs"},
             capabilities = capabilities,
@@ -170,24 +181,29 @@ local function setup_all_lsps()
         })
     end
 
-    if lsp_config.ts_ls and lsp_config.ts_ls.setup then
-        lsp_config.ts_ls.setup({
-            capabilities = capabilities,
-            filetypes = {"typescript", "javascript"}
-        })
+    function setup_ts_ls()
+        if lsp_config.ts_ls and lsp_config.ts_ls.setup then
+            lsp_config.ts_ls.setup({
+                capabilities = capabilities,
+                filetypes = {"typescript", "javascript"}
+            })
+        end
     end
 
-    if lsp_config.volar and lsp_config.volar.setup then
-        lsp_config.volar.setup({
-            capabilities = capabilities,
-            filetypes = {
-                "typescript", "javascript", "javascriptreact",
-                "typescriptreact", "vue", "json"
-            }
-        })
+
+    function setup_volar()
+        if lsp_config.volar and lsp_config.volar.setup then
+            lsp_config.volar.setup({
+                capabilities = capabilities,
+                filetypes = {
+                    "typescript", "javascript", "javascriptreact",
+                    "typescriptreact", "vue", "json"
+                }
+            })
+        end
     end
 
-    if lsp_config.lua_ls and lsp_config.lua_ls.setup then
+    function setup_lua_ls()
         lsp_config.lua_ls.setup({
             capabilities = capabilities,
             settings = {
@@ -202,7 +218,41 @@ local function setup_all_lsps()
             }
         })
     end
+    
+    function setup_graphql()
+        lsp_config.graphql.setup({
+            capabilities = capabilities,
+            filetypes = { "graphql" }
+        })
+    end
 
+
+
+    local lsp_config_custom = {
+        ["csharp_ls"] = setup_csharp_ls,
+        ["ts_ls"] = setup_ts_ls,
+        ["volar"] = setup_volar,
+        ["lua_ls"] = setup_lua_ls,
+        ["graphql"] = setup_graphql,
+    }
+
+    local lsp_configs_skipped = {pyright = true, bashls = true}
+    for _, lsp_name in pairs(mason_lsp_config.get_installed_servers() ) do
+        local function loop_body()
+            if lsp_configs_skipped[lsp_name] then
+                return
+            end
+            local setup_function = lsp_config_custom[lsp_name]
+            if setup_function then
+                setup_function()
+            else
+                setup_default(lsp_name)
+            end
+        end
+        loop_body()
+    end
+
+    
     vim.diagnostic.config({virtual_text = true})
 
     -- require("lsp-file-operations").setup()
