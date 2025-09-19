@@ -157,7 +157,6 @@ local function setup_all_lsps()
     })
 
     function setup_default(lsp_config_name)
-        vim.print("lsp_config_name: " .. tostring(lsp_config_name))
         local config = lsp_config[lsp_config_name]
         if config and type(config) == "table" and config["setup"] then
             config["setup"]()
@@ -182,26 +181,33 @@ local function setup_all_lsps()
     end
 
     function setup_ts_ls()
-        if lsp_config.ts_ls and lsp_config.ts_ls.setup then
-            lsp_config.ts_ls.setup({
-                capabilities = capabilities,
-                filetypes = {"typescript", "javascript"}
-            })
-        end
+        lsp_config.ts_ls.setup({
+            capabilities = capabilities,
+            filetypes = {"typescript", "javascript"}
+        })
     end
 
 
     function setup_volar()
-        if lsp_config.volar and lsp_config.volar.setup then
-            lsp_config.volar.setup({
-                capabilities = capabilities,
-                filetypes = {
-                    "typescript", "javascript", "javascriptreact",
-                    "typescriptreact", "vue", "json"
-                }
-            })
-        end
+        lsp_config.volar.setup({
+            capabilities = capabilities,
+            filetypes = {
+                "typescript", "javascript", "javascriptreact",
+                "typescriptreact", "vue", "json"
+            }
+        })
     end
+    
+    function setup_vuels()
+        lsp_config.vuels.setup({
+            capabilities = capabilities,
+            filetypes = {
+                "typescript", "javascript", "javascriptreact",
+                "typescriptreact", "vue", "json"
+            }
+        })
+    end
+
 
     function setup_lua_ls()
         lsp_config.lua_ls.setup({
@@ -225,13 +231,12 @@ local function setup_all_lsps()
             filetypes = { "graphql" }
         })
     end
-
-
-
+    
     local lsp_config_custom = {
         ["csharp_ls"] = setup_csharp_ls,
         ["ts_ls"] = setup_ts_ls,
         ["volar"] = setup_volar,
+        ["vuels"] = setup_vuels,
         ["lua_ls"] = setup_lua_ls,
         ["graphql"] = setup_graphql,
     }
@@ -254,8 +259,6 @@ local function setup_all_lsps()
 
     
     vim.diagnostic.config({virtual_text = true})
-
-    -- require("lsp-file-operations").setup()
 end
 
 return {

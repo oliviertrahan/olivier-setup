@@ -32,6 +32,7 @@ return {
             ft = {"markdown", "Avante"}
         }
     },
+    enabled = false,
     config = function()
         local success, avante_config = pcall(function()
             return require("not_pushed.avante_config")
