@@ -161,11 +161,14 @@ end
 function M.setup_review_branch()
     -- Get git branches that includes origin remote, sorted by earliest
     local results = vim.fn.systemlist(
-                        "git --no-pager branch -lr --sort=-committerdate")
+        {"git", "--no-pager", "branch", "-lr", "--sort=-committerdate"}
+    )
 
+    vim.print("results: " .. dump(results))
     vim.ui.select(results, {prompt = "Select Branch: "}, function(choice)
         if not choice then return end
-        local branch_local_name = choice:gsub("^[%s]*origin/", "")
+        -- local branch_local_name = choice:gsub("^[%s]*origin/", "")
+        local branch_local_name = choice
         open_review_branch_and_checkout(branch_local_name)
     end)
 end
