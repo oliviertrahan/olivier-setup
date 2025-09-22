@@ -149,6 +149,7 @@ end
 
 function M.open_review_branch() open_review_branch_and_checkout(nil) end
 
+
 function M.delete_review_branch()
     local curr_dir_full_path = vim.fn.getcwd()
     local review_directory_name = get_review_directory_name(curr_dir_full_path)
@@ -227,6 +228,7 @@ function M.cancel_debug_buffer()
 end
 
 local function run_external_command_and_print_output(command, debugFile)
+    vim.print("debugFile: " .. tostring(debugFile))
     local debugOutBuf = debugOutputMap[debugFile]
     if not debugOutBuf then error("debugOutBuf cannot be nil") end
     -- Clear the buffer
@@ -247,6 +249,24 @@ local function run_external_command_and_print_output(command, debugFile)
             end
         end
     })
+end
+
+
+function M.run_selection_in_debug_buffer()
+    local originalDebugFile = vim.fn.expand("%:p") -- full path from root
+    local debugFileType = vim.fn.expand("%:e")
+    local selection = get_visual_selection()
+    local fileContentArray = vim.split(selection, '\n')
+    
+    local debugFile = resolve_path(string.format(vim.fn.expand("$HOME/.tmp/test.%s"), debugFileType))
+    vim.fn.mkdir(vim.fn.fnamemodify(debugFile, ":h"), "p") -- create parent dirs if missing
+    vim.fn.writefile(fileContentArray, debugFile, "bs")
+    
+    local commandFunc = debugFileTypeToCommand[debugFileType]
+    if commandFunc == nil then return end
+    local command = commandFunc(debugFile)
+    
+    run_external_command_and_print_output(command, originalDebugFile)
 end
 
 function M.create_debug_buffer()

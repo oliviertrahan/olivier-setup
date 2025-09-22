@@ -31,6 +31,7 @@ local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 local send_visual_selection_to_last_opened_terminal =
     remap_funcs.send_visual_selection_to_last_opened_terminal
 local wrap_with_function_name = remap_funcs.wrap_with_function_name
+local run_selection_in_debug_buffer = remap_funcs.run_selection_in_debug_buffer
 
 local cleanup_if_oil_path = function(path)
     if path:match("^oil://") then path = path:sub(7) end
@@ -118,6 +119,7 @@ vim.keymap.set("n", "<leader>clr", "<cmd>LspRestart<cr>") -- embarassing to have
 vim.keymap.set("n", "<leader>cli", "<cmd>LspInfo<cr>") -- embarassing to have to restart the lsp so often that i want a mapping
 
 --debugging
+vim.keymap.set("v", "<leader>ddp", run_selection_in_debug_buffer)
 vim.keymap.set("n", "<leader>ddo", create_debug_buffer)
 vim.keymap.set("n", "<leader>ddc", cancel_debug_buffer)
 vim.keymap.set("n", "<leader>dtt", run_command_in_debug_terminal)
