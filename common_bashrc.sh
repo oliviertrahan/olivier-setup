@@ -66,8 +66,34 @@ fuzzy_find_staged_files() {
     git --no-pager diff --name-only --cached | fzf
 }
 
+fuzzy_find_staged_file_directories() {
+    git --no-pager diff --name-only --cached \
+        | xargs -r dirname \
+        | sort -u \
+        | fzf
+}
+
+
 fuzzy_find_modified_files() {
     git ls-files -m --others --exclude-standard | fzf
+}
+
+fuzzy_find_modified_file_directories() {
+    git ls-files -m --others --exclude-standard \
+        | xargs -r dirname \
+        | sort -u \
+        | fzf
+}
+
+fuzzy_find_cleanable_files() {
+    git ls-files --others --exclude-standard | fzf  
+}
+
+fuzzy_find_cleanable_file_directories() {
+    git ls-files --others --exclude-standard \
+        | xargs -r dirname \
+        | sort -u \
+        | fzf  
 }
 
 git_select_from_latest_branch() {
@@ -91,28 +117,37 @@ alias killf="ps aux | fzf | awk '{print $2}' | xargs kill -9"
 alias gsfs="fuzzy_find_staged_files"
 alias gmfs="fuzzy_find_modified_files"
 alias gaf="fuzzy_find_modified_files | xargs -r git add"
+alias gafd="fuzzy_find_modified_file_directories | xargs -r git add"
 alias grhf="fuzzy_find_staged_files | xargs -r git reset"
+alias grhfd="fuzzy_find_staged_file_directories | xargs -r git reset"
 alias grhhf="fuzzy_find_modified_files | xargs -r git reset --hard"
+alias grhhfd="fuzzy_find_modified_file_directories | xargs -r git reset --hard"
 alias gcof="fuzzy_find_modified_files | xargs -r git checkout"
+alias gcofd="fuzzy_find_modified_file_directories | xargs -r git checkout"
 alias grevmf="fuzzy_find_modified_files | xargs -r git checkout origin/master --"
+alias grevmfd="fuzzy_find_staged_file_directories | xargs -r git checkout origin/master --"
 alias grevb="git_select_from_latest_branch | xargs -r -I {} git checkout {} --"
 alias grevob="git_select_from_latest_origin_branch | xargs -r -I {} git checkout {} --"
 alias gdf="fuzzy_find_modified_files | xargs -r git diff"
+alias gdfd="fuzzy_find_modified_file_directories | xargs -r git diff"
 alias gdtf="fuzzy_find_modified_files | xargs -r git difftool"
+alias gdtfd="fuzzy_find_modified_file_directories | xargs -r git difftool"
 alias gcbf="git_select_from_latest_branch | xargs -r git checkout"
 alias gmf="git_select_from_latest_branch | xargs -r git merge"
 alias gmof="git_select_from_latest_origin_branch | xargs -r git merge"
 alias grbf="git_select_from_latest_branch | xargs -r git rebase"
 alias grbof="git_select_from_latest_origin_branch | xargs -r git rebase"
 alias gcbof="git_select_from_latest_origin_branch | sed -e 's/^[ 	]*origin\///' | xargs -r git checkout"
-alias gcleanf="git ls-files --others --exclude-standard | fzf --exit-0 | xargs -r git clean -fd"
+alias gcleanf="fuzzy_find_cleanable_files | xargs -r git clean -fd"
+alias gcleanfd="fuzzy_find_cleanable_file_directories | xargs -r git clean -fd"
 alias gbDf="git_select_from_oldest_branch | tee ~/branch.txt | xargs -r git branch -D; cat ~/branch.txt | xargs -r git push origin --delete; rm ~/branch.txt"
 alias gstaf="fuzzy_find_modified_files | xargs -r git stash push"
+alias gstafd="fuzzy_find_modified_file_directories | xargs -r git stash push"
 alias grmf="fuzzy_find_modified_files | xargs -r git rm"
+alias grmfd="fuzzy_find_modified_file_directories | xargs -r git rm"
 
 gp() {
     if [ $# -gt 0 ]; then
-        git add --all
         git commit -m "$1"
     fi
 
