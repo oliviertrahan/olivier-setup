@@ -129,6 +129,7 @@ alias grevmfd="fuzzy_find_staged_file_directories | xargs -r git checkout origin
 alias grevb="git_select_from_latest_branch | xargs -r -I {} git checkout {} --"
 alias grevob="git_select_from_latest_origin_branch | xargs -r -I {} git checkout {} --"
 alias gdf="fuzzy_find_modified_files | xargs -r git diff"
+alias gdaf="fuzzy_find_staged_files | xargs -r git diff"
 alias gdfd="fuzzy_find_modified_file_directories | xargs -r git diff"
 alias gdtf="fuzzy_find_modified_files | xargs -r git difftool"
 alias gdtfd="fuzzy_find_modified_file_directories | xargs -r git difftool"
