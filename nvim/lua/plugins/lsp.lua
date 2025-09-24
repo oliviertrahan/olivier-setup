@@ -3,9 +3,7 @@ local function setup_all_lsps()
     local mason = require('mason')
     local mason_lsp_config = require('mason-lspconfig')
     mason.setup()
-    mason_lsp_config.setup{
-        automatic_installation = true
-    }
+    mason_lsp_config.setup {automatic_installation = true}
 
     local lsp_config = require("lspconfig")
 
@@ -72,9 +70,13 @@ local function setup_all_lsps()
                 require("luasnip").lsp_expand(args.body) -- Use LuaSnip for snippets
             end
         },
-        -- completion = {
-        --     autocomplete = cmp.TriggerEvent.TextChanged
-        -- },
+        window = {
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered()
+        },
+        completion = {
+            autocomplete = {require('cmp.types').cmp.TriggerEvent.TextChanged}
+        },
         sources = cmp.config.sources({
             {name = 'path'}, {name = 'nvim_lsp'}, {name = 'buffer'}
         }),
@@ -144,25 +146,15 @@ local function setup_all_lsps()
             vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, opts)
             vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, opts)
             vim.keymap.set("n", "<leader>vf", vim.lsp.buf.format, opts)
-
-            -- if vim.lsp.buf.format then
-            --     vim.api.nvim_create_autocmd("BufWritePre", {
-            --         buffer = ev.buf,
-            --         callback = function()
-            --             vim.lsp.buf.format()
-            --         end
-            --     })
-            -- end
         end
     })
 
     function setup_default(lsp_config_name)
         local config = lsp_config[lsp_config_name]
-        if config and type(config) == "table" and config["setup"] then
-            config["setup"]()
-        end
+        if config and type(config) == "table" and type(config["setup"]) ==
+            "function" then config.setup {capabilities = capabilities} end
     end
-    
+
     function setup_csharp_ls()
         lsp_config.csharp_ls.setup({
             filetypes = {"cs"},
@@ -187,7 +179,6 @@ local function setup_all_lsps()
         })
     end
 
-
     function setup_volar()
         lsp_config.volar.setup({
             capabilities = capabilities,
@@ -197,7 +188,7 @@ local function setup_all_lsps()
             }
         })
     end
-    
+
     function setup_vuels()
         lsp_config.vuels.setup({
             capabilities = capabilities,
@@ -208,6 +199,15 @@ local function setup_all_lsps()
         })
     end
 
+    function setup_tailwindcss()
+        lsp_config.vuels.setup({
+            capabilities = capabilities,
+            filetypes = {
+                "typescript", "javascript", "javascriptreact",
+                "typescriptreact", "vue", "json"
+            }
+        })
+    end
 
     function setup_lua_ls()
         lsp_config.lua_ls.setup({
@@ -224,29 +224,28 @@ local function setup_all_lsps()
             }
         })
     end
-    
+
     function setup_graphql()
         lsp_config.graphql.setup({
             capabilities = capabilities,
-            filetypes = { "graphql" }
+            filetypes = {"graphql"}
         })
     end
-    
+
     local lsp_config_custom = {
         ["csharp_ls"] = setup_csharp_ls,
         ["ts_ls"] = setup_ts_ls,
         ["volar"] = setup_volar,
         ["vuels"] = setup_vuels,
+        ["tailwindcss"] = setup_tailwindcss,
         ["lua_ls"] = setup_lua_ls,
-        ["graphql"] = setup_graphql,
+        ["graphql"] = setup_graphql
     }
 
     local lsp_configs_skipped = {pyright = true, bashls = true}
-    for _, lsp_name in pairs(mason_lsp_config.get_installed_servers() ) do
+    for _, lsp_name in pairs(mason_lsp_config.get_installed_servers()) do
         local function loop_body()
-            if lsp_configs_skipped[lsp_name] then
-                return
-            end
+            if lsp_configs_skipped[lsp_name] then return end
             local setup_function = lsp_config_custom[lsp_name]
             if setup_function then
                 setup_function()
@@ -257,7 +256,6 @@ local function setup_all_lsps()
         loop_body()
     end
 
-    
     vim.diagnostic.config({virtual_text = true})
 end
 
