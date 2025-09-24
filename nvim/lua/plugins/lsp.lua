@@ -62,12 +62,13 @@ local function setup_all_lsps()
 
     -- TODO: cmp section coupled to LSP, figure out how to separate out the cmp
     local cmp = require("cmp")
+    local luasnip = require("luasnip")
 
     -- Default settings
     cmp.setup({
         snippet = {
             expand = function(args)
-                require("luasnip").lsp_expand(args.body) -- Use LuaSnip for snippets
+                luasnip.lsp_expand(args.body) -- Use LuaSnip for snippets
             end
         },
         window = {
