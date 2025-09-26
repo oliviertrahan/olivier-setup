@@ -30,6 +30,7 @@ local replace_visual_selection_term_codes_to_macro =
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 local send_visual_selection_to_last_opened_terminal =
     remap_funcs.send_visual_selection_to_last_opened_terminal
+local send_clipboard_to_last_opened_terminal = remap_funcs.send_clipboard_to_last_opened_terminal
 local wrap_with_function_name = remap_funcs.wrap_with_function_name
 local run_selection_in_debug_buffer = remap_funcs.run_selection_in_debug_buffer
 
@@ -143,6 +144,7 @@ autocmd('TermOpen', {
 })
 
 vim.keymap.set("v", "<leader>st", send_visual_selection_to_last_opened_terminal)
+vim.keymap.set("n", "<leader>st", send_clipboard_to_last_opened_terminal)
 vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("v", "<C-t>", open_project_terminal)
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")

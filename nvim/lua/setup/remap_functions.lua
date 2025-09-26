@@ -315,5 +315,7 @@ M.open_debug_terminal_for_current_file =
 M.open_project_terminal = terminal_functions.open_project_terminal
 M.send_visual_selection_to_last_opened_terminal =
     terminal_functions.send_visual_selection_to_last_opened_terminal
+M.send_clipboard_to_last_opened_terminal =
+    terminal_functions.send_clipboard_to_last_opened_terminal
 
 return M

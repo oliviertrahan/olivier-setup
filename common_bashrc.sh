@@ -3,10 +3,23 @@ if [ -e /opt/homebrew/bin/brew ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+machine=
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    MINGW64*)   machine=Windows;;
+    CYGWIN_NT*) machine=Windows;;
+    *)          machine=;;
+esac
+
 # User configuration
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+if [ "$machine" != "Windows" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
 
 export EDITOR="nvim"
 export VISUAL="nvim -R"
@@ -234,7 +247,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export HOMEBREW_NO_INSTALL_CLEANUP=
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # bun
 if [ -e "$HOME/.bun/bin/bun" ]; then

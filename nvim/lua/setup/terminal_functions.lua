@@ -101,22 +101,29 @@ function M.delete_project_terminal_if_exists(directory_name)
     vim.api.nvim_buf_delete(bufId, {force = true})
 end
 
+local function send_text_to_last_opened_terminal(text)
+    if not lastOpenedTermBuf then return end
+    local termJobId = terminalJobIdMap[lastOpenedTermBuf]
+    if not termJobId then
+        error("No terminal job id found for last opened terminal")
+    end
+    
+    vim.fn.chansend(termJobId, text)
+    open_terminal_buffer(lastOpenedTermBuf)
+end
+
+function M.send_clipboard_to_last_opened_terminal()
+    local text = vim.fn.getreg('+')
+    send_text_to_last_opened_terminal(text)
+end
+
 function M.send_visual_selection_to_last_opened_terminal()
     local mode = vim.fn.mode()
     if mode ~= 'v' and mode ~= 'V' and mode ~= '' then
         return nil, "Not in visual mode"
     end
-
-    if not lastOpenedTermBuf then return end
-
-    local termJobId = terminalJobIdMap[lastOpenedTermBuf]
-    if not termJobId then
-        error("No terminal job id found for last opened terminal")
-    end
     local text = get_visual_selection()
-    vim.print("text: " .. text)
-    vim.fn.chansend(termJobId, text)
-    open_terminal_buffer(lastOpenedTermBuf)
+    send_text_to_last_opened_terminal(text)
 end
 
 local augroup = vim.api.nvim_create_augroup
