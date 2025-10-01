@@ -258,6 +258,14 @@ local function setup_all_lsps()
     end
 
     vim.diagnostic.config({virtual_text = true})
+   
+    vim.keymap.set("n", "<leader>ds", function()
+      local diags = vim.diagnostic.get(0, {lnum = vim.fn.line('.')-1})
+      for _, d in ipairs(diags) do
+        print("Message: " .. d.message .. " | Source: " .. (d.source or "unknown"))
+      end
+    end)
+
 end
 
 return {
