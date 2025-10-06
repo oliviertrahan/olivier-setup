@@ -19,7 +19,7 @@ return {
                        {noremap = true, silent = true})
         vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanion /explain<cr>",
                        {noremap = true, silent = true})
-        vim.keymap.set('v', '<leader>af', ':CodeCompanion<CR>',
+        vim.keymap.set({'n', 'v'}, '<leader>af', ':CodeCompanion<CR>',
                        {noremap = true, silent = true})
         vim.keymap.set({"n", "v"}, "<leader>al", "<cmd>CodeCompanion /lsp<cr>",
                        {noremap = true, silent = true})
