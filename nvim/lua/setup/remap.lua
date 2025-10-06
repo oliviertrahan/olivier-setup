@@ -125,9 +125,9 @@ vim.keymap.set("v", "<leader>S", wrap_with_function_name)
 wk.register({
     ["<leader>m"] = {
         name = "+macro", -- group name shown in which-key popup
-        e = {"<cmd>lua macro_edit()<CR>", "Edit Macro"},
-        p = {"<cmd>lua macro_paste()<CR>", "Paste Macro"},
-        u = {"<cmd>lua macro_update()<CR>", "Update Macro"}
+        e = {macro_edit, "Edit Macro"},
+        p = {macro_paste, "Paste Macro"},
+        u = {macro_update, "Update Macro"}
     }
 })
 
