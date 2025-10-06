@@ -154,21 +154,18 @@ wk.register({
         d = {
             name = "+buffer", -- group name shown in which-key
             s = {
-                "<cmd>lua run_selection_in_debug_buffer()<cr>",
+                run_selection_in_debug_buffer,
                 "Run selection in debug buffer",
                 mode = "v"
             },
-            o = {"<cmd>lua create_debug_buffer()<cr>", "Create debug buffer"},
-            c = {"<cmd>lua cancel_debug_buffer()<cr>", "Cancel debug buffer"}
+            o = {create_debug_buffer, "Create debug buffer"},
+            c = {cancel_debug_buffer, "Cancel debug buffer"}
         },
         t = {
             name = "+terminal",
-            t = {
-                "<cmd>lua run_command_in_debug_terminal()<CR>",
-                "Run Command in Debug Terminal"
-            },
+            t = {run_command_in_debug_terminal, "Run Command in Debug Terminal"},
             s = {
-                "<cmd>lua open_debug_terminal_for_current_file()<CR>",
+                open_debug_terminal_for_current_file,
                 "Open Debug Terminal for Current File"
             }
         }
