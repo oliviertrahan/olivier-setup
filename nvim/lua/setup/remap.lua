@@ -127,7 +127,7 @@ wk.register({
         name = "+macro", -- group name shown in which-key popup
         e = {macro_edit, "Edit Macro"},
         p = {macro_paste, "Paste Macro"},
-        u = {macro_update, "Update Macro"}
+        u = {macro_update, "Update Macro", mode = "v"}
     }
 })
 
