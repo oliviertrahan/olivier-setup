@@ -80,103 +80,163 @@ local function setup_telescope()
         builtin.find_files({find_command = find_include_gitignore_params})
     end
 
-    vim.keymap.set("n", "<leader>fe", builtin.resume, {})
-    vim.keymap.set("n", "<leader>ft",
-                   '<cmd>lua require("telescope-tabs").list_tabs()<CR>', {})
-    vim.keymap.set("n", "<leader>ff", find_standard, {})
-    vim.keymap.set("n", "<leader>fp", find_standard_on_path, {})
-    vim.keymap.set("n", "<leader>fhf", find_include_gitignore, {})
-    vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-    vim.keymap.set("n", "<leader>fr",
-                   "<cmd>Telescope oldfiles only_cwd=true<CR><C-c>", {})
-    vim.keymap.set("n", "<leader>fcc", builtin.commands, {})
-    vim.keymap.set("n", "<leader>fd", builtin.help_tags, {})
-    vim.keymap.set("v", "<leader>fd",
-                   'y<cmd>Telescope help_tags<CR><C-r>"<C-c>', {})
-    vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-    vim.keymap.set("v", "<leader>fg", function()
-        vim.cmd("norm! y")
-        builtin.grep_string({search = vim.fn.getreg('"')})
-        send_keys("<C-c>")
-    end, {})
+    local wk = require("which-key")
 
-    vim.keymap.set("n", "<leader>fhg", function()
-        builtin.live_grep {
-            additional_args = function(_) return {"--hidden"} end
+    -- normal mode mappings:
+    wk.register({
+        f = {
+            name = "+file/telescope",
+            e = {builtin.resume, "Resume last search"},
+            t = {
+                '<cmd>lua require("telescope-tabs").list_tabs()<CR>',
+                "List Tabs"
+            },
+            f = {find_standard, "Find files (standard)"},
+            p = {find_standard_on_path, "Find files on path"},
+            b = {builtin.buffers, "Buffers"},
+            r = {
+                "<cmd>Telescope oldfiles only_cwd=true<CR><C-c>",
+                "Recent Files (cwd)"
+            },
+            cc = {builtin.commands, "Commands"},
+            d = {builtin.help_tags, "Help tags"},
+            g = {builtin.live_grep, "Live grep"},
+            cg = {
+                "<cmd>Telescope current_buffer_fuzzy_find<CR>",
+                "Fuzzy Find (buffer)"
+            },
+            l = {
+                name = "find (lazy data)",
+                f = {
+                    function()
+                        builtin.find_files {
+                            cwd = vim.fs
+                                .joinpath(vim.fn.stdpath("data"), "lazy")
+                        }
+                    end, "Find files (lazy dir)"
+                },
+                g = {
+                    function()
+                        builtin.live_grep {
+                            cwd = vim.fs
+                                .joinpath(vim.fn.stdpath("data"), "lazy")
+                        }
+                    end, "Live grep (lazy dir)"
+                }
+            },
+            w = {
+                name = "workspace",
+                f = {
+                    function()
+                        builtin.find_files({
+                            find_command = find_standard_params,
+                            search_dirs = get_working_directories()
+                        })
+                    end, "Find files (workspace)"
+                },
+                g = {
+                    function()
+                        builtin.live_grep({
+                            search_dirs = get_working_directories()
+                        })
+                    end, "Live grep (workspace)"
+                }
+            },
+            h = {
+                name = "Hidden (gitignored, other repo specific ignores)",
+                f = {find_include_gitignore, "Find (with .gitignore)"},
+                g = {
+                    function()
+                        builtin.live_grep {
+                            additional_args = function(_)
+                                return {"--hidden"}
+                            end
+                        }
+                    end, "Live grep (hidden)"
+                },
+                w = {
+                    name = "workspace (hidden)",
+                    f = {
+                        function()
+                            builtin.find_files({
+                                find_command = find_include_gitignore_params,
+                                search_dirs = get_working_directories()
+                            })
+                        end, "Find files (workspace, .gitignore)"
+                    },
+                    g = {
+                        function()
+                            builtin.live_grep {
+                                search_dirs = get_working_directories(),
+                                additional_args = function(_)
+                                    return {"--hidden"}
+                                end
+                            }
+                        end, "Live grep workspace (hidden)"
+                    }
+                }
+            }
         }
-    end, {})
+    }, {prefix = "<leader>"})
 
-    vim.keymap.set("v", "<leader>fhg", function()
-        vim.cmd("norm! y")
-        builtin.grep_string {
-            search = vim.fn.getreg('"'),
-            additional_args = function(_) return {"--hidden"} end
+    -- Visual mode mappings:
+    wk.register({
+        f = {
+            d = {
+                'y<cmd>Telescope help_tags<CR><C-r>"<C-c>',
+                "Help tags (selection)"
+            },
+            g = {
+                function()
+                    vim.cmd("norm! y")
+                    builtin.grep_string({search = vim.fn.getreg('"')})
+                    send_keys("<C-c>")
+                end, "Grep string (selection)"
+            },
+            hg = {
+                function()
+                    vim.cmd("norm! y")
+                    builtin.grep_string {
+                        search = vim.fn.getreg('"'),
+                        additional_args = function(_)
+                            return {"--hidden"}
+                        end
+                    }
+                    send_keys("<C-c>")
+                end, "Grep string (hidden, selection)"
+            },
+            cg = {
+                'y<cmd>Telescope current_buffer_fuzzy_find<CR><C-r>"<ESC>',
+                "Fuzzy buffer (selection)"
+            },
+            lg = {
+                function()
+                    vim.cmd("norm! y")
+                    builtin.grep_string {
+                        search = vim.fn.getreg('"'),
+                        cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
+                    }
+                    send_keys("<C-c>")
+                end, "Live grep (lazy dir, selection)"
+            },
+            wg = {
+                function()
+                    vim.cmd("norm! y")
+                    builtin.grep_string({
+                        search_dirs = get_working_directories(),
+                        search = vim.fn.getreg('"')
+                    })
+                end, "Live grep (workspace, selection)"
+            }
         }
-        send_keys("<C-c>")
-    end, {})
-    vim.keymap.set("n", "<leader>fcg",
-                   "<cmd>Telescope current_buffer_fuzzy_find<CR>", {})
-    vim.keymap.set("v", "<leader>fcg",
-                   'y<cmd>Telescope current_buffer_fuzzy_find<CR><C-r>"<ESC>',
-                   {})
-    vim.keymap.set("n", "<leader>flf", function()
-        builtin.find_files {
-            cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
-        }
-    end, {})
-    vim.keymap.set("n", "<leader>flg", function()
-        builtin.live_grep {
-            cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
-        }
-    end, {})
-    vim.keymap.set("v", "<leader>flg", function()
-        vim.cmd("norm! y")
-        builtin.grep_string {
-            search = vim.fn.getreg('"'),
-            cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
-        }
-        send_keys("<C-c>")
-    end, {})
-
-    vim.keymap.set("n", "<leader>fwf", function()
-        builtin.find_files({
-            find_command = find_standard_params,
-            search_dirs = get_working_directories()
-        })
-    end, {})
-    vim.keymap.set("n", "<leader>fwhf", function()
-        builtin.find_files({
-            find_command = find_include_gitignore_params,
-            search_dirs = get_working_directories()
-        })
-    end, {})
-    vim.keymap.set("n", "<leader>fhwf", function()
-        builtin.find_files({
-            find_command = find_include_gitignore_params,
-            search_dirs = get_working_directories()
-        })
-    end, {})
-
-    vim.keymap.set("n", "<leader>fwg", function()
-        builtin.live_grep({search_dirs = get_working_directories()})
-    end, {})
-
-    vim.keymap.set("v", "<leader>fwg", function()
-        vim.cmd("norm! y")
-        builtin.grep_string({
-            search_dirs = get_working_directories(),
-            search = vim.fn.getreg('"')
-        })
-    end, {})
-
-    vim.keymap.set("n", "<leader>vh", builtin.help_tags, {})
+    }, {prefix = "<leader>", mode = "v"})
 end
 
 return {
     {
         "nvim-telescope/telescope.nvim",
         lazy = vim.g.started_by_firenvim,
-        dependencies = {{"nvim-lua/plenary.nvim"}}
+        dependencies = {{"nvim-lua/plenary.nvim"}, {'folke/which-key.nvim'}}
     }, {
         "LukasPietzschmann/telescope-tabs",
         lazy = vim.g.started_by_firenvim,

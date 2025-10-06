@@ -30,9 +30,11 @@ local replace_visual_selection_term_codes_to_macro =
 local run_command_in_debug_terminal = remap_funcs.run_command_in_debug_terminal
 local send_visual_selection_to_last_opened_terminal =
     remap_funcs.send_visual_selection_to_last_opened_terminal
-local send_clipboard_to_last_opened_terminal = remap_funcs.send_clipboard_to_last_opened_terminal
+local send_clipboard_to_last_opened_terminal =
+    remap_funcs.send_clipboard_to_last_opened_terminal
 local wrap_with_function_name = remap_funcs.wrap_with_function_name
 local run_selection_in_debug_buffer = remap_funcs.run_selection_in_debug_buffer
+local wk = require("which-key")
 
 local cleanup_if_oil_path = function(path)
     if path:match("^oil://") then path = path:sub(7) end
@@ -56,16 +58,27 @@ local copy_file_path_relative = function()
     vim.notify('Copied "' .. path .. '" to the clipboard!')
 end
 
-vim.keymap.set("n", "<leader>pp", copy_file_path_relative)
+vim.keymap.set("n", "<leader>pp", copy_file_path_relative,
+               {desc = "Copy file path relative to cwd"})
 vim.api.nvim_create_user_command("CopyFilePathRelative",
                                  copy_file_path_relative, {})
 
 -- overrides the <Space>fo mapping from common_remaps.vim
-vim.keymap.set("n", "<leader>fo", function()
-    local directory_of_current_file = vim.fn.expand("%:p:h")
-    directory_of_current_file = cleanup_if_oil_path(directory_of_current_file)
-    vim.cmd(string.format("!open %s", directory_of_current_file))
-end)
+require("which-key").register({
+    f = {
+        o = {
+            function()
+                local directory_of_current_file = vim.fn.expand("%:p:h")
+                directory_of_current_file =
+                    cleanup_if_oil_path(directory_of_current_file)
+                -- We assume windows or macOS for now
+                local open_cmd_command = is_windows() and "explorer" or "open"
+                vim.cmd(string.format("!%s %s", open_cmd_command,
+                                      directory_of_current_file))
+            end, "Open current file directory (macOS or windows only)"
+        }
+    }
+}, {prefix = "<leader>"})
 
 -- better yanking experience
 local augroup = vim.api.nvim_create_augroup
@@ -105,33 +118,72 @@ autocmd("ExitPre", {
     end
 })
 
---miscellaenous
+-- miscellaenous
 vim.keymap.set("v", "<leader>S", wrap_with_function_name)
 
---macro
-vim.keymap.set("n", "<leader>me", macro_edit)
-vim.keymap.set("n", "<leader>mp", macro_paste)
-vim.keymap.set("v", "<leader>mu", macro_update)
+-- macro
+wk.register({
+    ["<leader>m"] = {
+        name = "+macro", -- group name shown in which-key popup
+        e = {"<cmd>lua macro_edit()<CR>", "Edit Macro"},
+        p = {"<cmd>lua macro_paste()<CR>", "Paste Macro"},
+        u = {"<cmd>lua macro_update()<CR>", "Update Macro"}
+    }
+})
+
 vim.keymap.set("v", "<leader>rt", replace_visual_selection_macro_to_term_codes)
 vim.keymap.set("v", "<leader>rm", replace_visual_selection_term_codes_to_macro)
 
---lsp
-vim.keymap.set("n", "<leader>clr", "<cmd>LspRestart<cr>") -- embarassing to have to restart the lsp so often that i want a mapping
-vim.keymap.set("n", "<leader>cli", "<cmd>LspInfo<cr>") -- embarassing to have to restart the lsp so often that i want a mapping
+-- lsp
+-- Register which-key mappings for LSP
+require('which-key').register({
+    -- lsp
+    ["<leader>cl"] = {
+        name = "+lsp",
+        r = {"<cmd>LspRestart<cr>", "Restart LSP"},
+        i = {"<cmd>LspInfo<cr>", "LSP Info"}
+    }
+}, {mode = "n"})
 
---debugging
-vim.keymap.set("v", "<leader>ddp", run_selection_in_debug_buffer)
-vim.keymap.set("n", "<leader>ddo", create_debug_buffer)
-vim.keymap.set("n", "<leader>ddc", cancel_debug_buffer)
-vim.keymap.set("n", "<leader>dtt", run_command_in_debug_terminal)
-vim.keymap.set("n", "<leader>dts", open_debug_terminal_for_current_file)
+wk.register({d = {}}, {prefix = "<leader>"})
 
---quicklist
-vim.keymap.set("n", "<leader>qj", "<cmd>cnext<CR>") -- Next entry in quickfix list
-vim.keymap.set("n", "<leader>qk", "<cmd>cnext<CR>") -- Previous entry in quickfix list
-vim.keymap.set("n", "<leader>qh", "<cmd>colder<CR>") -- Previous quickfix list
-vim.keymap.set("n", "<leader>ql", "<cmd>cnewer<CR>") -- Next quickfix list
-vim.keymap.set("n", "<leader>two", open_workspace_tab) -- Next quickfix list
+wk.register({
+    -- debug
+    d = {
+        name = "+debug",
+        d = {
+            name = "+buffer", -- group name shown in which-key
+            s = {
+                "<cmd>lua run_selection_in_debug_buffer()<cr>",
+                "Run selection in debug buffer",
+                mode = "v"
+            },
+            o = {"<cmd>lua create_debug_buffer()<cr>", "Create debug buffer"},
+            c = {"<cmd>lua cancel_debug_buffer()<cr>", "Cancel debug buffer"}
+        },
+        t = {
+            name = "+terminal",
+            t = {
+                "<cmd>lua run_command_in_debug_terminal()<CR>",
+                "Run Command in Debug Terminal"
+            },
+            s = {
+                "<cmd>lua open_debug_terminal_for_current_file()<CR>",
+                "Open Debug Terminal for Current File"
+            }
+        }
+    },
+    -- quicklist
+    q = {
+        name = "+quickfix",
+        j = {"<cmd>cnext<CR>", "Next quickfix entry"},
+        k = {"<cmd>cprev<CR>", "Previous quickfix entry"},
+        h = {"<cmd>colder<CR>", "Previous quickfix list"},
+        l = {"<cmd>cnewer<CR>", "Next quickfix list"}
+    }
+}, {prefix = "<leader>"})
+
+vim.keymap.set("n", "<leader>two", open_workspace_tab)
 
 -- Terminal mode improvement
 autocmd('TermOpen', {
@@ -143,10 +195,25 @@ autocmd('TermOpen', {
     end
 })
 
-vim.keymap.set("v", "<leader>st", send_visual_selection_to_last_opened_terminal)
-vim.keymap.set("n", "<leader>st", send_clipboard_to_last_opened_terminal)
+require("which-key").register({
+    s = {
+        name = "+send",
+        t = {
+            {
+                send_clipboard_to_last_opened_terminal,
+                "Send clipboard to terminal",
+                mode = "n"
+            }, {
+                send_visual_selection_to_last_opened_terminal,
+                "Send visual selection to terminal",
+                mode = "v"
+            }
+        }
+    }
+}, {prefix = "<leader>"})
 vim.keymap.set("n", "<C-t>", open_project_terminal)
 vim.keymap.set("v", "<C-t>", open_project_terminal)
+
 vim.keymap.set("t", "<C-t>", "<C-\\><C-n><C-w>c")
 vim.keymap.set("t", "<C-a>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-p>", "<C-\\><C-o>p")
@@ -154,10 +221,16 @@ vim.keymap.set("t", "<C-v>", '<C-\\><C-o>"+P')
 vim.keymap.set("t", "<C-o>", "<C-\\><C-o>")
 
 -- better terminal management
-vim.keymap.set("n", "<leader>t1", function() open_terminal(1) end)
-vim.keymap.set("n", "<leader>t2", function() open_terminal(2) end)
-vim.keymap.set("n", "<leader>t3", function() open_terminal(3) end)
-vim.keymap.set("n", "<leader>t4", function() open_terminal(4) end)
-vim.keymap.set("n", "<leader>t5", function() open_terminal(5) end)
+-- Register terminal mappings with which-key
+require("which-key").register({
+    ["<leader>t"] = {
+        name = "+terminal",
+        ["1"] = {function() open_terminal(1) end, "Open Terminal 1"},
+        ["2"] = {function() open_terminal(2) end, "Open Terminal 2"},
+        ["3"] = {function() open_terminal(3) end, "Open Terminal 3"},
+        ["4"] = {function() open_terminal(4) end, "Open Terminal 4"},
+        ["5"] = {function() open_terminal(5) end, "Open Terminal 5"}
+    }
+}, {mode = "n"})
 
 vim.keymap.set("n", "<leader><leader>", function() vim.cmd("so") end)

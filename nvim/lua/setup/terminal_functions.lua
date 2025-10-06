@@ -5,8 +5,10 @@ local debugTerminalMap = {}
 local terminalJobIdMap = {}
 local lastOpenedTermBuf = nil
 
-local function open_terminal_buffer(bufId, change_cwd_to_current)
-    change_cwd_to_current = change_cwd_to_current or false
+local function open_terminal_buffer(bufId, opts)
+    opts = opts or {}
+    local change_cwd_to_current = opts.change_cwd_to_current or false
+    local set_to_insert_mode = opts.set_to_insert_mode or false
 
     -- Get the directory to open the terminal in from current buffer
     -- Won't matter if we are not opening a new terminal
@@ -23,6 +25,7 @@ local function open_terminal_buffer(bufId, change_cwd_to_current)
             vim.cmd("b " .. id)
         end
 
+        -- if set_to_insert_mode then vim.cmd('startinsert') end
         vim.cmd("norm a")
         lastOpenedTermBuf = vim.api.nvim_get_current_buf()
         terminalJobIdMap[lastOpenedTermBuf] = vim.bo.channel
@@ -59,7 +62,7 @@ function M.open_terminal(termId)
     if extraTermMap[termId] then
         return open_terminal_buffer(extraTermMap[termId])
     else
-        local bufId = open_terminal_buffer(nil, true)
+        local bufId = open_terminal_buffer(nil, {change_cwd_to_current = true})
         extraTermMap[termId] = bufId
         return bufId
     end
@@ -70,7 +73,7 @@ function M.open_debug_terminal_for_current_file()
     if debugTerminalMap[debugFile] then
         return open_terminal_buffer(debugTerminalMap[debugFile])
     else
-        local bufId = open_terminal_buffer(nil, true)
+        local bufId = open_terminal_buffer(nil, {change_cwd_to_current = true})
         debugTerminalMap[debugFile] = bufId
         return bufId
     end
@@ -85,7 +88,7 @@ function M.open_project_terminal()
     if projectTermMap[current_directory_name] then
         open_terminal_buffer(projectTermMap[current_directory_name])
     else
-        local bufId = open_terminal_buffer(nil, false)
+        local bufId = open_terminal_buffer(nil, {change_cwd_to_current = false})
         projectTermMap[current_directory_name] = bufId
     end
 end
@@ -107,9 +110,8 @@ local function send_text_to_last_opened_terminal(text)
     if not termJobId then
         error("No terminal job id found for last opened terminal")
     end
-    
+    open_terminal_buffer(lastOpenedTermBuf, {set_to_insert_mode = true})
     vim.fn.chansend(termJobId, text)
-    open_terminal_buffer(lastOpenedTermBuf)
 end
 
 function M.send_clipboard_to_last_opened_terminal()
@@ -122,7 +124,7 @@ function M.send_visual_selection_to_last_opened_terminal()
     if mode ~= 'v' and mode ~= 'V' and mode ~= '' then
         return nil, "Not in visual mode"
     end
-    local text = get_visual_selection()
+    local text = get_visual_selection_and_exit_visual()
     send_text_to_last_opened_terminal(text)
 end
 

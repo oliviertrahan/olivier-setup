@@ -150,13 +150,13 @@ local function setup_all_lsps()
         end
     })
 
-    function setup_default(lsp_config_name)
+    local function setup_default(lsp_config_name)
         local config = lsp_config[lsp_config_name]
         if config and type(config) == "table" and type(config["setup"]) ==
             "function" then config.setup {capabilities = capabilities} end
     end
 
-    function setup_csharp_ls()
+    local function setup_csharp_ls()
         lsp_config.csharp_ls.setup({
             filetypes = {"cs"},
             capabilities = capabilities,
@@ -173,14 +173,14 @@ local function setup_all_lsps()
         })
     end
 
-    function setup_ts_ls()
+    local function setup_ts_ls()
         lsp_config.ts_ls.setup({
             capabilities = capabilities,
             filetypes = {"typescript", "javascript"}
         })
     end
 
-    function setup_volar()
+    local function setup_volar()
         lsp_config.volar.setup({
             capabilities = capabilities,
             filetypes = {
@@ -190,7 +190,7 @@ local function setup_all_lsps()
         })
     end
 
-    function setup_vuels()
+    local function setup_vuels()
         lsp_config.vuels.setup({
             capabilities = capabilities,
             filetypes = {
@@ -200,7 +200,7 @@ local function setup_all_lsps()
         })
     end
 
-    function setup_tailwindcss()
+    local function setup_tailwindcss()
         lsp_config.vuels.setup({
             capabilities = capabilities,
             filetypes = {
@@ -210,7 +210,7 @@ local function setup_all_lsps()
         })
     end
 
-    function setup_lua_ls()
+    local function setup_lua_ls()
         lsp_config.lua_ls.setup({
             capabilities = capabilities,
             settings = {
@@ -226,7 +226,7 @@ local function setup_all_lsps()
         })
     end
 
-    function setup_graphql()
+    local function setup_graphql()
         lsp_config.graphql.setup({
             capabilities = capabilities,
             filetypes = {"graphql"}
@@ -258,12 +258,13 @@ local function setup_all_lsps()
     end
 
     vim.diagnostic.config({virtual_text = true})
-   
+
     vim.keymap.set("n", "<leader>ds", function()
-      local diags = vim.diagnostic.get(0, {lnum = vim.fn.line('.')-1})
-      for _, d in ipairs(diags) do
-        print("Message: " .. d.message .. " | Source: " .. (d.source or "unknown"))
-      end
+        local diags = vim.diagnostic.get(0, {lnum = vim.fn.line('.') - 1})
+        for _, d in ipairs(diags) do
+            print("Message: " .. d.message .. " | Source: " ..
+                      (d.source or "unknown"))
+        end
     end)
 
 end

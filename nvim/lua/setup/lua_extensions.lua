@@ -78,12 +78,23 @@ end
 
 function is_windows() return vim.loop.os_uname().sysname == "Windows_NT" end
 
-function get_visual_selection()
+function get_visual_selection_impl(exit_visual)
     -- Yank current visual selection into the 'v' register
     -- Note that this makes no effort to preserve this register
     vim.cmd('noau normal! "vy')
-    return vim.fn.getreg('v')
+    local selection = vim.fn.getreg('v')
+    if exit_visual then
+        -- Exit visual mode
+        send_keys("<Esc>")
+    end
+    return selection
 end
+
+function get_visual_selection_and_exit_visual()
+    return get_visual_selection_impl(true)
+end
+
+function get_visual_selection() return get_visual_selection_impl(false) end
 
 function get_working_directory_for_tab(tabpage)
     local tabnum = vim.api.nvim_tabpage_get_number(tabpage)
@@ -102,7 +113,8 @@ end
 
 function resolve_path(path)
     if vim.fn.has("win32unix") == 1 then
-      return vim.fn.system(string.format('cygpath -u "%s"', path) or ""):gsub("\n", "")
+        return vim.fn.system(string.format('cygpath -u "%s"', path) or ""):gsub(
+                   "\n", "")
     end
     return path
 end
@@ -116,6 +128,8 @@ getmetatable("").uuid = uuid
 getmetatable("").get_active_tabpage_for_buffer = get_active_tabpage_for_buffer
 getmetatable("").send_keys = send_keys
 getmetatable("").get_visual_selection = get_visual_selection
+getmetatable("").get_visual_selection_and_exit_visual =
+    get_visual_selection_and_exit_visual
 getmetatable("").merge_tables = merge_tables
 getmetatable("").is_windows = is_windows
 getmetatable("").get_working_directory_for_tab = get_working_directory_for_tab

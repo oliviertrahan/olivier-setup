@@ -1,27 +1,34 @@
 -- lazy.nvim
 return {
     "olimorris/codecompanion.nvim",
-    dependencies = {"nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter"},
+    dependencies = {
+        "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter",
+        "folke/which-key.nvim"
+    },
     config = function()
-        require("codecompanion").setup {
-            strategies = {chat = {adapter = "openai", model = "gpt-5"}},
-            -- NOTE: The log_level is in `opts.opts`
+        require("codecompanion").setup({
             opts = {
-                log_level = "DEBUG" -- or "TRACE"
+                log_level = "DEBUG", -- or "TRACE"
+                strategies = {chat = {adapter = "openai", model = "gpt-5"}}
             }
-        }
+        })
 
-        vim.keymap.set("n", "<leader>an", "<cmd>CodeCompanionChat<CR>",
-                       {noremap = true, silent = true})
-        vim.keymap.set("n", "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>",
-                       {noremap = true, silent = true})
-        vim.keymap.set("v", "<leader>aa", "<cmd>CodeCompanionChat Add<cr>",
-                       {noremap = true, silent = true})
-        vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanion /explain<cr>",
-                       {noremap = true, silent = true})
-        vim.keymap.set({'n', 'v'}, '<leader>af', ':CodeCompanion<CR>',
-                       {noremap = true, silent = true})
-        vim.keymap.set({"n", "v"}, "<leader>al", "<cmd>CodeCompanion /lsp<cr>",
-                       {noremap = true, silent = true})
+        local wk = require("which-key")
+        wk.register({
+            a = {
+                name = "+codecompanion",
+                n = {"<cmd>CodeCompanionChat<CR>", "New Chat"},
+                o = {"<cmd>CodeCompanionChat Toggle<cr>", "Open Current Chat"},
+                a = {"<cmd>CodeCompanionActions<cr>", "Companion Actions"},
+                A = {
+                    "<cmd>CodeCompanionChat Add<cr>",
+                    "Add to Chat",
+                    mode = "v"
+                },
+                e = {"<cmd>CodeCompanion /explain<cr>", "Explain", mode = "v"},
+                f = {":CodeCompanion<CR>", "Fix Selection", mode = {"v"}},
+                l = {"<cmd>CodeCompanion /lsp<cr>", "LSP", mode = {"n", "v"}}
+            }
+        }, {prefix = "<leader>"})
     end
 }
