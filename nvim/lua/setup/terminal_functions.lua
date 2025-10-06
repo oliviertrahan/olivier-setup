@@ -21,12 +21,12 @@ local function open_terminal_buffer(bufId, opts)
         if bufId == nil then
             vim.cmd("lcd " .. terminal_directory)
             vim.cmd("terminal")
+            vim.defer_fn(function() send_keys("a") end, 30) -- 100ms delay; adjust if needed
         else
             vim.cmd("b " .. id)
+            vim.defer_fn(function() send_keys("a") end, 30) -- 100ms delay; adjust if needed
         end
 
-        -- if set_to_insert_mode then vim.cmd('startinsert') end
-        vim.cmd("norm a")
         lastOpenedTermBuf = vim.api.nvim_get_current_buf()
         terminalJobIdMap[lastOpenedTermBuf] = vim.bo.channel
         return lastOpenedTermBuf
@@ -111,7 +111,7 @@ local function send_text_to_last_opened_terminal(text)
         error("No terminal job id found for last opened terminal")
     end
     open_terminal_buffer(lastOpenedTermBuf, {set_to_insert_mode = true})
-    vim.fn.chansend(termJobId, text)
+    vim.defer_fn(function() vim.fn.chansend(termJobId, text) end, 50)
 end
 
 function M.send_clipboard_to_last_opened_terminal()
