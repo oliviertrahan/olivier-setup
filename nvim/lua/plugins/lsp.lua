@@ -127,26 +127,35 @@ local function setup_all_lsps()
             end
 
             local opts = {buffer = ev.buf}
-            vim.keymap.set("n", "gd", definitions)
-            vim.keymap.set("n", "gD", declarations)
-            vim.keymap.set("n", "gr", references)
-            vim.keymap.set("n", "gi", implementations)
-            vim.keymap.set("n", "K", function()
-                vim.lsp.buf.hover()
-                vim.api.nvim_win_set_option(0, "winblend", 10)
-            end, opts)
-            vim.keymap.set("n", "=", vim.lsp.buf.format, opts)
-            vim.keymap.set("n", "<leader>vws", workspace_symbols, opts)
-            vim.keymap.set("n", "<leader>vds", document_symbols, opts)
-            vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
-            vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
-            vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
-            vim.keymap.set("v", "<leader>vca", vim.lsp.buf.code_action, opts)
-            vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
-            vim.keymap.set("v", "<leader>vrn", vim.lsp.buf.rename, opts)
-            vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, opts)
-            vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, opts)
-            vim.keymap.set("n", "<leader>vf", vim.lsp.buf.format, opts)
+            -- which-key mappings for LSP-related keymaps
+            local wk = require("which-key")
+
+            wk.register({
+                ["gd"] = {definitions, "Go to definition"},
+                ["gD"] = {declarations, "Go to declaration"},
+                ["gr"] = {references, "Go to references"},
+                ["gi"] = {implementations, "Go to implementation"},
+                ["K"] = {
+                    function()
+                        vim.lsp.buf.hover()
+                        vim.api.nvim_win_set_option(0, "winblend", 10)
+                    end, "LSP Hover"
+                },
+                ["="] = {vim.lsp.buf.format, "Format buffer"},
+                ["<leader>vws"] = {workspace_symbols, "Workspace symbols"},
+                ["<leader>vds"] = {document_symbols, "Document symbols"},
+                ["[d"] = {vim.diagnostic.goto_prev, "Prev diagnostic"},
+                ["]d"] = {vim.diagnostic.goto_next, "Next diagnostic"},
+                ["<leader>vca"] = {vim.lsp.buf.code_action, "Code action"},
+                ["<leader>vrn"] = {vim.lsp.buf.rename, "Rename"},
+                ["<leader>vh"] = {vim.lsp.buf.signature_help, "Signature help"},
+                ["<leader>vf"] = {vim.lsp.buf.format, "Format buffer"}
+            }, {mode = "n", prefix = "", buffer = ev.buf})
+
+            wk.register({
+                ["<leader>vca"] = {vim.lsp.buf.code_action, "Code action"},
+                ["<leader>vrn"] = {vim.lsp.buf.rename, "Rename"}
+            }, {mode = "v", prefix = "", buffer = ev.buf})
         end
     })
 
