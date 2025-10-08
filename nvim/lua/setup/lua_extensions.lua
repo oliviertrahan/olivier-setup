@@ -78,6 +78,33 @@ end
 
 function is_windows() return vim.loop.os_uname().sysname == "Windows_NT" end
 
+local cached_is_cygwin = nil
+function is_cygwin()
+  if cached_is_cygwin ~= nil then return cached_is_cygwin end
+    
+  if vim.fn.executable("uname") == 1 then
+    local ok_o, out_o = pcall(vim.fn.system, { "uname", "-o" })
+    if ok_o and type(out_o) == "string" then
+      if out_o:match("Cygwin") then 
+          cached_is_cygwin = true
+          return cached_is_cygwin
+      end
+    end
+    local ok_s, out_s = pcall(vim.fn.system, { "uname", "-s" })
+    if ok_s and type(out_s) == "string" then
+      if out_s:match("^CYGWIN") then 
+          cached_is_cygwin = true
+          return cached_is_cygwin
+      end
+    end
+  end
+
+  cached_is_cygwin = false
+  return false
+end
+
+
+
 function get_visual_selection_impl(exit_visual)
     -- Yank current visual selection into the 'v' register
     -- Note that this makes no effort to preserve this register
@@ -112,10 +139,11 @@ function get_working_directories()
 end
 
 function resolve_path(path)
-    if vim.fn.has("win32unix") == 1 then
-        return vim.fn.system(string.format('cygpath -u "%s"', path) or ""):gsub(
-                   "\n", "")
+    if is_cygwin() then
+        print("cygwin")
+        return vim.fn.system(string.format('cygpath -u "%s"', path) or ""):gsub("\n", "")
     end
+    print("not cygwin")
     return path
 end
 
@@ -131,6 +159,7 @@ getmetatable("").get_visual_selection = get_visual_selection
 getmetatable("").get_visual_selection_and_exit_visual =
     get_visual_selection_and_exit_visual
 getmetatable("").merge_tables = merge_tables
+getmetatable("").is_cygwin = is_cygwin
 getmetatable("").is_windows = is_windows
 getmetatable("").get_working_directory_for_tab = get_working_directory_for_tab
 getmetatable("").get_working_directories = get_working_directories
