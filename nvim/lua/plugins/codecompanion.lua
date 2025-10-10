@@ -15,20 +15,16 @@ return {
 
         local wk = require("which-key")
         wk.register({
-            a = {
-                name = "+codecompanion",
-                n = {"<cmd>CodeCompanionChat<CR>", "New Chat"},
-                o = {"<cmd>CodeCompanionChat Toggle<cr>", "Open Current Chat"},
-                a = {"<cmd>CodeCompanionActions<cr>", "Companion Actions"},
-                A = {
-                    "<cmd>CodeCompanionChat Add<cr>",
-                    "Add to Chat",
-                    mode = "v"
-                },
-                e = {"<cmd>CodeCompanion /explain<cr>", "Explain", mode = "v"},
-                f = {":CodeCompanion<CR>", "Fix Selection", mode = {"v"}},
-                l = {"<cmd>CodeCompanion /lsp<cr>", "LSP", mode = {"n", "v"}}
-            }
-        }, {prefix = "<leader>"})
+            { "<leader>a", group = "codecompanion" }
+        })
+        
+        vim.keymap.set("n", "<leader>aa", "<cmd>CodeCompanionActions<cr>", { desc = "Companion Actions" })
+        vim.keymap.set("n", "<leader>an", "<cmd>CodeCompanionChat<CR>", { desc = "New Chat" })
+        vim.keymap.set("n", "<leader>ao", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "Open Current Chat" })
+        vim.keymap.set({"n", "v"}, "<leader>al", "<cmd>CodeCompanion /lsp<cr>", { desc = "LSP" })
+        
+        vim.keymap.set("v", "<leader>aA", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add to Chat" })
+        vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanion /explain<cr>", { desc = "Explain" })
+        vim.keymap.set("v", "<leader>af", ":CodeCompanion<CR>", { desc = "Fix Selection" })
     end
 }

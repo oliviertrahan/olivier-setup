@@ -7,17 +7,12 @@ return {
         require("gitsigns").setup()
 
         local wk = require("which-key")
-
         wk.register({
-            ["<leader>g"] = {
-                name = "+git",
-                p = {"<cmd>Gitsigns preview_hunk<CR>", "Preview hunk"},
-                h = {"<cmd>Gitsigns prev_hunk<CR>", "Previous hunk"},
-                l = {"<cmd>Gitsigns next_hunk<CR>", "Next hunk"},
-                t = {"<cmd>Gitsigns blame_line<CR>", "Blame line"}
-                -- Uncomment below to use toggle_current_line_blame instead
-                -- t = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "Toggle line blame" },
-            }
+            { "<leader>g", group = "git" }
         })
+        vim.keymap.set("n", "<leader>gh", "<cmd>Gitsigns prev_hunk<CR>", { desc = "Previous hunk" })
+        vim.keymap.set("n", "<leader>gl", "<cmd>Gitsigns next_hunk<CR>", { desc = "Next hunk" })
+        vim.keymap.set("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
+        vim.keymap.set("n", "<leader>gt", "<cmd>Gitsigns blame_line<CR>", { desc = "Blame line" })
     end
 }

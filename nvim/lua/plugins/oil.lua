@@ -22,22 +22,10 @@ local function setup_oil()
             ["g\\"] = "actions.toggle_trash"
         }
     })
-
-    local wk = require("which-key")
-
-    wk.register({
-        f = {
-            q = {"<cmd>Oil<CR>", "Open Oil (current buffer)"},
-            s = {
-                "<cmd>lefta vnew<CR><cmd>e .<CR>",
-                "Open Oil (Split & Open Dir from cwd)"
-            },
-            a = {
-                '<cmd>call setreg("n", expand("%:h"))<CR><cmd>lefta vnew<CR><cmd>exe "e" getreg("n")<CR>',
-                "Open Oil (Split & Open Dir of Current File)"
-            }
-        }
-    }, {prefix = "<leader>"})
+    
+    vim.keymap.set("n", "<leader>fa", '<cmd>call setreg("n", { expand("%:h"))<CR><cmd>lefta vnew<CR><cmd>exe "e" getreg("n")<CR>', { desc = "Open Oil (Split & Open Dir of Current File)" })
+    vim.keymap.set("n", "<leader>fq", "<cmd>Oil<CR>", { desc = "Open Oil (current buffer)" })
+    vim.keymap.set("n", "<leader>fs", "<cmd>lefta vnew<CR><cmd>e .<CR>", { desc = "Open Oil (Split & Open Dir from cwd)" })
 end
 
 return {

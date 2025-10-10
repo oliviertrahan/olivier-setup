@@ -129,33 +129,27 @@ local function setup_all_lsps()
             local opts = {buffer = ev.buf}
             -- which-key mappings for LSP-related keymaps
             local wk = require("which-key")
-
-            wk.register({
-                ["gd"] = {definitions, "Go to definition"},
-                ["gD"] = {declarations, "Go to declaration"},
-                ["gr"] = {references, "Go to references"},
-                ["gi"] = {implementations, "Go to implementation"},
-                ["K"] = {
-                    function()
-                        vim.lsp.buf.hover()
-                        vim.api.nvim_win_set_option(0, "winblend", 10)
-                    end, "LSP Hover"
-                },
-                ["="] = {vim.lsp.buf.format, "Format buffer"},
-                ["<leader>vws"] = {workspace_symbols, "Workspace symbols"},
-                ["<leader>vds"] = {document_symbols, "Document symbols"},
-                ["[d"] = {vim.diagnostic.goto_prev, "Prev diagnostic"},
-                ["]d"] = {vim.diagnostic.goto_next, "Next diagnostic"},
-                ["<leader>vca"] = {vim.lsp.buf.code_action, "Code action"},
-                ["<leader>vrn"] = {vim.lsp.buf.rename, "Rename"},
-                ["<leader>vh"] = {vim.lsp.buf.signature_help, "Signature help"},
-                ["<leader>vf"] = {vim.lsp.buf.format, "Format buffer"}
-            }, {mode = "n", prefix = "", buffer = ev.buf})
-
-            wk.register({
-                ["<leader>vca"] = {vim.lsp.buf.code_action, "Code action"},
-                ["<leader>vrn"] = {vim.lsp.buf.rename, "Rename"}
-            }, {mode = "v", prefix = "", buffer = ev.buf})
+            
+            vim.keymap.set("n", "gd", definitions, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+            vim.keymap.set("n", "gD", declarations, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
+            vim.keymap.set("n", "gr", references, vim.tbl_extend("force", opts, { desc = "Go to references" }))
+            vim.keymap.set("n", "gi", implementations, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
+            vim.keymap.set("n", "K", function()
+                vim.lsp.buf.hover()
+                vim.api.nvim_win_set_option(0, "winblend", 10)
+            end, vim.tbl_extend("force", opts, { desc = "LSP Hover" }))
+            vim.keymap.set("n", "=", vim.lsp.buf.format, vim.tbl_extend("force", opts, { desc = "Format buffer" }))
+            vim.keymap.set("n", "<leader>vws", workspace_symbols, vim.tbl_extend("force", opts, { desc = "Workspace symbols" }))
+            vim.keymap.set("n", "<leader>vds", document_symbols, vim.tbl_extend("force", opts, { desc = "Document symbols" }))
+            vim.keymap.set("n", "[d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+            vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+            vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
+            vim.keymap.set("v", "<leader>vca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action (visual)" }))
+            vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+            vim.keymap.set("v", "<leader>vrn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol (visual)" }))
+            vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, { desc = "Signature help" }))
+            vim.keymap.set("n", "<leader>vh", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, { desc = "Signature help" }))
+            vim.keymap.set("n", "<leader>vf", vim.lsp.buf.format, vim.tbl_extend("force", opts, { desc = "Format buffer" }))
         end
     })
 

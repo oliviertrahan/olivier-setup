@@ -7,44 +7,31 @@ function dap_config()
     local dapui = require("dapui")
 
     local wk = require("which-key")
-
     wk.register({
-        d = {
-            name = "Debug",
-            b = {name = "Breakpoint", b = {"Toggle breakpoint", "<leader>dbb"}},
-            c = {name = "Continue", dap.continue},
-            s = {
-                name = "Step",
-                o = {name = "Step Over", dap.step_over},
-                u = {name = "Step Out", dap.step_out},
-                i = {name = "Step Into", dap.step_into}
-            },
-            r = {name = "REPL", o = {name = "Open REPL", dap.repl.open}},
-            u = {name = "UI", c = {name = "Close UI", dapui.close}},
-            h = {
-                name = "Hover",
-                function() require("dap.ui.widgets").hover() end
-            },
-            p = {
-                name = "Preview",
-                function() require("dap.ui.widgets").preview() end
-            },
-            f = {
-                name = "Frames",
-                function()
-                    local widgets = require("dap.ui.widgets")
-                    widgets.centered_float(widgets.frames)
-                end
-            },
-            s = {
-                name = "Scopes",
-                function()
-                    local widgets = require("dap.ui.widgets")
-                    widgets.centered_float(widgets.scopes)
-                end
-            }
-        }
-    }, {prefix = "<leader>"})
+        { "<leader>a", group = "codecompanion" },
+    })
+    vim.keymap.set("n", "<leader>dbb", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
+    vim.keymap.set("n", "<leader>dbc", dap.continue, { desc = "Continue debugging" })
+    vim.keymap.set("n", "<leader>dso", dap.step_over, { desc = "Step over" })
+    vim.keymap.set("n", "<leader>dsu", dap.step_out, { desc = "Step out" })
+    vim.keymap.set("n", "<leader>dsi", dap.step_into, { desc = "Step into" })
+    vim.keymap.set("n", "<leader>dro", dap.repl.open, { desc = "Open DAP REPL" })
+    vim.keymap.set("n", "<leader>duc", dapui.close, { desc = "Close DAP UI" })
+
+    vim.keymap.set({ "n", "v" }, "<leader>dh", function()
+        require("dap.ui.widgets").hover()
+    end, { desc = "DAP hover" })
+    vim.keymap.set({ "n", "v" }, "<leader>dp", function()
+        require("dap.ui.widgets").preview()
+    end, { desc = "DAP preview" })
+    vim.keymap.set("n", "<leader>df", function()
+        local widgets = require("dap.ui.widgets")
+        widgets.centered_float(widgets.frames)
+    end, { desc = "DAP frames" })
+    vim.keymap.set("n", "<leader>ds", function()
+        local widgets = require("dap.ui.widgets")
+        widgets.centered_float(widgets.scopes)
+    end, { desc = "DAP scopes" })
 
     dap.adapters.coreclr = {
         type = "executable",

@@ -3,12 +3,10 @@ return {
     dependencies = {'folke/which-key.nvim'},
     config = function()
         local wk = require("which-key")
-        wk.register({
-            ca = {
-                name = "CellularAutomaton",
-                m = {"<cmd>CellularAutomaton make_it_rain<CR>", "Make it rain"},
-                g = {"<cmd>CellularAutomaton game_of_life<CR>", "Game of Life"}
-            }
-        }, {prefix = "<leader>"})
+        wk.register({ 
+            { "<leader>ca", group = "CellularAutomaton" }
+        })
+        vim.keymap.set("n", "<leader>cag", "<cmd>CellularAutomaton game_of_life<CR>", { desc = "Game of Life" })
+        vim.keymap.set("n", "<leader>cam", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Make it rain" })
     end
 }
