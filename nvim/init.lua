@@ -46,12 +46,17 @@ function R(name) require("plenary.reload").reload_module(name) end
 autocmd({"FocusGained", "TermLeave"},
         {pattern = "*", callback = function() vim.cmd("checktime") end})
 
---Adding script for a work setup
+-- Adding script for a work setup
 vim.api.nvim_create_user_command("WorkStart", function()
-  pcall(require, "not_pushed.work_startup")
+    pcall(require, "not_pushed.work_startup")
 end, {})
 
---Adding script for a personal setup
+-- adding script for a personal setup
 vim.api.nvim_create_user_command("PersonalStart", function()
-  pcall(require, "not_pushed.personal_startup")
+    pcall(require, "not_pushed.personal_startup")
+end, {})
+
+-- adding script for a temporary setup
+vim.api.nvim_create_user_command("TempStart", function()
+    pcall(require, "not_pushed.temp_startup")
 end, {})
