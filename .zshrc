@@ -38,7 +38,7 @@ export ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 
 # User configuration
 
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
 unsetopt share_history
 
 export PATH="/usr/local/bin/code:$PATH"

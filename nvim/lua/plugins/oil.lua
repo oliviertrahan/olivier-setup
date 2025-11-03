@@ -23,7 +23,7 @@ local function setup_oil()
         }
     })
     
-    vim.keymap.set("n", "<leader>fa", '<cmd>call setreg("n", { expand("%:h"))<CR><cmd>lefta vnew<CR><cmd>exe "e" getreg("n")<CR>', { desc = "Open Oil (Split & Open Dir of Current File)" })
+    vim.keymap.set("n", "<leader>fa", '<cmd>call setreg("n", expand("%:h"))<CR><cmd>lefta vnew<CR><cmd>exe "e" getreg("n")<CR>', { desc = "Open Oil (Split & Open Dir of Current File)" })
     vim.keymap.set("n", "<leader>fq", "<cmd>Oil<CR>", { desc = "Open Oil (current buffer)" })
     vim.keymap.set("n", "<leader>fs", "<cmd>lefta vnew<CR><cmd>e .<CR>", { desc = "Open Oil (Split & Open Dir from cwd)" })
 end

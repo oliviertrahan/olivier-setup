@@ -140,10 +140,8 @@ end
 
 function resolve_path(path)
     if is_cygwin() then
-        print("cygwin")
         return vim.fn.system(string.format('cygpath -u "%s"', path) or ""):gsub("\n", "")
     end
-    print("not cygwin")
     return path
 end
 
