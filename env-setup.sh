@@ -137,15 +137,17 @@ linux_install() {
     which jq || sudo apt install jq
     which tmux || sudo apt install tmux
     which code || sudo apt install visual-studio-code #fuck it why not
-    which node || install_nodejs_deb 
+    # which node || install_nodejs_deb 
     which pcregrep || sudo apt install pcregrep
-    node_major=$(node --version | pcregrep -io1 '^v([0-9]+)\.')
-    if [ $node_major -le 20 ]; then
-        echo "node major installed version is $node_major which is too low. Installing" 
-        install_nodejs_deb
-    else
-        echo "node major is $node_major which is high enough"
-    fi
+    # node_major=$(node --version | pcregrep -io1 '^v([0-9]+)\.')
+    # if [ $node_major -le 21 ]; then
+    #     echo "node major installed version is $node_major which is too low. Installing" 
+    #     install_nodejs_deb
+    # else
+    #     echo "node major is $node_major which is high enough"
+    # fi
+    which nvm && nvm --version || curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash 
+    nvm install stable
     which npm || sudo apt install npm
     which thefuck || sudo apt install thefuck
     #Might need a patched font here

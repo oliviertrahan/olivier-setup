@@ -70,3 +70,6 @@ fi
 if [ -e ~/extra_zshrc.zsh ]; then
     source ~/extra_zshrc.zsh
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
