@@ -177,10 +177,10 @@ local function setup_all_lsps()
     end
 
     local function setup_ts_ls()
-        lsp_config.ts_ls.setup({
-            capabilities = capabilities,
-            filetypes = {"typescript", "javascript"}
-        })
+        -- lsp_config.ts_ls.setup({
+        --     capabilities = capabilities,
+        --     filetypes = {"typescript", "javascript"}
+        -- })
     end
 
     local function setup_volar()
