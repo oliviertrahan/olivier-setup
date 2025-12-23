@@ -163,6 +163,8 @@ alias grmfd="fuzzy_find_modified_file_directories | xargs -r -I {} git rm \"{}\"
 gp() {
     if [ $# -gt 0 ]; then
         git commit -m "$1"
+    else
+        git commit
     fi
 
     git push
@@ -235,7 +237,7 @@ alias gstp="git stash pop"
 alias grbc="git rebase --continue"
 alias gcleanall="git clean -fd"
 
-git config --global core.editor "$(which nvim)"
+git config --global --replace-all core.editor nvim
 git config --global core.pager "nvim +Man!"
 git config --global difftool.prompt false
 git config --global diff.tool nvimdiff
