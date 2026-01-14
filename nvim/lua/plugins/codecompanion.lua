@@ -23,7 +23,7 @@ return {
         vim.keymap.set("n", "<leader>ao", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "Open Current Chat" })
         vim.keymap.set({"n", "v"}, "<leader>al", "<cmd>CodeCompanion /lsp<cr>", { desc = "LSP" })
         
-        vim.keymap.set("v", "<leader>aA", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add to Chat" })
+        vim.keymap.set("v", "<leader>ao", "<cmd>CodeCompanionChat Add<cr>", { desc = "Add to Chat" })
         vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanion /explain<cr>", { desc = "Explain" })
         vim.keymap.set("v", "<leader>af", ":CodeCompanion<CR>", { desc = "Fix Selection" })
     end

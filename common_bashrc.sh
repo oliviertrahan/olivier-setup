@@ -161,13 +161,12 @@ alias grmf="fuzzy_find_modified_files | xargs -r -I {} git rm \"{}\""
 alias grmfd="fuzzy_find_modified_file_directories | xargs -r -I {} git rm \"{}\""
 
 gp() {
+    git_commit_command='git commit'
     if [ $# -gt 0 ]; then
-        git commit -m "$1"
-    else
-        git commit
+        git_commit_command='git commit -m "$1"'
     fi
 
-    git push
+    $git_commit_command && git push
 }
 
 
