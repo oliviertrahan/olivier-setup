@@ -75,6 +75,15 @@ setupgitpersonal() {
     fi
 }
 
+
+git_get_main_branch() {
+    if git show-ref --quiet refs/heads/main; then
+        echo "main"
+    else
+        echo "master"
+    fi
+}
+
 fuzzy_find_staged_files() {
     git --no-pager diff --name-only --cached | fzf
 }
@@ -137,8 +146,8 @@ alias grhhf="fuzzy_find_modified_files | xargs -r -I {} git reset --hard \"{}\""
 alias grhhfd="fuzzy_find_modified_file_directories | xargs -r -I {} git reset --hard \"{}\""
 alias gcof="fuzzy_find_modified_files | xargs -r -I {} git checkout \"{}\""
 alias gcofd="fuzzy_find_modified_file_directories | xargs -r -I {} git checkout \"{}\""
-alias grevmf="fuzzy_find_modified_files | xargs -r -I {} git checkout origin/master -- \"{}\""
-alias grevmfd="fuzzy_find_staged_file_directories | xargs -r -I {} git checkout origin/master -- \"{}\""
+alias grevmf="fuzzy_find_modified_files | xargs -r -I {} git checkout origin/$(git_get_main_branch) -- \"{}\""
+alias grevmfd="fuzzy_find_staged_file_directories | xargs -r -I {} git checkout origin/$(git_get_main_branch) -- \"{}\""
 alias grevb="git_select_from_latest_branch | xargs -r -I {} git checkout \"{}\" --"
 alias grevob="git_select_from_latest_origin_branch | xargs -r -I {} git checkout \"{}\" --"
 alias gdf="fuzzy_find_modified_files | xargs -r -I {} git diff \"{}\""
@@ -151,6 +160,7 @@ alias gmf="git_select_from_latest_branch | xargs -r -I {} git merge \"{}\""
 alias gmof="git_select_from_latest_origin_branch | xargs -r -I {} git merge \"{}\""
 alias grbf="git_select_from_latest_branch | xargs -r -I {} git rebase \"{}\""
 alias grbof="git_select_from_latest_origin_branch | xargs -r -I {} git rebase \"{}\""
+alias grbonf="git_select_from_latest_origin_branch | xargs -r -I {} git rebase --onto \"{}\""
 alias gcbof="git_select_from_latest_origin_branch | sed -e 's/^[ 	]*origin\///' | xargs -r git checkout"
 alias gcleanf="fuzzy_find_cleanable_files | xargs -r -I {} git clean -fd \"{}\""
 alias gcleanfd="fuzzy_find_cleanable_file_directories | xargs -r -I {} git clean -fd \"{}\""
@@ -216,12 +226,11 @@ alias gdt="git difftool"
 alias gdca="git diff --cached"
 alias gcp="git cherry-pick"
 alias gco="git checkout"
-alias gcm="git checkout master || git checkout main"
+alias gcm="git checkout $(git_get_main_branch)"
 alias gcb="git checkout -b"
 alias grh="git reset"
 alias grhh="git reset --hard"
-alias grevm="git checkout origin/master --"
-alias grevmain="git checkout origin/main --"
+alias grevm="git checkout origin/$(git_get_main_branch) --"
 alias glog="git log"
 alias gaa="git add --all"
 alias gbd="git branch -d"
@@ -235,6 +244,16 @@ alias gstl="git stash list"
 alias gstp="git stash pop"
 alias grbc="git rebase --continue"
 alias gcleanall="git clean -fd"
+
+# Git global settings
+ 
+# Machine != windows is really WSL, only tested for that
+if [ "$machine" != "Windows" ]; then
+    git config --global core.filemode false
+    git config --global core.autocrlf true
+else
+    git config --global core.autocrlf false
+fi
 
 git config --global --replace-all core.editor nvim
 git config --global core.pager "nvim +Man!"
