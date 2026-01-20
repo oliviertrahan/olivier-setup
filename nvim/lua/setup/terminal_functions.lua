@@ -17,8 +17,6 @@ local function open_terminal_buffer(bufId, opts)
         terminal_directory = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':h')
     end
 
-    local open_term_buf_numbr
-
     local open_term_buf = function(id)
         if bufId == nil or not vim.api.nvim_buf_is_valid(bufId) then
             vim.cmd("lcd " .. terminal_directory)
@@ -62,7 +60,8 @@ end
 
 function M.open_terminal(termId)
     if extraTermMap[termId] then
-        return open_terminal_buffer(extraTermMap[termId])
+        extraTermMap[termId] = open_terminal_buffer(extraTermMap[termId])
+        return extraTermMap[termId]
     else
         local bufId = open_terminal_buffer(nil, {change_cwd_to_current = true})
         extraTermMap[termId] = bufId
@@ -73,7 +72,8 @@ end
 function M.open_debug_terminal_for_current_file()
     local debugFile = vim.fn.expand("%:p") -- full path from root
     if debugTerminalMap[debugFile] then
-        return open_terminal_buffer(debugTerminalMap[debugFile])
+        debugTerminalMap[debugFile] = open_terminal_buffer(debugTerminalMap[debugFile])
+        return debugTerminalMap[debugFile]
     else
         local bufId = open_terminal_buffer(nil, {change_cwd_to_current = true})
         debugTerminalMap[debugFile] = bufId
@@ -88,7 +88,8 @@ function M.open_project_terminal()
     })
 
     if projectTermMap[current_directory_name] then
-        open_terminal_buffer(projectTermMap[current_directory_name])
+        projectTermMap[current_directory_name] = open_terminal_buffer(projectTermMap[current_directory_name])
+        return projectTermMap[current_directory_name]
     else
         local bufId = open_terminal_buffer(nil, {change_cwd_to_current = false})
         projectTermMap[current_directory_name] = bufId
