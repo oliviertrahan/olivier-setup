@@ -17,8 +17,10 @@ local function open_terminal_buffer(bufId, opts)
         terminal_directory = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':h')
     end
 
+    local open_term_buf_numbr
+
     local open_term_buf = function(id)
-        if bufId == nil then
+        if bufId == nil or not vim.api.nvim_buf_is_valid(bufId) then
             vim.cmd("lcd " .. terminal_directory)
             vim.cmd("terminal")
             vim.defer_fn(function() send_keys("a") end, 30) -- 100ms delay; adjust if needed

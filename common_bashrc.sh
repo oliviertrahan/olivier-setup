@@ -160,7 +160,7 @@ alias gmf="git_select_from_latest_branch | xargs -r -I {} git merge \"{}\""
 alias gmof="git_select_from_latest_origin_branch | xargs -r -I {} git merge \"{}\""
 alias grbf="git_select_from_latest_branch | xargs -r -I {} git rebase \"{}\""
 alias grbof="git_select_from_latest_origin_branch | xargs -r -I {} git rebase \"{}\""
-alias grbonf="git_select_from_latest_origin_branch | xargs -r -I {} git rebase --onto \"{}\""
+alias grbonf="git_select_from_latest_origin_branch | xargs -r -I {} git rebase --onto origin/$(git_get_main_branch) \"{}\""
 alias gcbof="git_select_from_latest_origin_branch | sed -e 's/^[ 	]*origin\///' | xargs -r git checkout"
 alias gcleanf="fuzzy_find_cleanable_files | xargs -r -I {} git clean -fd \"{}\""
 alias gcleanfd="fuzzy_find_cleanable_file_directories | xargs -r -I {} git clean -fd \"{}\""
@@ -248,12 +248,12 @@ alias gcleanall="git clean -fd"
 # Git global settings
  
 # Machine != windows is really WSL, only tested for that
-if [ "$machine" != "Windows" ]; then
-    git config --global core.filemode false
-    git config --global core.autocrlf true
-else
-    git config --global core.autocrlf false
-fi
+# if [ "$machine" != "Windows" ]; then
+#     git config --global core.filemode false
+#     git config --global core.autocrlf true
+# else
+#     git config --global core.autocrlf false
+# fi
 
 git config --global --replace-all core.editor nvim
 git config --global core.pager "nvim +Man!"
