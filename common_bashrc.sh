@@ -171,13 +171,15 @@ alias grmf="fuzzy_find_modified_files | xargs -r -I {} git rm \"{}\""
 alias grmfd="fuzzy_find_modified_file_directories | xargs -r -I {} git rm \"{}\""
 
 gp() {
-    git_commit_command='git commit'
-    if [ $# -gt 0 ]; then
-        git_commit_command='git commit -m "$1"'
+    if [ $# -eq 1 ]; then
+        git commit -m "$1" && git push
+    elif [ $# -eq 2 ]; then # a bit hacky, but allows me to pass an additional flag to the commit command
+        git commit -m "$1" "$2" && git push
+    else
+        git commit && git push
     fi
-
-    $git_commit_command && git push
 }
+
 
 
 fail() {
