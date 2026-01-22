@@ -176,7 +176,7 @@ gp() {
     elif [ $# -eq 2 ]; then # a bit hacky, but allows me to pass an additional flag to the commit command
         git commit -m "$1" "$2" && git push
     else
-        git commit && git push
+        git push
     fi
 }
 
