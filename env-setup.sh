@@ -148,15 +148,15 @@ linux_install() {
     which fzf || sudo apt install fzf
     which ruby || sudo apt install ruby-full
     which colorls || sudo gem install colorls
-    if [ $(which nvim) ]; then
+    if which nvim > /dev/null 2>&1; then
        nvim_minor=$(nvim --version | head -n 1 | pcregrep -io1 '^NVIM v[0-9]\.([0-9]*)\.')
-       if [ $nvim_minor -lt 11 ]; then
+       if [ "$nvim_minor" -lt 11 ]; then
            echo "nvim minor version is less than 11: is at $nvim_minor. Updating"
            sudo apt remove neovim
-           install_nvim()
+           install_nvim
        fi
     else
-       install_nvim()
+       install_nvim
     fi
     which zoxide || sudo apt install zoxide
     which ollama || sudo apt install ollama

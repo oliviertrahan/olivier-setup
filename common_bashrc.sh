@@ -26,6 +26,7 @@ export VISUAL="nvim -R"
 export PAGER="nvim +Man!"
 export MANPAGER="nvim +Man!" 
 export VSCODE_DEBUG='1'
+export CYGWIN=winsymlinks:nativestrict
 #export LOCAL_IP=$(ipconfig getifaddr en0)
 
 kill_program_by_name() {
@@ -136,6 +137,39 @@ add_review_branch() {
 
 alias killf="ps aux | fzf | awk '{print $2}' | xargs kill -9"
 
+alias gs="git status"
+alias ga="git add"
+alias gf="git fetch"
+alias gm="git merge"
+alias grb="git rebase"
+alias gpf="git push --force-with-lease"
+alias gP="git pull"
+alias gup="git pull"
+alias gd="git diff"
+alias gdt="git difftool"
+alias gdca="git diff --cached"
+alias gcp="git cherry-pick"
+alias gco="git checkout"
+alias gcm="git checkout $(git_get_main_branch)"
+alias gcb="git checkout -b"
+alias grh="git reset"
+alias grhh="git reset --hard"
+alias grevm="git checkout origin/$(git_get_main_branch) --"
+alias glog="git log"
+alias gaa="git add --all"
+alias gbd="git branch -d"
+alias gbD="git branch -D" 
+alias gcom="git commit"
+alias gcomm="git commit -m "
+alias gsta="git stash"
+alias gstc="git stash clear"
+alias gstd="git stash drop"
+alias gstl="git stash list"
+alias gstp="git stash pop"
+alias grbc="git rebase --continue"
+alias gcleanall="git clean -fd"
+alias gsquash="git fetch && git reset --soft origin/$(git_get_main_branch)"
+
 alias gsfs="fuzzy_find_staged_files"
 alias gmfs="fuzzy_find_modified_files"
 alias gaf="fuzzy_find_modified_files | xargs -r -I {} git add \"{}\""
@@ -170,6 +204,7 @@ alias gstaf="fuzzy_find_modified_files | xargs -r -I {} git stash push \"{}\""
 alias gstafd="fuzzy_find_modified_file_directories | xargs -r -I {} git stash push \"{}\""
 alias grmf="fuzzy_find_modified_files | xargs -r -I {} git rm \"{}\""
 alias grmfd="fuzzy_find_modified_file_directories | xargs -r -I {} git rm \"{}\""
+alias gsquashb="git fetch && git_select_from_latest_origin_branch && xargs -r -I {} git reset --soft \"origin/{}\""
 
 gp() {
     if [ $# -eq 1 ]; then
@@ -215,38 +250,6 @@ notify() {
         say "task $task_name $str_append"
     fi
 }
-
-alias gs="git status"
-alias ga="git add"
-alias gf="git fetch"
-alias gm="git merge"
-alias grb="git rebase"
-alias gpf="git push --force-with-lease"
-alias gP="git pull"
-alias gup="git pull"
-alias gd="git diff"
-alias gdt="git difftool"
-alias gdca="git diff --cached"
-alias gcp="git cherry-pick"
-alias gco="git checkout"
-alias gcm="git checkout $(git_get_main_branch)"
-alias gcb="git checkout -b"
-alias grh="git reset"
-alias grhh="git reset --hard"
-alias grevm="git checkout origin/$(git_get_main_branch) --"
-alias glog="git log"
-alias gaa="git add --all"
-alias gbd="git branch -d"
-alias gbD="git branch -D" 
-alias gcom="git commit"
-alias gcomm="git commit -m "
-alias gsta="git stash"
-alias gstc="git stash clear"
-alias gstd="git stash drop"
-alias gstl="git stash list"
-alias gstp="git stash pop"
-alias grbc="git rebase --continue"
-alias gcleanall="git clean -fd"
 
 # Git global settings
  

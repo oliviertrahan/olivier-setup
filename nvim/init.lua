@@ -1,3 +1,4 @@
+require("setup.lua_extensions")
 -- Load the workspace directories
 local success = pcall(function()
     return require("not_pushed.workspace_directories")
@@ -28,8 +29,7 @@ for _, f in ipairs(vim.fn.glob(shada_dir .. "/main.shada.tmp.*", 1, 1)) do
     vim.fn.delete(f)
 end
 
-require("setup.lua_extensions")
-vim.cmd(resolve_path(string.format("source %s", "$HOME/.commonvimrc")))
+vim.cmd(string.format("source %s", resolve_path("$HOME/.commonvimrc")))
 
 require("setup.lazy")
 require("setup.set")

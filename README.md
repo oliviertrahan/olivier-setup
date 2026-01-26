@@ -111,7 +111,7 @@ vim.cmd("tabn 1")
 then set a shell alias as below in your extra_zshrc.zsh file
 
 ```
-alias nvimW="nvim -S ~/.config/nvim/lua/not_pushed/work_startup.lua"
+alias nvimW="nvimr.sh +WorkStart"
 ```
 
 
