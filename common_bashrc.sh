@@ -4,29 +4,45 @@ if [ -e /opt/homebrew/bin/brew ]; then
 fi
 
 machine=
+pathStyle=
 unameOut="$(uname -s)"
+
+# All unix path styles for now
 case "${unameOut}" in
-    Linux*)     machine=Linux;;
-    Darwin*)    machine=Mac;;
-    MINGW64*)   machine=Windows;;
-    CYGWIN_NT*) machine=Windows;;
+    Linux*)     machine=Linux; pathStyle=unix;;
+    Darwin*)    machine=Mac; pathStyle=unix;;
+    MINGW64*)   machine=Windows; pathStyle=unix;;
+    MSYS_NT*)   machine=Windows; pathStyle=unix;;
+    CYGWIN_NT*) machine=Windows; pathStyle=unix;;
     *)          machine=;;
 esac
 
-# User configuration
-
-if [ "$machine" != "Windows" ]; then
+# All unix path styles should be bash compatible
+if [ "$pathStyle" == "unix" ]; then
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
+# Making symlinks work on windows for MSYS environments
+#export MSYS=winsymlinks:lnk
+export MSYS=winsymlinks:nativestrict
+
+# every env will use nvim as editor
 export EDITOR="nvim"
 export VISUAL="nvim -R"
 export PAGER="nvim +Man!"
 export MANPAGER="nvim +Man!" 
 export VSCODE_DEBUG='1'
 export CYGWIN=winsymlinks:nativestrict
+
+
+# XDG Base Directory Specification
+# Forcing windows based unix environments to this, whereas mac/linux would just be like this by default
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
 #export LOCAL_IP=$(ipconfig getifaddr en0)
 
 kill_program_by_name() {

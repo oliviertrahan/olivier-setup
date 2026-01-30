@@ -3,6 +3,24 @@
 update_only_links=0
 OPTIND=1
 
+machine=
+environment=
+pathStyle=
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux; environment="Linux"; pathStyle=unix;;
+    Darwin*)    machine=Mac; environment="Mac"; pathStyle=unix;;
+    MINGW64*)   machine=Windows; environment="MSYS"; pathStyle=unix;;
+    MSYS_NT*)   machine=Windows; environment="MSYS"; pathStyle=unix;;
+    CYGWIN_NT*) machine=Windows; environment="Windows"; pathStyle=unix;;
+    *)          machine=;;
+esac
+
+if [ -z "$machine" ]; then
+    echo "The system with uname value is not supported: $unameOut"
+    return
+fi
+
 while getopts "l" opt; do
     case $opt in
         l)
@@ -53,20 +71,12 @@ replace_directory_and_link() {
   ln -sf "$1" "$2" && echo "Linked $1 to $2"
 }
 
-machine=
-unameOut="$(uname -s)"
-case "${unameOut}" in
-    Linux*)     machine=Linux;;
-    Darwin*)    machine=Mac;;
-    MINGW64*)   machine=Windows;;
-    CYGWIN_NT*) machine=Windows;;
-    *)          machine=;;
-esac
 
-if [ -z "$machine" ]; then
-    echo "The system with uname value is not supported: $unameOut"
-    return
-fi
+msys_install() {
+    which nvim || pacman -S mingw-w64-ucrt-x86_64-neovim
+    which rg || pacman -S mingw-w64-ucrt-x86_64-ripgrep
+    which fzf || pacman -S mingw-w64-ucrt-x86_64-fzf
+}
 
 windows_install() {
     which luarocks || winget install luarocks
@@ -203,11 +213,13 @@ current_pwd=$(pwd)
 
 if [[ $update_only_links == 0 ]]; then
 
-    if [[ "$machine" == "Mac" ]]; then
+    if [[ "$environment" == "Mac" ]]; then
         mac_install
         zsh_install
-    elif [[ "$machine" == "Windows" ]]; then
+    elif [[ "$environment" == "Windows" ]]; then
         windows_install
+    elif [[ "$environment" == "MSYS" ]]; then
+        msys_install
     else 
         linux_install
         zsh_install
@@ -248,7 +260,7 @@ if [ ! -e ~/.config ]; then
 fi
 
 nvim_folder="$HOME/.config/nvim"
-if [[ "$machine" == "Windows" ]]; then
+if [[ "$environment" == "Windows" ]]; then
     nvim_folder="$HOME/AppData/Local/nvim"
 fi
 replace_directory_and_link "$(pwd)/scripts" "$HOME/scripts"
@@ -283,7 +295,7 @@ replace_file_and_link "$(pwd)/.obsidian.vimrc" $HOME/.obsidian.vimrc
 if [[ "$machine" == "Mac" ]]; then
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/Library/Application Support/Code/User/settings.json"
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
-elif [[ "$machine" == "Linux" ]]; then
+elif [[ "$pathStyle" == "unix" ]]; then
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Code/User/settings.json"
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/.config/Cursor/User/settings.json"
 else #Windows
