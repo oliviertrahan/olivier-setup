@@ -27,6 +27,7 @@ fi
 # Making symlinks work on windows for MSYS environments
 #export MSYS=winsymlinks:lnk
 export MSYS=winsymlinks:nativestrict
+export CYGWIN=winsymlinks:nativestrict
 
 # every env will use nvim as editor
 export EDITOR="nvim"
@@ -34,7 +35,6 @@ export VISUAL="nvim -R"
 export PAGER="nvim +Man!"
 export MANPAGER="nvim +Man!" 
 export VSCODE_DEBUG='1'
-export CYGWIN=winsymlinks:nativestrict
 
 
 # XDG Base Directory Specification
