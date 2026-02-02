@@ -80,6 +80,10 @@ tmuxW() {
 }
 ```
 
+### Extra setup for windows
+
+download MINGW URCT 64 as the bash environment to run the setup script: https://msys2.org
+
 ## nvim setup
 
 ### Workspace

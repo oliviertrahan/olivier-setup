@@ -21,8 +21,16 @@ if [ -z "$machine" ]; then
     return
 fi
 
+# Only useful and usable if we are on windows
+username=$(basename $HOME)
+win_home="/c/Users/$username"
+
 while getopts "l" opt; do
     case $opt in
+        w)
+           echo "Installing windows specific tools"
+           override_install_windows=1
+           ;;
         l)
            echo "Only updating links this time"
            update_only_links=1
@@ -37,38 +45,59 @@ done
 # Then go to Systen Settings > General > Software Update > Install Command-Line Tools
 
 replace_file_and_link() {
-  [ ! -L "$2" ] && [ -f "$2" ] && mv "$2" "$2.bak" && echo "Backed up $2 to $2.bak"
-  if [ -L "$2" ]; then
-    echo "$1 already linked to $2. Relinking"
-    rm $2
-  fi
-  ln -sf "$1" "$2" && echo "Linked $1 to $2"
+    replace_file_and_link_single "$1" "$2"
+    # When we are on windows, we also want to create symlinks for windows native environments
+    if [[ "$machine" == "Windows" && "$environment" == "MSYS" && "$2" == "$HOME/"* ]]; then
+        old_path="$2"
+        old_path_without_home="${old_path#$HOME}"
+        new_path="${win_home}${old_path_without_home}"
+        replace_file_and_link_single "$1" "$new_path"
+    fi
+}
+
+replace_file_and_link_single() {
+    [ ! -L "$2" ] && [ -f "$2" ] && mv "$2" "$2.bak" && echo "Backed up $2 to $2.bak"
+    if [ -L "$2" ]; then
+        echo "$1 already linked to $2. Relinking"
+        rm $2
+    fi
+    ln -sf "$1" "$2" && echo "Linked $1 to $2"
 }
 
 replace_directory_and_link() {
-  if [ -z "$2" ] || [ "$2" = "/" ]; then
-      echo "woah! Don't delete everything there bucko. Check how you call replace_directory_and_link and try again"
-      return
-  fi
+    replace_directory_and_link_single "$1" "$2"
+    if [[ "$machine" == "Windows" && "$environment" == "MSYS" && "$2" == "$HOME/"* ]]; then
+        old_path="$2"
+        old_path_without_home="${old_path#$HOME}"
+        new_path="${win_home}${old_path_without_home}"
+        replace_directory_and_link_single "$1" "$new_path"
+    fi
+}
 
-  if [ ! -d "$1" ]; then
+replace_directory_and_link_single() {
+    if [ -z "$2" ] || [ "$2" = "/" ]; then
+        echo "woah! Don't delete everything there bucko. Check how you call replace_directory_and_link and try again"
+        return
+    fi
+
+    if [ ! -d "$1" ]; then
       echo "$1 is not a directory. Will not link"
       return
-  fi
+    fi
     
-  if [ ! -L "$2" ] && [ -d "$2" ]; then
-    echo "directory: $2.bak" 
-    rm -rf "$2.bak"
-    echo "removed"
-    mv "$2" "$2.bak"
-    echo "Backed up $2 to $2.bak"
-  fi
-  if [ -L "$2" ]; then
-    echo "$1 already linked to $2. Relinking"
-    rm $2
-  fi
-  echo "\$1: $1, \$2: $2"
-  ln -sf "$1" "$2" && echo "Linked $1 to $2"
+    if [ ! -L "$2" ] && [ -d "$2" ]; then
+        echo "directory: $2.bak" 
+        rm -rf "$2.bak"
+        echo "removed"
+        mv "$2" "$2.bak"
+        echo "Backed up $2 to $2.bak"
+    fi
+    if [ -L "$2" ]; then
+        echo "$1 already linked to $2. Relinking"
+        rm $2
+    fi
+    echo "\$1: $1, \$2: $2"
+    ln -sf "$1" "$2" && echo "Linked $1 to $2"
 }
 
 
@@ -85,6 +114,7 @@ windows_install() {
     which rg || choco install ripgrep
     which gcc || choco install mingw
     which cygwin || choco install cygwin
+    which fzf || winget install fzf
 }
 
 mac_install() {
@@ -220,65 +250,74 @@ if [[ $update_only_links == 0 ]]; then
         windows_install
     elif [[ "$environment" == "MSYS" ]]; then
         msys_install
+        if [[ $override_install_windows == 1 ]]; then
+            windows_install
+        fi
     else 
         linux_install
         zsh_install
     fi
 fi
 
+
 #Tmux setup
-if [ ! -e  ~/.tmux/plugins/tpm ]; then
+if [ ! -e  $HOME/.tmux/plugins/tpm ]; then
     git clone https://github.com/tmux-plugins/tpm \
-        ~/.tmux/plugins/tpm
+        $HOME/.tmux/plugins/tpm
 fi
 
 
 if [ -e ./extra_zshrc.zsh ]; then
     echo "Found extra_zshrc.zsh."
-    replace_file_and_link "$(pwd)/extra_zshrc.zsh" ~/extra_zshrc.zsh
+    replace_file_and_link "$(pwd)/extra_zshrc.zsh" $HOME/extra_zshrc.zsh
 else
     echo "No extra_zshrc.zsh found"
 fi
 
 if [ -e ./extra_bashrc.sh ]; then
     echo "Found extra_bashrc.sh."
-    replace_file_and_link "$(pwd)/extra_bashrc.sh" ~/extra_bashrc.sh
+    replace_file_and_link "$(pwd)/extra_bashrc.sh" $HOME/extra_bashrc.sh
 else
     echo "No extra_bashrc.sh found"
 fi
 
 #link zsh setup
-replace_file_and_link "$(pwd)/.bash_profile" ~/.bash_profile
-replace_file_and_link "$(pwd)/common_bashrc.sh" ~/common_bashrc.sh
-replace_file_and_link "$(pwd)/.bashrc" ~/.bashrc
-replace_file_and_link "$(pwd)/.zshrc" ~/.zshrc
-replace_file_and_link "$(pwd)/.tmux.conf" ~/.tmux.conf
-replace_file_and_link "$(pwd)/.p10k.zsh" ~/.p10k.zsh
+replace_file_and_link "$(pwd)/.bash_profile" $HOME/.bash_profile
+replace_file_and_link "$(pwd)/common_bashrc.sh" $HOME/common_bashrc.sh
+replace_file_and_link "$(pwd)/.bashrc" $HOME/.bashrc
+replace_file_and_link "$(pwd)/.zshrc" $HOME/.zshrc
+replace_file_and_link "$(pwd)/.tmux.conf" $HOME/.tmux.conf
+replace_file_and_link "$(pwd)/.p10k.zsh" $HOME/.p10k.zsh
 
-if [ ! -e ~/.config ]; then
-    mkdir ~/.config
+if [ ! -e $HOME/.config ]; then
+    mkdir $HOME/.config
 fi
 
 nvim_folder="$HOME/.config/nvim"
-if [[ "$environment" == "Windows" ]]; then
+if [[ "$machine" == "Windows" ]]; then
     nvim_folder="$HOME/AppData/Local/nvim"
 fi
 replace_directory_and_link "$(pwd)/scripts" "$HOME/scripts"
-replace_directory_and_link "$(pwd)/nvim" "$nvim_folder"
+replace_directory_and_link "$(pwd)/nvim" "$HOME/.config/nvim"
 replace_directory_and_link "$(pwd)/zellij" $HOME/.config/zellij
+if [[ "$machine" == "Windows" ]]; then
+    replace_directory_and_link "$(pwd)/nvim" "$win_home/AppData/Local/nvim"
+fi
+
+#make config for windows as well when running in powershell
 
 # alacritty setup
-if [ ! -e ~/.config/alacritty ]; then
-  mkdir ~/.config/alacritty
+if [ ! -e $HOME/.config/alacritty ]; then
+  mkdir $HOME/.config/alacritty
 fi
-replace_file_and_link "$(pwd)/alacritty.toml" ~/.config/alacritty/alacritty.toml
+replace_file_and_link "$(pwd)/alacritty.toml" $HOME/.config/alacritty/alacritty.toml
 
 if [[ "$machine" == "Mac" ]]; then
     echo "Mac detected. Using mac alacritty overrides"
-    replace_file_and_link "$(pwd)/alacritty_mac_overrides.toml" ~/.config/alacritty/overrides.toml
+    replace_file_and_link "$(pwd)/alacritty_mac_overrides.toml" $HOME/.config/alacritty/overrides.toml
 else 
     echo "Non-Mac detected. Using default alacritty overrides"
-    replace_file_and_link "$(pwd)/alacritty_default_overrides.toml" ~/.config/alacritty/overrides.toml
+    replace_file_and_link "$(pwd)/alacritty_default_overrides.toml" $HOME/.config/alacritty/overrides.toml
 fi
 
 # other vim extensions setup
@@ -303,11 +342,24 @@ else #Windows
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/AppData/Roaming/Cursor/User/settings.json"
 fi
 
+# windows powershell profile setup
+if [[ "$machine" == "Windows" ]]; then
+    powershell_profile_dir="$win_home/Documents/WindowsPowerShell"
+    if [ ! -e $powershell_profile_dir ]; then
+      mkdir $powershell_profile_dir
+    fi
+    replace_file_and_link "$(pwd)/Microsoft.PowerShell_profile.ps1" "$powershell_profile_dir/Microsoft.PowerShell_profile.ps1"
+    
+    if [ -e ./Microsoft.PowerShell_profile_extra.ps1 ]; then
+        replace_file_and_link "$(pwd)/Microsoft.PowerShell_profile_extra.ps1" "$HOME/Microsoft.PowerShell_profile_extra.ps1"
+    fi
+fi
+
 # zsh setup
 if [ ! -e $HOME/.zsh ]; then
   mkdir $HOME/.zsh
 fi
-replace_file_and_link "$(pwd)/catppuccin_mocha-zsh-syntax-highlighting.zsh" ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
+replace_file_and_link "$(pwd)/catppuccin_mocha-zsh-syntax-highlighting.zsh" $HOME/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
 [ -f ./extra-env-setup.sh ] && chmod +x ./extra-env-setup.sh && ./extra-env-setup.sh
 

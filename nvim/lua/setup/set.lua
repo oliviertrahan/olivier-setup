@@ -11,7 +11,7 @@ vim.opt.smartindent = true
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = vim.fn.expand("~/.vim/undodir")
 vim.opt.undofile = true
 
 vim.opt.termguicolors = true
@@ -23,3 +23,20 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.g.editorconfig = true
+
+if is_windows() then
+  local shell
+  if vim.fn.executable("pwsh") == 1 then
+    shell = "pwsh"
+  elseif vim.fn.executable("powershell") == 1 then
+    shell = "powershell"
+  else
+    shell = "cmd.exe" -- last resort
+  end
+
+  vim.opt.shell = shell
+  vim.opt.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command"
+  vim.opt.shellquote = ""
+  vim.opt.shellxquote = ""
+end
+

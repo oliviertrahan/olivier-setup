@@ -36,7 +36,6 @@ export PAGER="nvim +Man!"
 export MANPAGER="nvim +Man!" 
 export VSCODE_DEBUG='1'
 
-
 # XDG Base Directory Specification
 # Forcing windows based unix environments to this, whereas mac/linux would just be like this by default
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -59,10 +58,6 @@ auto_python_venv() {
     fi
 }
 auto_python_venv  # also run once on startup
-
-# Helpful aliases
-alias killNvim="kill_program_by_name('nvim')"
-alias fopen="nvim -c \"lua require('telescope.builtin').find_files({ find_command={ 'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' } })\""
 
 mvFromTo() {
     cwd=$(pwd)
@@ -151,7 +146,16 @@ add_review_branch() {
     git_select_from_latest_origin_branch | sed -e 's/^[ 	]*origin\///' | xargs -I {} git worktree add -f ../$(basename "$PWD")-review {}
 }
 
+# All Aliases
+
+## General purpose UNIX
+
 alias killf="ps aux | fzf | awk '{print $2}' | xargs kill -9"
+alias killNvim="kill_program_by_name('nvim')"
+alias fopen="nvim -c \"lua require('telescope.builtin').find_files({ find_command={ 'rg', '--files', '--hidden', '--smart-case', '-g', '!.git' } })\""
+
+
+## Basic Git Commands
 
 alias gs="git status"
 alias ga="git add"
@@ -185,6 +189,8 @@ alias gstp="git stash pop"
 alias grbc="git rebase --continue"
 alias gcleanall="git clean -fd"
 alias gsquash="git fetch && git reset --soft origin/$(git_get_main_branch)"
+
+## Advanced Git Commands with FZF
 
 alias gsfs="fuzzy_find_staged_files"
 alias gmfs="fuzzy_find_modified_files"
@@ -221,6 +227,7 @@ alias gstafd="fuzzy_find_modified_file_directories | xargs -r -I {} git stash pu
 alias grmf="fuzzy_find_modified_files | xargs -r -I {} git rm \"{}\""
 alias grmfd="fuzzy_find_modified_file_directories | xargs -r -I {} git rm \"{}\""
 alias gsquashb="git fetch && git_select_from_latest_origin_branch && xargs -r -I {} git reset --soft \"origin/{}\""
+
 
 gp() {
     if [ $# -eq 1 ]; then
@@ -276,6 +283,11 @@ notify() {
 # else
 #     git config --global core.autocrlf false
 # fi
+
+# Mark what you want available from PowerShell
+# experimental
+export BASH_EXPORT_FUNCS_POWERSHELL="gp,git_get_main_branch,fuzzy_find_staged_files,fuzzy_find_staged_file_directories,fuzzy_find_modified_files,fuzzy_find_modified_file_directories,fuzzy_find_cleanable_files,fuzzy_find_cleanable_file_directories,git_select_from_latest_branch,git_select_from_latest_origin_branch,git_select_from_oldest_branch,add_review_branch"
+export BASH_EXPORT_ALIASES_POWERSHELL="gsfs,gmfs,gaf,gafd,grhf,grhfd,grhhf,grhhfd,gcof,gcofd,grevmf,grevmfd,grevb,grevob,gdf,gdmf,gdaf,gdfd,gdtf,gdtfd,gcbf,gmf,gmof,grbf,grbof,grbonf,gcbof,gcleanf,gcleanfd,gbDf,gstaf,gstafd,grmf,grmfd,gsquashb,gs,ga,gf,gm,grb,gpf,gP,gup,gd,gdt,gdca,gcp,gco,gcm,gcb,grh,grhh,grevm,glog,gaa,gbd,gbD,gcom,gcomm,gsta,gstc,gstd,gstl,gstp,grbc,gcleanall,gsquash"
 
 git config --global --replace-all core.editor nvim
 git config --global core.pager "nvim +Man!"

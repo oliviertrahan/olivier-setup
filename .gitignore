@@ -3,6 +3,7 @@ extra_bashrc.sh
 output_zshrc.zsh
 output_bashrc.sh
 extra-setup.sh
+Microsoft.PowerShell_profile_extra.ps1
 nvim/plugin/packer_compiled.lua
 nvim/lua/not_pushed
 nvim/plugin/not_pushed
