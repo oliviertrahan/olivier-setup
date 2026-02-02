@@ -12,6 +12,7 @@ vim.api.nvim_create_user_command("MacroPaste", remap_funcs.macro_paste, {})
 vim.api.nvim_create_user_command("MacroUpdate", remap_funcs.macro_update, {})
 
 -- remap functions
+local open_msys_bash_here = remap_funcs.open_msys_bash_here
 local open_project_terminal = remap_funcs.open_project_terminal
 local open_debug_terminal_for_current_file =
     remap_funcs.open_debug_terminal_for_current_file
@@ -157,6 +158,7 @@ autocmd('TermOpen', {
     end
 })
 
+vim.keymap.set("n", "<leader>tt", open_msys_bash_here)
 vim.keymap.set("v", "<leader>st", send_visual_selection_to_last_opened_terminal)
 vim.keymap.set("n", "<leader>st", send_clipboard_to_last_opened_terminal)
 

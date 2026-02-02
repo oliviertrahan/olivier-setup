@@ -309,6 +309,7 @@ function M.run_command_in_debug_terminal()
     send_keys("<CR>")
 end
 
+M.open_msys_bash_here = terminal_functions.open_msys_bash_here
 M.open_terminal = terminal_functions.open_terminal
 M.open_debug_terminal_for_current_file =
     terminal_functions.open_debug_terminal_for_current_file

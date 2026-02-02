@@ -5,6 +5,40 @@ local debugTerminalMap = {}
 local terminalJobIdMap = {}
 local lastOpenedTermBuf = nil
 
+
+-- Used on windows when I need a bash environnment
+function M.open_msys_bash_here()
+  local file_path = vim.api.nvim_buf_get_name(0)
+  if file_path == "" then
+    vim.notify("No file open.")
+    return
+  end
+
+  local dir = file_path ~= "" and vim.fn.fnamemodify(file_path, ":p:h") or vim.fn.getcwd()
+  local msys2_shell = [[C:\msys64\msys2_shell.cmd]]
+  
+  local args = {
+    "cmd.exe", "/c",
+    "set", "CHERE_INVOKING=1", "&&",
+    msys2_shell,
+    "-defterm",   -- mintty
+    "-here",      -- start in cwd
+    "-ucrt64",    -- environment
+  }
+
+  vim.print({ cmd = args, cwd = dir })
+  vim.fn.jobstart(args, {
+    detach = true,
+    cwd = dir,
+    on_exit = function(_, code, _)
+      -- If code is non-zero, you know it exited immediately
+      vim.schedule(function()
+        vim.notify("MSYS2 launcher exit code: " .. tostring(code))
+      end)
+    end,
+  })
+end
+
 local function open_terminal_buffer(bufId, opts)
     opts = opts or {}
     local change_cwd_to_current = opts.change_cwd_to_current or false

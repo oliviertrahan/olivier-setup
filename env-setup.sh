@@ -105,6 +105,7 @@ msys_install() {
     which nvim || pacman -S mingw-w64-ucrt-x86_64-neovim
     which rg || pacman -S mingw-w64-ucrt-x86_64-ripgrep
     which fzf || pacman -S mingw-w64-ucrt-x86_64-fzf
+    which jq || pacman -S mingw-w64-ucrt-x86_64-jq
 }
 
 windows_install() {
