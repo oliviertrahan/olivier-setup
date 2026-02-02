@@ -16,66 +16,66 @@ function powr {
 $bash_path = "C:\msys64\usr\bin\bash.exe"
 
 # Load environment variables from ~/.bashrc into PowerShell
-function Import-Bashrc {
-
-  # Run bash as a login shell, source bashrc, then print env as NUL-delimited KEY=VALUE pairs
-  $dump = & $bash_path -lc 'source ~/.bashrc >/dev/null 2>&1; env -0' 2>$null
-  if (-not $dump) { return }
-
-  $pairs = $dump -split "`0" | Where-Object { $_ -match '^[^=]+=.*' }
-  foreach ($kv in $pairs) {
-    $i = $kv.IndexOf('=')
-    $k = $kv.Substring(0, $i)
-    $v = $kv.Substring($i + 1)
-
-    # Avoid stomping on PowerShell internals; keep it to typical env vars
-    if ($k -in @('PWD','SHLVL','_','OLDPWD')) { continue }
-
-    [System.Environment]::SetEnvironmentVariable($k, $v, 'Process')
-    Set-Item -Path "Env:$k" -Value $v
-  }
-}
+# function Import-Bashrc {
+#
+#   # Run bash as a login shell, source bashrc, then print env as NUL-delimited KEY=VALUE pairs
+#   $dump = & $bash_path -lc 'source ~/.bashrc >/dev/null 2>&1; env -0' 2>$null
+#   if (-not $dump) { return }
+#
+#   $pairs = $dump -split "`0" | Where-Object { $_ -match '^[^=]+=.*' }
+#   foreach ($kv in $pairs) {
+#     $i = $kv.IndexOf('=')
+#     $k = $kv.Substring(0, $i)
+#     $v = $kv.Substring($i + 1)
+#
+#     # Avoid stomping on PowerShell internals; keep it to typical env vars
+#     if ($k -in @('PWD','SHLVL','_','OLDPWD')) { continue }
+#
+#     [System.Environment]::SetEnvironmentVariable($k, $v, 'Process')
+#     Set-Item -Path "Env:$k" -Value $v
+#   }
+# }
 
 # Import-Bashrc
 
-function Enable-BashrcCommands {
-
-  # Ask bash what to export (from ~/.bashrc)
-  $script = @'
-source ~/.bashrc >/dev/null 2>&1
-
-# Read export lists
-IFS=, read -ra FUNCS <<< "${BASH_EXPORT_FUNCS_POWERSHELL:-}"
-IFS=, read -ra ALS   <<< "${BASH_EXPORT_ALIASES_POWERSHELL:-}"
-
-# Output one name per line, prefixed with type
-for f in "${FUNCS[@]}"; do
-  [[ -n "$f" ]] && declare -F "$f" >/dev/null && echo "func:$f"
-done
-
-for a in "${ALS[@]}"; do
-  [[ -n "$a" ]] && alias "$a" >/dev/null 2>&1 && echo "alias:$a"
-done
-'@
-
-  $items = & $bash_path -lc $script 2>$null
-  if (-not $items) { return }
-
-  foreach ($item in $items) {
-    if ($item -match '^(func|alias):(.+)$') {
-      $kind = $matches[1]
-      $name = $matches[2]
-
-      # Define a PowerShell function that forwards to bash -lc "<name> $@"
-      $body = @"
-param([Parameter(ValueFromRemainingArguments=\$true)][string[]]\$Args)
-& '$Bash' -lc '$name ' + (\$Args | ForEach-Object { "'" + (\$_ -replace "'", "''") + "'" } -join ' ')
-"@
-
-      Set-Item -Path "Function:\$name" -Value ([ScriptBlock]::Create($body))
-    }
-  }
-}
+# function Enable-BashrcCommands {
+#
+#   # Ask bash what to export (from ~/.bashrc)
+#   $script = @'
+# source ~/.bashrc >/dev/null 2>&1
+#
+# # Read export lists
+# IFS=, read -ra FUNCS <<< "${BASH_EXPORT_FUNCS_POWERSHELL:-}"
+# IFS=, read -ra ALS   <<< "${BASH_EXPORT_ALIASES_POWERSHELL:-}"
+#
+# # Output one name per line, prefixed with type
+# for f in "${FUNCS[@]}"; do
+#   [[ -n "$f" ]] && declare -F "$f" >/dev/null && echo "func:$f"
+# done
+#
+# for a in "${ALS[@]}"; do
+#   [[ -n "$a" ]] && alias "$a" >/dev/null 2>&1 && echo "alias:$a"
+# done
+# '@
+#
+#   $items = & $bash_path -lc $script 2>$null
+#   if (-not $items) { return }
+#
+#   foreach ($item in $items) {
+#     if ($item -match '^(func|alias):(.+)$') {
+#       $kind = $matches[1]
+#       $name = $matches[2]
+#
+#       # Define a PowerShell function that forwards to bash -lc "<name> $@"
+#       $body = @"
+# param([Parameter(ValueFromRemainingArguments=\$true)][string[]]\$Args)
+# & '$Bash' -lc '$name ' + (\$Args | ForEach-Object { "'" + (\$_ -replace "'", "''") + "'" } -join ' ')
+# "@
+#
+#       Set-Item -Path "Function:\$name" -Value ([ScriptBlock]::Create($body))
+#     }
+#   }
+# }
 
 # Enable-BashrcCommands
 # 
@@ -317,7 +317,7 @@ function gsquashb {
 }
 
 
-$localScriptPath = '$HOME\Microsoft.PowerShell_profile_extra.ps1'
+$localScriptPath = "$HOME\Microsoft.PowerShell_profile_extra.ps1"
 
 if (Test-Path $localScriptPath) {
     . $localScriptPath
