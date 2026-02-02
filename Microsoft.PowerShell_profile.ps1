@@ -183,7 +183,10 @@ function gdt { git difftool @args }
 function gdca { git diff --cached @args }
 function gcp { git cherry-pick @args }
 function gco { git checkout @args }
-function gcm {
+
+
+# Remove builtin alias of gcm and replace with our own
+function global:gcm {
     param(
         [Parameter(ValueFromRemainingArguments = $true)]
         $Args
@@ -218,6 +221,8 @@ function gsquash {
     git reset --soft "origin/$mainBranch" @Args
 }
 
+
+# Remove builtin alias of gp and replace with our own
 function gpush {
     param(
         [Parameter(Position=0)]

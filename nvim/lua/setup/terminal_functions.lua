@@ -26,7 +26,6 @@ function M.open_msys_bash_here()
     "-ucrt64",    -- environment
   }
 
-  vim.print({ cmd = args, cwd = dir })
   vim.fn.jobstart(args, {
     detach = true,
     cwd = dir,
