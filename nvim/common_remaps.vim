@@ -130,6 +130,11 @@ vnoremap D "+dgv<Esc>
 vnoremap d "0d
 vnoremap p "0p
 vnoremap P "+p
+" a bit of a hack, but allows us to maintain the overwritten the default
+" behaviour of p and d in visual mode while still allowing us to paste from
+" these custom registers when we want to
+vnoremap "ap "ap
+vnoremap "bp "bp
 
 " better insert experience
 inoremap <C-h> <C-o>h

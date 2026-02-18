@@ -227,13 +227,13 @@ function gpush {
     param(
         [Parameter(Position=0)]
         [string]$Message,
-        [Parameter(Position=1)]
-        [string]$ExtraFlag
+        [Parameter(Position=1, ValueFromRemainingArguments=$true)]
+        [string[]]$ExtraFlags
     )
-    if ($PSBoundParameters.ContainsKey('Message') -and -not $PSBoundParameters.ContainsKey('ExtraFlag')) {
+    if ($PSBoundParameters.ContainsKey('Message') -and $ExtraFlags.Count -eq 0) {
         git commit -m "$Message"; if ($LASTEXITCODE -eq 0) { git push }
-    } elseif ($PSBoundParameters.ContainsKey('Message') -and $PSBoundParameters.ContainsKey('ExtraFlag')) {
-        git commit -m "$Message" $ExtraFlag; if ($LASTEXITCODE -eq 0) { git push }
+    } elseif ($PSBoundParameters.ContainsKey('Message') -and $ExtraFlags.Count -gt 0) {
+        git commit -m "$Message" $ExtraFlags; if ($LASTEXITCODE -eq 0) { git push }
     } else {
         git push
     }

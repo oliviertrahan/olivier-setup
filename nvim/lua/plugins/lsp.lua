@@ -161,7 +161,7 @@ local function setup_all_lsps()
 
     local function setup_csharp_ls()
         lsp_config.csharp_ls.setup({
-            filetypes = {"cs"},
+            filetypes = {"cs", "cshtml"},
             capabilities = capabilities,
             root_dir = function(startpath)
                 local cwd = vim.fn.getcwd()
