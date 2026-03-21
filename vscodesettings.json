@@ -1,44 +1,46 @@
 {
     "vim.vimrc.enable": true,
-    "vim.visualModeKeyBindingsNonRecursive": [
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": ["<Space>", "t", "c"],
-            "commands": [":tabclose<CR>"]
+            "commands": [":tabclose"]
         },
         {
             "before": ["<Space>", "t", "o"],
-            "commands": [":tabnew<CR>"]
+            "commands": [":tabnew"]
         },
         {
             "before": ["<Space>", ":"],
             "commands": [
-                "workbench.action.showCommands",
+                "workbench.action.showCommands"
             ],
             "silent": true
         },
         {
-            "before": ["<Space>", "t", "c"],
-            "commands": [":tabclose<CR>"]
-        },
-        {
             "before": ["<Space>", "t", "p"],
-            "commands": [":tabonly<CR>"]
+            "commands": [":tabonly"]
         },
         {
             "before": ["<Space>", "t", "l"],
-            "commands": [":tabnext<CR>"]
+            "commands": [":tabnext"]
         },
         {
             "before": ["<Space>", "t", "h"],
-            "commands": [":tabprevious<CR>"]
+            "commands": [":tabprevious"]
         },
         {
             "before": ["<Space>", "t", "n"],
-            "commands": [":+tabmove<CR>"]
+            "commands": [":tabmove +1"]
         },
         {
             "before": ["<Space>", "t", "N"],
-            "commands": [":-tabmove<CR>"]
+            "commands": [":tabmove -1"]
         },
         {
             "before": ["<Space>", "f", "g"],
@@ -46,11 +48,11 @@
         },
         {
             "before": ["<Space>", "f", "f"],
-            "commands": ["workbench.action.FindInPath"]
+            "commands": ["workbench.action.quickOpen"]
         },
         {
             "before": ["<Space>", "f", "r"],
-            "commands": ["<Action>(RecentFiles)"]
+            "commands": ["workbench.action.showAllEditorsByMostRecentlyUsed"]
         },
         {
             "before": ["<Space>", "v", "r", "n"],
@@ -65,15 +67,21 @@
             "commands": ["references-view.findImplementations"]
         },
         {
+            "before": ["g", "d"],
+            "commands": ["editor.action.revealDefinition"]
+        },
+        {
             "before": ["g", "r"],
             "commands": ["editor.action.goToReferences"]
+        },
+        {
+            "before": ["<Space>", "w", "o"],
+            "commands": ["workbench.action.splitEditor"]
         },
         {
             "before": ["<Space>", "d", "b"],
             "commands": ["editor.debug.action.toggleBreakpoint"]
         },
-    ],
-    "vim.visualModeKeyBindingsNonRecursive": [
         {
             "before": ["J"],
             "commands": ["editor.action.moveLinesDownAction"]
@@ -81,21 +89,6 @@
         {
             "before": ["K"],
             "commands": ["editor.action.moveLinesUpAction"]
-        } 
-        {
-            "before": ["<Space>fg"],
-            "commands": ["<Action>(FindInPath)"]
-        },
-        {
-            "before": ["<Space>fc"],
-            "commands": ["<Action>(GotoClass)"]
-        },
-        {
-            "before": ["<Space>ff"],
-            "commands": ["<Action>(GotoFile)"]
-        },
-    ],
+        }
+    ]
 }
-
-
-
