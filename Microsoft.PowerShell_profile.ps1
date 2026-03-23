@@ -281,7 +281,7 @@ function gdtf { fuzzy_find_modified_files | ForEach-Object { git difftool $_ } }
 
 function gdtfd { fuzzy_find_modified_file_directories | ForEach-Object { git difftool $_ } }
 
-function gcbf { git_select_from_latest_branch | ForEach-Object { git checkout $_ } }
+function gcbf { git_select_from_latest_branch | ForEach-Object { $_ -replace '^[ \t]*' } | ForEach-Object { git checkout $_ } }
 
 function gmf { git_select_from_latest_branch | ForEach-Object { git merge $_ } }
 
@@ -289,9 +289,9 @@ function gmof { git_select_from_latest_origin_branch | ForEach-Object { git merg
 
 function grbf { git_select_from_latest_branch | ForEach-Object { git rebase $_ } }
 
-function grbof { git_select_from_latest_origin_branch | ForEach-Object { git rebase $_ } }
+function grbof { git_select_from_latest_origin_branch | ForEach-Object { $_ -replace '^[ \t]*origin/' } | ForEach-Object { git rebase $_ } }
 
-function grbonf { git_select_from_latest_origin_branch | ForEach-Object { git rebase --onto "origin/$(git_get_main_branch)" $_ } }
+function grbonf { git_select_from_latest_origin_branch | ForEach-Object { $_ -replace '^[ \t]*origin/' } | ForEach-Object { git rebase --onto "origin/$(git_get_main_branch)" $_ } }
 
 function gcbof { git_select_from_latest_origin_branch | ForEach-Object { $_ -replace '^[ \t]*origin/' } | ForEach-Object { git checkout $_ } }
 
