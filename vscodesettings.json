@@ -6,6 +6,12 @@
             "after": ["<Esc>"]
         }
     ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": ["<Space>", "f", "g"],
+            "commands": ["workbench.action.findInFiles"]
+        },
+    ],
     "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": ["<Space>", "t", "c"],
@@ -90,5 +96,6 @@
             "before": ["K"],
             "commands": ["editor.action.moveLinesUpAction"]
         }
-    ]
+    ],
+    "diffEditor.ignoreTrimWhitespace": false
 }
