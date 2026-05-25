@@ -1,0 +1,5 @@
+model: openai:gpt-5.4
+clients:
+  - type: openai       # reads OPENAI_API_KEY
+  #- type: claude       # reads ANTHROPIC_API_KEY
+  #- type: gemini       # reads GEMINI_API_KEY

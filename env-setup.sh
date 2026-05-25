@@ -116,6 +116,8 @@ windows_install() {
     which gcc || choco install mingw
     which cygwin || choco install cygwin
     which fzf || winget install fzf
+    which fzf || winget install fzf
+    which aichat || winget install sigoden.AIChat
 }
 
 mac_install() {
@@ -148,6 +150,7 @@ mac_install() {
     which luarocks || brew install luarocks
     which cmake || brew install cmake
     which bun || curl -fsSL https://bun.sh/install | bash
+    which aichat || brew install aichat
 
     
     if [[ "$(which ruby)" != *"homebrew"* ]]; then  
@@ -207,6 +210,7 @@ linux_install() {
     which luarocks || sudo apt install luarocks
     which cmake || sudo apt install cmake
     which bun || curl -fsSL https://bun.sh/install | bash
+    which aichat || sudo apt install cmake
 }
 
 zsh_install() {
@@ -254,7 +258,7 @@ if [[ $update_only_links == 0 ]]; then
         if [[ $override_install_windows == 1 ]]; then
             windows_install
         fi
-    else 
+    else # assuming linux if not mac or windows
         linux_install
         zsh_install
     fi
@@ -342,6 +346,14 @@ else #Windows
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/AppData/Roaming/Code/User/settings.json"
     replace_file_and_link "$(pwd)/vscodesettings.json" "$HOME/AppData/Roaming/Cursor/User/settings.json"
 fi
+
+# aichat settings
+aichat_folder="$HOME/.config/aichat"
+if [[ "$machine" == "Windows" ]]; then
+    aichat_folder="$win_home/AppData/Roaming/aichat"
+fi
+
+replace_file_and_link "$(pwd)/aichat_config.yaml" "$aichat_folder/config.yaml"
 
 # windows powershell profile setup
 if [[ "$machine" == "Windows" ]]; then

@@ -239,6 +239,9 @@ gp() {
     fi
 }
 
+ai() {
+  aichat -e "$*"
+}
 
 
 fail() {
