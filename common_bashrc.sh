@@ -9,20 +9,29 @@ unameOut="$(uname -s)"
 
 # All unix path styles for now
 case "${unameOut}" in
-    Linux*)     machine=Linux; pathStyle=unix;;
-    Darwin*)    machine=Mac; pathStyle=unix;;
-    MINGW64*)   machine=Windows; pathStyle=unix;;
-    MSYS_NT*)   machine=Windows; pathStyle=unix;;
-    CYGWIN_NT*) machine=Windows; pathStyle=unix;;
+    Linux*)     machine=Linux; pathStyle=unix; environment=Linux;;
+    Darwin*)    machine=Mac; pathStyle=unix; environment=Mac;;
+    MINGW64*)   machine=Windows; pathStyle=unix; environment=MINGW;;
+    MSYS_NT*)   machine=Windows; pathStyle=unix; environment=MINGW;;
+    CYGWIN_NT*) machine=Windows; pathStyle=unix; environment=CYGWIN;;
     *)          machine=;;
 esac
 
-# All unix path styles should be bash compatible
-if [ "$pathStyle" = "unix" ]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+shared_home="$HOME"
+if [[ "$machine" == "Windows" ]]; then
+    username=$(basename $HOME)
+    #cygwin-compatible path to the shared home directory
+    if [[ "$environment" == "CYGWIN" ]]; then
+        shared_home="/cygdrive/c/Users/$username"
+    else
+        shared_home="/c/Users/$username"
+    fi
 fi
+
+# All unix path styles should be bash compatible
+export NVM_DIR="$shared_home/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Making symlinks work on windows for MSYS environments
 #export MSYS=winsymlinks:lnk
@@ -38,10 +47,10 @@ export VSCODE_DEBUG='1'
 
 # XDG Base Directory Specification
 # Forcing windows based unix environments to this, whereas mac/linux would just be like this by default
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
-export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$shared_home/.config"
+export XDG_DATA_HOME="$shared_home/.local/share"
+export XDG_STATE_HOME="$shared_home/.local/state"
+export XDG_CACHE_HOME="$shared_home/.cache"
 #export LOCAL_IP=$(ipconfig getifaddr en0)
 
 kill_program_by_name() {
@@ -299,15 +308,15 @@ git config --global diff.tool nvimdiff
 git config --global push.autoSetupRemote true
 
 # End settings
-export PATH="$HOME/scripts:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$shared_home/scripts:$PATH"
+export PATH="$shared_home/.local/bin:$PATH"
 export HOMEBREW_NO_INSTALL_CLEANUP=
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=
 
 
 # bun
-if [ -e "$HOME/.bun/bin/bun" ]; then
-    export BUN_INSTALL="$HOME/.bun"
+if [ -e "$shared_home/.bun/bin/bun" ]; then
+    export BUN_INSTALL="$shared_home/.bun"
     export PATH="$BUN_INSTALL/bin:$PATH"
     [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 fi
